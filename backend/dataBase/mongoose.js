@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb+srv://Keyur_Vastani:Keyur_Vastani@cluster0.rh3wt.mongodb.net/Air_bnb_APP', {
+mongoose.connect('mongodb+srv://Keyur_Vastani:Keyur_Vastani@cluster0.rh3wt.mongodb.net/bike_require_API', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -9,4 +9,3 @@ mongoose.connect('mongodb+srv://Keyur_Vastani:Keyur_Vastani@cluster0.rh3wt.mongo
 }, () => {
     console.log('Connect to db!!!');
 });
-
