@@ -6,11 +6,12 @@ const validate = require('../validation/validation');
 
 
 router.post('/register', async (req, res) => {
+    console.log("Req", req.body)
 
 
     //Check all value
     if (!req.body.email || !req.body.name || !req.body.password || !req.body.phone)
-        return res.send({ error: 'All Filed is Required' });
+        return res.status(400).send({ error: 'All Filed is Required' });
 
     //Email Format Check
 
@@ -60,7 +61,7 @@ router.post('/login', async (req, res) => {
 
     //Check email Format
     if (!req.body.email) {
-        return res.send({ error: 'email Filed is Required' });
+        return res.status(400).send({ error: 'email Filed is Required' });
     }
     else if (!validate.emailCheck(req.body.email)) {
         return res.status(400).send({ error: 'Enter Correct Email Address!!!' });
@@ -72,19 +73,19 @@ router.post('/login', async (req, res) => {
 
     //Check User Details
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.send({ error: 'Email is not match!!!' });
+    if (!user) return res.status(401).send({ error: 'Email is not match!!!' });
 
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) return res.send({ error: 'Password not match!!!' });
+    if (!validPass) return res.status(401).send({ error: 'Password not match!!!' });
 
 
     const token = jwt.sign({ _id: user._id }, 'LanetDemobikeProject');
 
 
     //Set Auth token
-    res.header('auth-token', token).send({ msg: 'User Login Successfully!!', token });
+    res.header('auth-token', token).send({ msg: 'User Login Successfully!!', data: user, token });
 
 });
-
+// header('auth-token', token)
 
 module.exports = router;

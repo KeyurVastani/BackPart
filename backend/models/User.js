@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: { updatedAt: false } });
 
 
+
+
+
+
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

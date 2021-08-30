@@ -1,11 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, Button, SafeAreaView, StyleSheet, TextInput } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
+import { login } from '../store/action/loginAction'
 
 const SignInScreen = ({ navigation }) => {
+    const dispatch = useDispatch()
+    const logindata = useSelector((state) => state.loginReducer)
 
-    const [email, setemail] = useState()
-    const [password, setpassword] = useState()
+    const [email, setemail] = useState("keyur@gmail.com")
+    const [password, setpassword] = useState("kK1234567@");
 
+    useEffect(() => {
+        console.log("logindata", logindata);
+    }, [logindata])
+
+    const onSubmit = () => {
+        debugger
+        // alert(Object.keys(logindata))
+        // alert(Object.keys(logindata.user))
+        dispatch(login(email, password))     //1step
+        debugger
+
+        console.log("thsis --------", logindata)
+        alert(logindata.user.msg)
+    }
     return (
 
 
@@ -37,7 +55,7 @@ const SignInScreen = ({ navigation }) => {
                         style={styles.button}
                         title="Login"
                         color="red"
-                        onPress={() => navigation.navigate('HomeScreen')}
+                        onPress={onSubmit}
                     />
                     < Button
                         style={styles.button}
@@ -76,7 +94,7 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         width: 270,
-       
+
     },
     header: {
 

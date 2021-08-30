@@ -10,11 +10,13 @@ import HomeScreen from '../Screens/HomeScreen';
 
 const RootStackScreen = ({ navigation }) => {
     return (
-        <Stack.Navigator >
+        <Stack.Navigator screenOptions={{
+            headerShown:false
+        }}>
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="SignInScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
             
         </Stack.Navigator>
     );

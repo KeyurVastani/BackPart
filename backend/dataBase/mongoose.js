@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb+srv://Keyur_Vastani:Keyur_Vastani@cluster0.rh3wt.mongodb.net/bike_require_API', {
+mongoose.connect('mongodb+srv://keyur:keyur123@cluster0.rh3wt.mongodb.net/Air_Bnb', {
     useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-}, () => {
-    console.log('Connect to db!!!');
-});
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("Database connected");
+}).catch((error) => {
+    console.log("error", error);
+    console.log('disconnect');
+})
+

@@ -1,10 +1,12 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+// import { useSelector,useDispatch } from 'react-redux'
+// import { login } from '../store/action/loginAction'
 
 const HomeScreen = () => {
     return (
         <View style={styles.container}>
-            <Text>This is a home screen</Text>
+            <Text>This is a home Screen</Text>
         </View>
     )
 }
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#009387'
+
     },
 
 })

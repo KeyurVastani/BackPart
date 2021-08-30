@@ -1,16 +1,41 @@
 import React, { useState } from 'react'
 import { View, Text, Button, SafeAreaView, StyleSheet, TextInput } from 'react-native'
+import axios from '../axios'
 
 const SignInScreen = ({ navigation }) => {
 
-    const [email, setemail] = useState()
-    const [password, setpassword] = useState()
-    const [name, setname] = useState()
-    const [mobile, setmobile] = useState()
+    const [email, setemail] = useState("keyur@gmail.com")
+    const [password, setpassword] = useState("kK1234567@")
+    const [name, setname] = useState("keyur")
+    const [mobile, setmobile] = useState('858')
 
+    const submitData = async () => {
+      
+
+        const registered = {
+            email: email,
+            password: password,
+            name: name,
+            phone: Number(mobile)
+        }
+        
+        console.log("registered", registered)
+        await axios.post('/register', registered).then((res) => {
+          
+            // console.log("Ressss-----", res)
+            if (res.status === 201) {
+                alert(res?.data?.msg)
+                navigation.navigate("SignInScreen")
+
+            }
+        }).catch((err) => {
+            // debugger
+            // console.log("errr-----------", err.response);
+            alert(err?.response?.data?.error)
+        });
+
+    }
     return (
-
-
         <View style={styles.container} >
             <View style={styles.header}>
                 <Text style={{ fontSize: 40 }}> SignUp Screen</Text>
@@ -50,7 +75,7 @@ const SignInScreen = ({ navigation }) => {
                         style={styles.button}
                         title="Register"
                         color="red"
-                        onPress={() => navigation.navigate('SignInScreen')}
+                        onPress={submitData}
                     />
 
                     < Button
