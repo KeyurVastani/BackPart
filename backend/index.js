@@ -10,6 +10,8 @@ app.use(express.json());
 
 //router
 app.use(require('./router/auth'))
+app.use(require('./router/book'))
+
 
 
 

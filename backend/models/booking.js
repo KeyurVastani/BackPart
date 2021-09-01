@@ -10,6 +10,14 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         required: true,      
     },
+    indatetime:{
+        type: Number,
+
+    },
+    outdatetime:{
+        type: Number,
+
+    },
 
     child:{
         type: String,   
@@ -20,19 +28,7 @@ const bookingSchema = new mongoose.Schema({
     createdby:{
         type:String
     }
-
-
-
-  
-
-
-}, );
-
-
-
-
-
-
+});
 
 const Book = mongoose.model('Booking', bookingSchema);
 

@@ -29,11 +29,13 @@ const strongPasswordCheck = (value) => {
 
 
 
+
 module.exports = {
     emailCheck,
     lengthCheck,
     numberlengthCheck,
-    strongPasswordCheck
+    strongPasswordCheck,
+    
 };
 
 

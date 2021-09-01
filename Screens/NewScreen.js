@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { View, Text, SafeAreaView, Touchable, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, SafeAreaView, Touchable, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
+
 import dayjs from 'dayjs';
+import axios from '../axios'
+
 
 
 
@@ -23,6 +25,33 @@ const newScreen = () => {
         setcalenderShow(false)
 
     }
+
+    // const submitDate = async () => {
+
+
+    //     const dateReg = {
+    //         indate: CheckInDate,
+    //         outdate: CheckOutDate
+
+    //     }
+    //     debugger
+
+    //     console.log("registered", dateReg)
+    //     await axios.post('/booking', dateReg).then((res) => {
+    //         debugger
+
+    //         console.log("Ressss-----", res)
+    //         if (res.status === 200) {
+    //             Alert.alert("success",res?.data?.msg)
+    //     debugger
+    // }
+    //     }).catch((err) => {
+    //         debugger
+    //         console.log("errr-----------", err.response);
+    //         alert(err?.response?.data?.error)
+    //     });
+
+    // }
 
 
 
@@ -82,7 +111,7 @@ const newScreen = () => {
 
 
                 <View style={styles.button} >
-                    <TouchableOpacity onPress={() => { console.warn("hello") }}>
+                    <TouchableOpacity onPress={() =>console.warn("sdfsf")}>
                         <Text style={styles.textbutton}> Check The Availabity</Text>
                     </TouchableOpacity>
                 </View>
@@ -102,18 +131,18 @@ const styles = StyleSheet.create({
         width: 60
     },
     textbutton: {
-        fontSize:20
+        fontSize: 20
 
     },
     button: {
         alignItems: 'center',
         justifyContent: 'center', height: 40, borderRadius: 20,
         width: "50%",
-        borderWidth: 1,     
-        justifyContent:"center",
-        alignItems:'center',
-        marginLeft:90,
-        marginTop:30,    
+        borderWidth: 1,
+        justifyContent: "center",
+        alignItems: 'center',
+        marginLeft: 90,
+        marginTop: 30,
     }
 })
 
