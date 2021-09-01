@@ -14,7 +14,6 @@ router.post('/register', async (req, res) => {
         return res.status(400).send({ error: 'All Filed is Required' });
 
     //Email Format Check
-
     if (!validate.emailCheck(req.body.email)) return res.status(400).send({ error: 'Enter Correct Email Address!!!' });
     //Unique Email check
     const emailCheck = await User.findOne({ email: req.body.email });
@@ -27,7 +26,7 @@ router.post('/register', async (req, res) => {
     if (validate.lengthCheck(req.body.name, 3)) return res.status(400).send({ error: 'Name length min 3 required!!!' });
 
 
-    if (validate.numberlengthCheck(req.body.phone, 10) || isNaN(req.body.phone)) return res.status(400).send({ msg: 'Enter valid Mobile Number' });
+    if (validate.numberlengthCheck(req.body.phone, 10) || isNaN(req.body.phone)) return res.status(400).send({ error: 'Enter valid Mobile Number' });
 
 
 

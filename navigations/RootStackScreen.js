@@ -16,7 +16,7 @@ const RootStackScreen = ({ navigation }) => {
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="SignInScreen" component={LoginScreen} />
             <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
             
         </Stack.Navigator>
     );

@@ -12,14 +12,15 @@ import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
 import { appReducer } from './store/reducer/mainReducer'
 import NewScreen from './Screens/NewScreen'
-import ContactUsStack from './navigations/ContactUsStack'
-import Form from './components/Form'
-
-
+import InquiryStack from './navigations/InquiryStack'
 import Drawers from './navigations/Drawer'
 
 
 const App = () => {
+  const store = createStore(
+       appReducer,                    // your reducers
+    compose(applyMiddleware(thunk))
+    );
   return (
     // <NavigationContainer>
     //   <Drawer.Navigator initialRouteName="Home">
@@ -27,16 +28,25 @@ const App = () => {
     //     {/* <Drawer.Screen name="About_us" component={About_us} /> */}
     //   </Drawer.Navigator>
     // </NavigationContainer>
-    // <NewScreen />
+    <NewScreen />
     // <Drawers/>
-    <NavigationContainer>
-      <ContactUsStack/>
-    </NavigationContainer>
-  
-  
+    // <NavigationContainer>
+    //   <InquiryStack/>
+    // </NavigationContainer>
 
+
+
+    // <Provider store={store}>
+    // <NavigationContainer>
+    //   <RootStackScreen />
+
+    // </NavigationContainer>
+    // </Provider> 
   )
 }
+
+
+
 
 export default App
 
@@ -49,10 +59,7 @@ export default App
 
 
 
-// const store = createStore(
-//   appReducer,                    // your reducers
-//   compose(applyMiddleware(thunk))
-//   );
+
 
 
 
@@ -71,11 +78,3 @@ export default App
 
 
 
-// //  <Provider store={store}>
-// //     <NavigationContainer>
-// //       <RootStackScreen />
-
-// //     </NavigationContainer>
-// //     </Provider> 
-//   )
-// }

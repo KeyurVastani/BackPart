@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Button, SafeAreaView, StyleSheet, TextInput } from 'react-native'
+import { View, Text, Button, SafeAreaView, StyleSheet, TextInput, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../store/action/loginAction'
 
@@ -10,19 +10,32 @@ const SignInScreen = ({ navigation }) => {
     const [email, setemail] = useState("keyur@gmail.com")
     const [password, setpassword] = useState("kK1234567@");
 
+
     useEffect(() => {
-        console.log("logindata", logindata);
-    }, [logindata])
+        console.log("logindata", logindata.user);
+        debugger
+        let msg = logindata.user.msg
+        if (msg) {
+            debugger
+            
+            Alert.alert("Success",logindata.user.msg)
+            debugger
+            navigation.navigate('HomeScreen');
+        }
+
+    }, [logindata.user]);
+
+   
 
     const onSubmit = () => {
         debugger
         // alert(Object.keys(logindata))
         // alert(Object.keys(logindata.user))
-        dispatch(login(email, password))     //1step
-        debugger
-
-        console.log("thsis --------", logindata)
-        alert(logindata.user.msg)
+        if (email.length === 0 || password.length === 0) {
+            Alert.alert("Error", 'Please enter fields');
+        } else {
+            dispatch(login(email, password))
+        }
     }
     return (
 

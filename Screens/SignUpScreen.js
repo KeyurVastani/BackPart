@@ -29,8 +29,8 @@ const SignInScreen = ({ navigation }) => {
 
             }
         }).catch((err) => {
-            // debugger
-            // console.log("errr-----------", err.response);
+            debugger
+            console.log("errr-----------", err.response);
             alert(err?.response?.data?.error)
         });
 

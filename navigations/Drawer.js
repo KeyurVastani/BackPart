@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Entypo from 'react-native-vector-icons/Entypo'
+
 
 
 
@@ -18,6 +20,7 @@ import HomeStack from './HomeStack';
 import GalleryStack from './GalleryStack';
 import AboutUsStack from './AboutUsStack';
 import ContactUsStack from './ContactUsStack';
+import InquiryStack from './InquiryStack';
 //DrawerContent
 import { DrawerContent } from './DrawerContent';
 
@@ -87,6 +90,18 @@ export default function Drawers() {
                         drawerIcon: ({ focused, size }) => (
                             <MaterialIcons
                                 name="connect-without-contact"
+                                size={size}
+                                color={focused ? '#7cc' : '#312f2f'}
+                            />
+                        ),
+                    }}
+                />
+                <Drawer.Screen name="InquiryStack" component={InquiryStack}
+                    options={{
+                        title: 'Make An Inquiry',
+                        drawerIcon: ({ focused, size }) => (
+                            <Entypo
+                                name="back-in-time"
                                 size={size}
                                 color={focused ? '#7cc' : '#312f2f'}
                             />

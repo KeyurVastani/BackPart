@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native'
-import Form from '../components/Form'
+
 
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper/screenHelper'
 
@@ -70,9 +70,7 @@ const ContactUs = () => {
                         </Text>
                     </View>
                 </View>
-                <View>
-                    <Form/>
-                </View>
+               
 
 
 
