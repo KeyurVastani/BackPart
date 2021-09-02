@@ -5,7 +5,10 @@ const Book = require('../models/booking');
 
 
 router.post('/booking', async (req, res) => {
-    console.log("Req", req.body)
+    // console.log("Req", req.body)
+
+    if (!req.body.indate || !req.body.outdate)
+    return res.status(400).send({ error: 'In and Out date Filed is Required' });
 
  
    
@@ -15,7 +18,7 @@ router.post('/booking', async (req, res) => {
 
      const reqInTime= ((new Date(req.body.indate)).getTime())
      const reqOutTime= ((new Date(req.body.outdate)).getTime())
-     console.log(reqInTime <= reqOutTime)
+    //  console.log(reqInTime <= reqOutTime)
 
        
      if(!(reqInTime <= reqOutTime)){
@@ -24,29 +27,25 @@ router.post('/booking', async (req, res) => {
 
 
     // check input date 
-    if (!req.body.indate) {
-        return res.status(400).send({ error: 'Check In date is Required' });
-    } else {
+ 
         const dateInCheck = await Book.findOne({ indate: req.body.indate });
         if (dateInCheck) return res.status(400).send({ error: 'Indate is already Occupied please select new date' });
-    }
+    
 
     //check Output date
-    if (!req.body.outdate) {
-        return res.status(400).send({ error: 'Check Out date is Required' });
-    } else {
+   
         const dateOutCheck = await Book.findOne({ indate: req.body.outdate });
         if (dateOutCheck) return res.status(400).send({ error: 'Outdate is already Occupied please select new date' });
-    }
+    
 
      //check date in millisecond
-     console.log("=======1",await Book.findOne({ indatetime: { $lte: reqInTime }, outdatetime: { $gte: reqInTime  } }))
+    //  console.log("=======1",await Book.findOne({ indatetime: { $lte: reqInTime }, outdatetime: { $gte: reqInTime  } }))
      
      if( (await Book.findOne({ indatetime: { $lte: reqInTime }, outdatetime: { $gte: reqInTime  } }))!==null){
-        return res.status(400).send({ error: 'this In date porsion is occupied' });
+        return res.status(400).send({ error: 'this In date sloat  is occupied' });
      }
 
-     console.log("=======2",await Book.findOne({ indatetime: { $lte: reqInTime }, outdatetime: { $gte: reqInTime  } }))
+    //  console.log("=======2",await Book.findOne({ indatetime: { $lte: reqInTime }, outdatetime: { $gte: reqInTime  } }))
 
      if(await Book.findOne({ indatetime: { $lte: reqOutTime }, outdatetime: { $gte: reqOutTime  } })!==null)
      {
@@ -64,12 +63,12 @@ router.post('/booking', async (req, res) => {
     });
 
     try {
-        await booking.save();
+        // await booking.save();
         const bookingDetail = await Book.findOne({ indate: booking.indate })
-        res.status(200).send({ msg: 'Registration Sucessfull', bookingDetail: bookingDetail });
+        res.status(200).send({ msg: 'This sloat is available', bookingDetail: bookingDetail });
 
     } catch (error) {
-        res.status(400).send({ Msg: 'Registration Failed!!!', error });
+        res.status(400).send({ Msg: 'This sloat is not available!!!', error });
     }
 })
 

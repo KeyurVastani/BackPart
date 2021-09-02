@@ -11,25 +11,33 @@ import thunk from 'redux-thunk'
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
 import { appReducer } from './store/reducer/mainReducer'
-import NewScreen from './Screens/NewScreen'
+import NewScreen from './Screens/DateAvailable'
 import InquiryStack from './navigations/InquiryStack'
 import Drawers from './navigations/Drawer'
+import Member from './Screens/Member'
+import LastBill from './Screens/LastBill'
+import GoaWeather from './Screens/GoaWeather'
 
 
 const App = () => {
-  const store = createStore(
-       appReducer,                    // your reducers
-    compose(applyMiddleware(thunk))
-    );
+  // const store = createStore(
+  //      appReducer,                    // your reducers
+  //   compose(applyMiddleware(thunk))
+  //   );
   return (
+    // <LastBill/>
     // <NavigationContainer>
     //   <Drawer.Navigator initialRouteName="Home">
     //     <Drawer.Screen name="Home" component={HomeScreen} />
     //     {/* <Drawer.Screen name="About_us" component={About_us} /> */}
     //   </Drawer.Navigator>
     // </NavigationContainer>
-    <NewScreen />
+    // <NewScreen />
+    // <SignInScreen/>
+    // <SignUpScreen/>
     // <Drawers/>
+    <GoaWeather/>
+    // <Member/>
     // <NavigationContainer>
     //   <InquiryStack/>
     // </NavigationContainer>

@@ -1,9 +1,11 @@
 import { styles } from 'ansi-colors';
 import React, { useEffect, useState, useRef } from 'react'
-import { View, Text, Dimensions, StyleSheet, Image } from 'react-native'
+import { View, Text, Dimensions, StyleSheet, Image ,TouchableOpacity} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper/screenHelper'
+import Color from '../assets/colors/color'
+
 const ENTRIES1 = [
     {
         profile: require("../images/2.png"),
@@ -18,7 +20,7 @@ const ENTRIES1 = [
 
 const { width: screenWidth } = Dimensions.get("window");
 
-const Inquiry = () => {
+const Inquiry = ({navigation}) => {
     const [entries, setEntries] = useState([]);
     const carouselRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -88,8 +90,15 @@ const Inquiry = () => {
             </View>
 
             <View style={style.book}>
-                <Text style={{ fontFamily:'Roboto-Bold',fontSize:30,color:'green',marginLeft:30,marginTop:40}}>Book Your Dream Villa</Text>
+                <Text style={style.text}>Book Your Dream Villa</Text>
+                <View style={style.button} >
+                    <TouchableOpacity onPress={() => { navigation.navigate("DateAvailable") }}>
+                        <Text style={style.textbutton}> Check The Availabity</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
+
+           
 
          
         </View>
@@ -122,10 +131,27 @@ const style = StyleSheet.create({
         resizeMode: "contain",
     },
     book:{
-        flex:1,
-       
-       
+        flex:1,    
     },
+    text:{ 
+        fontFamily:'Roboto-Bold',
+        fontSize:30,
+        color:Color.green,
+        marginLeft:30,
+        marginTop:40
+    },  
+    textbutton: {
+        fontSize: 20
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center', height: 40, borderRadius: 20,
+        borderWidth: 1,
+        justifyContent: "center",
+        alignItems: 'center',
+        marginHorizontal: 20,
+        marginTop: 30,
+    }
   
 });
 

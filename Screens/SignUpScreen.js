@@ -1,16 +1,27 @@
 import React, { useState } from 'react'
-import { View, Text, Button, SafeAreaView, StyleSheet, TextInput } from 'react-native'
+import {
+    View,
+    Text,
+    Button,
+    SafeAreaView,
+    StyleSheet,
+    TextInput,
+    Image,
+} from 'react-native'
 import axios from '../axios'
+import TextBox from '../components/TextBox';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SignInScreen = ({ navigation }) => {
 
     const [email, setemail] = useState("keyur@gmail.com")
-    const [password, setpassword] = useState("kK1234567@")
+    const [password, setpassword] = useState("kK123456@")
     const [name, setname] = useState("keyur")
     const [mobile, setmobile] = useState('858')
 
     const submitData = async () => {
-      
+
 
         const registered = {
             email: email,
@@ -18,10 +29,10 @@ const SignInScreen = ({ navigation }) => {
             name: name,
             phone: Number(mobile)
         }
-        
+
         console.log("registered", registered)
         await axios.post('/register', registered).then((res) => {
-          
+
             // console.log("Ressss-----", res)
             if (res.status === 201) {
                 alert(res?.data?.msg)
@@ -36,143 +47,100 @@ const SignInScreen = ({ navigation }) => {
 
     }
     return (
-        <View style={styles.container} >
-            <View style={styles.header}>
-                <Text style={{ fontSize: 40 }}> SignUp Screen</Text>
-
+        <View style={styles.container}>
+        <Image
+          resizeMode="contain"
+          source={require('../images/casa-1.png')}
+          style={{height: 300}}
+        />
+        <Text style={{fontSize: 40, color: '#fbb034', fontFamily: 'roboto-Bold'}}>
+          SignUp
+        </Text>
+        <View style={styles.footer}>
+          <TextBox title={'name'} onChangeText={text => setname(text)} />
+          <TextBox title={'email'} onChangeText={text => setemail(text)} />
+          <TextBox title={'password'} onChangeText={text => setpassword(text)} />
+          <TextBox
+            title={'Mobile Number'}
+            onChangeText={text => setmobile(text)}
+          />
+  
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 20,
+            }}>
+            <View>
+              <TouchableOpacity
+                style={styles.button}
+                color="red"
+                 onPress={submitData()}>
+  
+                <LinearGradient
+                  colors={['#ffdd00', '#fbb034']}
+                  style={styles.button}>
+                  <Text style={styles.buttonText}>{'Login'}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
             </View>
-            <View style={styles.footer}>
-                <TextInput
-                    style={styles.nameInput}
-                    placeholder="name"
-                    onChangeText={text => setname(text)}
-                    defaultValue={name}
-                />
-
-                <TextInput
-                    style={styles.emailInput}
-                    placeholder="email"
-                    onChangeText={text => setemail(text)}
-                    defaultValue={email}
-
-                />
-
-                <TextInput
-                    style={styles.passwordInput}
-                    placeholder="password"
-                    onChangeText={text => setpassword(text)}
-                    defaultValue={password}
-
-                />
-                <TextInput
-                    style={styles.mobileInput}
-                    placeholder="Mobile Number"
-                    onChangeText={text => setmobile(text)}
-                    defaultValue={mobile}
-                />
-                <View style={styles.thirdView}>
-                    < Button
-                        style={styles.button}
-                        title="Register"
-                        color="red"
-                        onPress={submitData}
-                    />
-
-                    < Button
-                        style={styles.button}
-                        title="SignIn"
-                        color="red"
-                        onPress={() => navigation.navigate('SignInScreen')}
-                    />
-                </View>
-
+            <View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('SignUpScreen')}>
+                <LinearGradient
+                  colors={['#ffdd00', '#fbb034']}
+                  style={styles.button}>
+                  <Text style={styles.buttonText}>{'Register'}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
             </View>
-
-
+          </View>
         </View>
-
-
-    )
-}
-
-
-const styles = StyleSheet.create({
+      </View>
+    );
+  };
+  
+  const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#009387'
-    },
-    nameInput: {
-        height: 40,
-        fontSize: 30,
-        borderColor: 'black',
-        borderWidth: 1,
-        width: 250,
-        margin: 10
-    },
-    emailInput: {
-        height: 40,
-        fontSize: 30,
-        borderColor: 'black',
-        borderWidth: 1,
-        width: 250,
-        margin: 10
-
-    },
-    passwordInput: {
-        height: 40,
-        fontSize: 30,
-        borderColor: 'black',
-        borderWidth: 1,
-        width: 250,
-        margin: 10
-    },
-    mobileInput: {
-        height: 40,
-        fontSize: 30,
-        borderColor: 'black',
-        borderWidth: 1,
-        width: 250,
-        margin: 10
-
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#009387',
     },
     header: {
-
-        height: 40,
-        height: 60,
-        marginTop: 130,
-        alignItems: 'center',
-        justifyContent: 'center',
-
+      alignItems: 'center',
+      justifyContent: 'center',
     },
+  
     footer: {
-
-        alignItems: 'center',
-        justifyContent: 'center'
-
+      flex: 3,
+      marginTop: 10,
+      // alignItems: 'center',
     },
-
+  
     button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 70,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: 'black',
+      marginTop: 10,
+      height: 50,
+      width: 120,
+      borderRadius: 25,
+      alignItems: 'center',
+      justifyContent: 'center',
+      //backgroundColor: 'white'
     },
     thirdView: {
-        marginTop: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: 220,
-        justifyContent: 'space-between'
-    }
-})
-
-
-export default SignInScreen;
-
-
-
+      marginTop: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      width: 220,
+      justifyContent: 'space-between',
+    },
+    buttonText: {
+      color: '#009387',
+      fontSize: 20,
+      alignSelf: 'center',
+      fontFamily: 'roboto-Medium',
+    },
+  });
+  
+  export default SignInScreen;

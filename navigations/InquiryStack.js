@@ -6,10 +6,14 @@ import Icon from 'react-native-vector-icons/Ionicons'
 const Stack = createStackNavigator();
 
 import Inquiry from '../Screens/Inquiry';
+import DateAvailable from '../Screens/DateAvailable';
+import Member from '../Screens/Member';
+import LastBill from '../Screens/LastBill';
 
 
 
-const InquiryStack= ({ navigation }) => {
+
+const InquiryStack = ({ navigation }) => {
     return (
         <Stack.Navigator screenOptions={{
             headerStyle: {
@@ -28,14 +32,30 @@ const InquiryStack= ({ navigation }) => {
                     headerLeft: () => (
                         <Icon.Button
                             name='ios-menu'
-                            onPress={() =>navigation.toggleDrawer()}
+                            onPress={() => navigation.toggleDrawer()}
                             size={25}
                             backgroundColor='#009387'
                         />
                     ),
+                }} />
 
 
+            <Stack.Screen name="DateAvailable" component={DateAvailable}
+                options={{
+                    title: 'Check Available Date',
+                    headerTitleAlign: 'center',
+                }} />
 
+            <Stack.Screen name="Member" component={Member}
+                options={{
+                    title: 'select Total Member',
+                    headerTitleAlign: 'center',
+                }} />
+
+            <Stack.Screen name="LastBill" component={LastBill}
+                options={{
+                    title: ' Total Bill',
+                    headerTitleAlign: 'center',
                 }} />
 
 

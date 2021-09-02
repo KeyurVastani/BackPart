@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, Button, SafeAreaView, StyleSheet, TextInput, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../store/action/loginAction'
+import {Image} from 'react-native-animatable';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
+import TextBox from '../components/TextBox';
+
 
 const SignInScreen = ({ navigation }) => {
     const dispatch = useDispatch()
     const logindata = useSelector((state) => state.loginReducer)
 
     const [email, setemail] = useState("keyur@gmail.com")
-    const [password, setpassword] = useState("kK1234567@");
+    const [password, setpassword] = useState("kK123456@");
 
 
     useEffect(() => {
@@ -32,103 +37,113 @@ const SignInScreen = ({ navigation }) => {
         // alert(Object.keys(logindata))
         // alert(Object.keys(logindata.user))
         if (email.length === 0 || password.length === 0) {
-            Alert.alert("Error", 'Please enter fields');
+            Alert.alert("Error", 'Please enter all fields');
         } else {
             dispatch(login(email, password))
         }
     }
     return (
+        <View style={styles.container}>
+      <Image
+        resizeMode="contain"
+        source={require('../images/casa-1.png')}
+        style={{height: 300}}
+      />
 
+      <View style={styles.header}>
+        <Text
+          style={{fontSize: 40, color: '#fbb034', fontFamily: 'roboto-Bold'}}>
+          {' '}
+          Login{' '}
+        </Text>
+      </View>
 
-        <View style={styles.container} >
-
-            <View style={styles.header}>
-                <Text style={{ fontSize: 40 }}> Login Screen</Text>
-
-            </View>
-
-            <View style={styles.footer}>
-                <Text style={{ fontSize: 20, marginLeft: -220 }}>Email</Text>
-                <TextInput
-                    style={styles.emailInput}
-                    placeholder="email"
-                    onChangeText={text => setemail(text)}
-                    defaultValue={email}
-                />
-
-                <Text style={{ fontSize: 20, marginLeft: -180, marginTop: 20 }}>password</Text>
-                <TextInput
-                    style={styles.passwordInput}
-                    placeholder="Password"
-                    onChangeText={text => setpassword(text)}
-                    defaultValue={password}
-                />
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                    < Button
-                        style={styles.button}
-                        title="Login"
-                        color="red"
-                        onPress={onSubmit}
-                    />
-                    < Button
-                        style={styles.button}
-                        title="SignUp"
-                        color="red"
-                        onPress={() => navigation.navigate('SignUpScreen')}
-                    />
-                </View>
-
-            </View>
+      <View style={styles.footer}>
+        <TextBox title={'Email'} onChangeText={text => setemail(text)} />
+        <TextBox title={'Password'} onChangeText={text => setpassword(text)} isPassword />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 20,
+          }}>
+          <View>
+            <TouchableOpacity
+              style={styles.button}
+              color="red"
+              onPress={onSubmit}>
+              <LinearGradient
+                colors={['#ffdd00', '#fbb034']}
+                style={styles.button}>
+                <Text style={styles.buttonText}>{'Login'}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('SignUpScreen')}>
+              <LinearGradient
+                colors={['#ffdd00', '#fbb034']}
+                style={styles.button}>
+                <Text style={styles.buttonText}>{'Register'}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
         </View>
-
-
-    )
-}
+      </View>
+    </View>
+  );
+};
 
 export default SignInScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#009387'
-    },
-    emailInput: {
-        height: 40,
-        fontSize: 30,
-        borderColor: 'black',
-        borderWidth: 1,
-        width: 270,
-    },
-    passwordInput: {
-        height: 40,
-        fontSize: 30,
-        borderColor: 'black',
-        borderWidth: 1,
-        width: 270,
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#009387',
+  },
+  emailInput: {
+    height: 40,
+    fontSize: 18,
+    width: 270,
+    borderRadius: 20,
+    marginTop: 5,
+    paddingHorizontal: 10,
+  },
+  passwordInput: {
+    height: 40,
+    fontSize: 18,
+    width: 270,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    marginTop: 5,
+  },
+  header: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  footer: {
+    flex: 3,
+    marginTop: 30,
+    // alignItems: 'center',
+  },
 
-    },
-    header: {
-
-        height: 70,
-        marginTop: 60,
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    footer: {
-        flex: 3,
-        marginTop: 60,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-
-    button: {
-        margin: 50,
-
-
-    },
-})
-
-
+  button: {
+    marginTop: 10,
+    height: 50,
+    width: 120,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //backgroundColor: 'white'
+  },
+  buttonText: {
+    color: '#009387',
+    fontSize: 20,
+    alignSelf: 'center',
+    fontFamily: 'roboto-Medium',
+  },
+});
