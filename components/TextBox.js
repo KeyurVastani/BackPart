@@ -15,7 +15,8 @@ const TextBox = ({ onChangeText, title, isPassword = false }) => {
           style={styles.inputStyle}
           placeholder={title}
           onChangeText={onChangeText}
-          secureTextEntry={isPassword}
+          // secureTextEntry={isPassword}
+          autoCapitalize="none"
         />
       </View>
     </View>

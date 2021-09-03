@@ -72,4 +72,23 @@ router.post('/booking', async (req, res) => {
     }
 })
 
+
+router.get('/booking', async (req, res) => {
+    try{
+    const bookdate = await Book.find({})
+    console.log("========1",bookdate)
+    res.status(200).send({ msg: 'book date', bookdate });
+    console.log("========2",bookdate)
+    
+    }catch(error){
+        res.status(400).send({ Msg: 'This sloat is not available!!!', error });
+
+    }
+
+})
+
+
+
+
+
 module.exports = router;

@@ -16,14 +16,16 @@ import InquiryStack from './navigations/InquiryStack'
 import Drawers from './navigations/Drawer'
 import Member from './Screens/Member'
 import LastBill from './Screens/LastBill'
-import GoaWeather from './Screens/GoaWeather'
+import WeatherScreen from './Screens/WeatherScreen'
+import Header from './components/Header'
+import Inquiry from './Screens/Inquiry'
 
 
 const App = () => {
-  // const store = createStore(
-  //      appReducer,                    // your reducers
-  //   compose(applyMiddleware(thunk))
-  //   );
+  const store = createStore(
+       appReducer,                    // your reducers
+    compose(applyMiddleware(thunk))
+    );
   return (
     // <LastBill/>
     // <NavigationContainer>
@@ -36,7 +38,11 @@ const App = () => {
     // <SignInScreen/>
     // <SignUpScreen/>
     // <Drawers/>
-    <GoaWeather/>
+    // <Inquiry/>
+    // <Header/>
+    // <HomeScreen/>
+    // <SafeAreaView style={{flex:1}}>
+    //    <WeatherScreen/></SafeAreaView>
     // <Member/>
     // <NavigationContainer>
     //   <InquiryStack/>
@@ -44,12 +50,11 @@ const App = () => {
 
 
 
-    // <Provider store={store}>
-    // <NavigationContainer>
-    //   <RootStackScreen />
-
-    // </NavigationContainer>
-    // </Provider> 
+    <Provider store={store}>
+      <NavigationContainer>
+      <RootStackScreen />
+      </NavigationContainer>
+    </Provider> 
   )
 }
 

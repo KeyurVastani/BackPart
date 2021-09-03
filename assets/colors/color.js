@@ -12,4 +12,6 @@ export default {
     green: "green",
     darkBlue: "rgba(26, 60, 86, 1)",
     orange: "#F17016",
-    };
+    mainColor: '#009387',
+    yellow:'#fbb034'
+};

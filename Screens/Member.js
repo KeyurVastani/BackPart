@@ -139,7 +139,8 @@ const Member = (props) => {
 
                 <TouchableOpacity
                     onPress={() => props.navigation.navigate("LastBill", {
-                        date: props.route.params.date
+                        date: props.route.params.date,
+                        member:total
                     })}
                     style={{
                         marginBottom: 30,

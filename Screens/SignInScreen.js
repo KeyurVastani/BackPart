@@ -1,98 +1,123 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Button, SafeAreaView, StyleSheet, TextInput, Alert } from 'react-native'
+import { View, Text, Button, SafeAreaView, StyleSheet, TextInput, Alert, ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../store/action/loginAction'
-import {Image} from 'react-native-animatable';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { Image } from 'react-native-animatable';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import TextBox from '../components/TextBox';
+import Colors from '../assets/colors/color'
 
 
 const SignInScreen = ({ navigation }) => {
-    const dispatch = useDispatch()
-    const logindata = useSelector((state) => state.loginReducer)
+  const dispatch = useDispatch()
+  const logindata = useSelector((state) => state.loginReducer)
 
-    const [email, setemail] = useState("keyur@gmail.com")
-    const [password, setpassword] = useState("kK123456@");
+  const [email, setemail] = useState("")
+  const [password, setpassword] = useState(" ");
+  const [isLoader, setLoader] = useState(false)
 
 
-    useEffect(() => {
-        console.log("logindata", logindata.user);
-        debugger
-        let msg = logindata.user.msg
-        if (msg) {
-            debugger
-            
-            Alert.alert("Success",logindata.user.msg)
-            debugger
-            navigation.navigate('HomeScreen');
-        }
+  useEffect(() => {
+    console.log("logindata", logindata.user);
 
-    }, [logindata.user]);
-
-   
-
-    const onSubmit = () => {
-        debugger
-        // alert(Object.keys(logindata))
-        // alert(Object.keys(logindata.user))
-        if (email.length === 0 || password.length === 0) {
-            Alert.alert("Error", 'Please enter all fields');
-        } else {
-            dispatch(login(email, password))
-        }
+    let msg = logindata.user.msg
+    if (msg) {
+      setLoader(false)
+      Alert.alert("Success", logindata.user.msg)
+      navigation.navigate('Drawers')
     }
-    return (
-        <View style={styles.container}>
-      <Image
-        resizeMode="contain"
-        source={require('../images/casa-1.png')}
-        style={{height: 300}}
-      />
 
-      <View style={styles.header}>
-        <Text
-          style={{fontSize: 40, color: '#fbb034', fontFamily: 'roboto-Bold'}}>
-          {' '}
-          Login{' '}
-        </Text>
+  }, [logindata.user]);
+
+
+
+  const onSubmit = () => {
+
+    // alert(Object.keys(logindata))
+    // alert(Object.keys(logindata.user))
+    if (email.length === 0 || password.length === 0) {
+      Alert.alert("Error", 'Please enter all fields');
+    } else {
+      setLoader(true)
+      dispatch(login(email, password))
+    }
+  }
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.mainColor }}>
+      <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 15 }}>
+        <TouchableOpacity
+          style={{ justifyContent: 'flex-end' }}
+          color="red"
+          onPress={() => {
+            navigation.navigate('Drawers')
+          }}
+        >
+          <LinearGradient
+            colors={['#ffdd00', '#fbb034']}
+            style={styles.button}>
+            <Text style={styles.buttonText}>{'Skip'}</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
+      <View style={styles.container}>
 
-      <View style={styles.footer}>
-        <TextBox title={'Email'} onChangeText={text => setemail(text)} />
-        <TextBox title={'Password'} onChangeText={text => setpassword(text)} isPassword />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: 20,
-          }}>
-          <View>
-            <TouchableOpacity
-              style={styles.button}
-              color="red"
-              onPress={onSubmit}>
-              <LinearGradient
-                colors={['#ffdd00', '#fbb034']}
-                style={styles.button}>
-                <Text style={styles.buttonText}>{'Login'}</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('SignUpScreen')}>
-              <LinearGradient
-                colors={['#ffdd00', '#fbb034']}
-                style={styles.button}>
-                <Text style={styles.buttonText}>{'Register'}</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+        <Image
+          resizeMode="contain"
+          source={require('../images/casa-1.png')}
+          style={{ height: 300 }}
+        />
+
+        <View style={styles.header}>
+          <Text
+            style={{ fontSize: 40, color: '#fbb034', fontFamily: 'roboto-Bold' }}>
+            {' '}
+            Login{' '}
+          </Text>
+        </View>
+
+        <View style={styles.footer}>
+          <TextBox title={'Email'} onChangeText={text => setemail(text)} />
+          <TextBox title={'Password'} onChangeText={text => setpassword(text)} isPassword />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 20,
+            }}>
+            <View>
+              <TouchableOpacity
+                style={styles.button}
+                color="red"
+                onPress={() => {
+                  onSubmit()
+                }}>
+                <LinearGradient
+                  colors={['#ffdd00', '#fbb034']}
+                  style={styles.button}>
+                  {isLoader ?
+                    <ActivityIndicator color={'red'} size={30} />
+                    : <Text style={styles.buttonText}>{'Login'}</Text>
+                  }
+
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('SignUpScreen')}>
+                <LinearGradient
+                  colors={['#ffdd00', '#fbb034']}
+                  style={styles.button}>
+                  <Text style={styles.buttonText}>{'Register'}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -6,19 +6,22 @@ const Stack = createStackNavigator();
 import SplashScreen from '../Screens/SplashScreen';
 import SignUpScreen from '../Screens/SignUpScreen';
 import LoginScreen from '../Screens/SignInScreen';
-import HomeScreen from '../Screens/HomeScreen';
+import Drawers from './Drawer'
+import { NavigationContainer } from '@react-navigation/native';
 
 const RootStackScreen = ({ navigation }) => {
     return (
-        <Stack.Navigator screenOptions={{
-            headerShown:false
-        }}>
-            <Stack.Screen name="SplashScreen" component={SplashScreen} />
-            <Stack.Screen name="SignInScreen" component={LoginScreen} />
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            <Stack.Screen name="HomeScreen" component={HomeScreen} />
+   
+            <Stack.Navigator screenOptions={{
+                headerShown: false
+            }}>
+                <Stack.Screen name="SplashScreen" component={SplashScreen} />
+                <Stack.Screen name="SignInScreen" component={LoginScreen} />
+                <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+                <Stack.Screen name="Drawers" component={Drawers} />
+
+            </Stack.Navigator>
             
-        </Stack.Navigator>
     );
 }
 

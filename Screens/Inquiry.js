@@ -1,10 +1,13 @@
 import { styles } from 'ansi-colors';
 import React, { useEffect, useState, useRef } from 'react'
-import { View, Text, Dimensions, StyleSheet, Image ,TouchableOpacity} from 'react-native'
+import { View, Text, Dimensions, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper/screenHelper'
 import Color from '../assets/colors/color'
+import moment from 'moment';
+import axios from '../axios';
+import { Calendar } from 'react-native-calendars';
 
 const ENTRIES1 = [
     {
@@ -20,14 +23,32 @@ const ENTRIES1 = [
 
 const { width: screenWidth } = Dimensions.get("window");
 
-const Inquiry = ({navigation}) => {
+
+// function call
+const getDaysBetweenDates = (startDate, endDate) => {
+    var now = startDate.clone(), dates = [];
+
+    while (now.isSameOrBefore(endDate)) {
+        dates.push(now.format('YYYY-MM-DD'));
+        now.add(1, 'days');
+    }
+    return dates;
+};
+
+
+const Inquiry = ({ navigation }) => {
     const [entries, setEntries] = useState([]);
     const carouselRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [date, setDate] = useState([]);
 
     useEffect(() => {
         setEntries(ENTRIES1);
     }, []);
+
+    useEffect(() => {
+        console.log("=-===========", date);
+    }, [date])
 
     const pagination = () => {
         return (
@@ -66,12 +87,62 @@ const Inquiry = ({navigation}) => {
 
     }
 
+    //get aPi
+    const callApi = async () => {
+        console.log("==3=3=3=3=");
+        await axios.get('/booking').then((res) => {
+            let data = res?.data?.bookdate;
+            const dataList = data.map((item) => {
+                const startDate = moment(item.indate);
+                const endDate = moment(item.outdate);
 
+                // const dateList = getDaysBetweenDates(startDate, endDate).map(date => moment(date, "MM/DD/YYYY", "YYYY-MM-DD")["YYYY-MM-DD"]);
+                return getDaysBetweenDates(startDate, endDate)
+                // console.log("-------------", dateList);
+
+                //
+                // console.log("-------", date, dateList);
+            });
+
+            setDate([...date, ...[].concat.apply([], dataList)])
+
+            //  var startDate = moment('2021-01-02');
+            // var endDate = moment('2021-01-12');
+
+            // var dateList = getDaysBetweenDates(startDate, endDate);
+            // console.log(dateList);
+            // console.log("Ressss-----", res?.data?.bookdate)
+
+        }).catch((err) => {
+            debugger
+            // console.log("errr-----------", err);
+            alert(err?.response?.data?.error)
+        });
+    }
+
+
+    useEffect(() => {
+        callApi()
+    }, [])
+
+
+  
+    let newDaysObject = {};
+
+    date.map((day) => {
+      newDaysObject = {
+        ...newDaysObject,
+        [day]:  { selected: true, marked: true, selectedColor: '#2acaea' },
+      };
+    });
     return (
-        
-     
+
+
         <View style={{ marginTop: hp(4), flex: 1 }}>
             <Carousel
+                // autoplay={true}
+                // autoplayInterval={1000}
+                // loop={true}
                 layout="default"
                 containerCustomStyle={{ height: 10, marginTop: hp(-25) }}
                 ref={carouselRef}
@@ -81,7 +152,7 @@ const Inquiry = ({navigation}) => {
                 data={entries}
                 renderItem={renderItem}
                 onSnapToItem={(index) => {
-                    console.log("index", index);
+                    // console.log("index", index);
                     setActiveIndex(index);
                 }}
             />
@@ -92,18 +163,36 @@ const Inquiry = ({navigation}) => {
             <View style={style.book}>
                 <Text style={style.text}>Book Your Dream Villa</Text>
                 <View style={style.button} >
-                    <TouchableOpacity onPress={() => { navigation.navigate("DateAvailable") }}>
+                    <TouchableOpacity onPress={() => {
+                        debugger
+
+                        navigation.navigate("DateAvailable") 
+                    }}>
                         <Text style={style.textbutton}> Check The Availabity</Text>
                     </TouchableOpacity>
-                </View>
+                    </View>
+
+                    {
+                    date.length > 0 && <Calendar
+                
+
+                     markedDates={newDaysObject}
+                    />
+                }
+                
             </View>
 
-           
+          
+               
 
-         
+        
+
+
+
+
         </View>
-       
-    
+
+
     )
 }
 
@@ -130,16 +219,16 @@ const style = StyleSheet.create({
         width: screenWidth,
         resizeMode: "contain",
     },
-    book:{
-        flex:1,    
+    book: {
+        flex: 1,
     },
-    text:{ 
-        fontFamily:'Roboto-Bold',
-        fontSize:30,
-        color:Color.green,
-        marginLeft:30,
-        marginTop:40
-    },  
+    text: {
+        fontFamily: 'Roboto-Bold',
+        fontSize: 30,
+        color: Color.green,
+        marginLeft: 30,
+        marginTop: 40
+    },
     textbutton: {
         fontSize: 20
     },
@@ -152,7 +241,7 @@ const style = StyleSheet.create({
         marginHorizontal: 20,
         marginTop: 30,
     }
-  
+
 });
 
 export default Inquiry;

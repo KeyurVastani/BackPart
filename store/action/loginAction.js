@@ -19,7 +19,7 @@ export const login = (email, password) => {    //2 step
 
             })
             .catch((err) => {
-                debugger
+                console.log("error", err?.response)
                 Alert.alert("Error", err?.response?.data?.error)
             });
     };

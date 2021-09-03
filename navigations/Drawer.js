@@ -21,14 +21,15 @@ import GalleryStack from './GalleryStack';
 import AboutUsStack from './AboutUsStack';
 import ContactUsStack from './ContactUsStack';
 import InquiryStack from './InquiryStack';
+import WeatherScreen from '../Screens/WeatherScreen';
 //DrawerContent
 import { DrawerContent } from './DrawerContent';
 
 const Drawer = createDrawerNavigator();
 
-export default function Drawers() {
+const Drawers=() =>{
     return (
-        <NavigationContainer>
+        
             <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} screenOptions={{
                 headerShown: false,
             }}>
@@ -47,7 +48,7 @@ export default function Drawers() {
 
                 <Drawer.Screen name="casaSunStack" component={CasaSunStack}
                     options={{
-                        title: 'CasaSunShineView',
+                        title: 'Amenities',
                         drawerIcon: ({ focused, size }) => (
                             <FontAwesome
                                 name="street-view"
@@ -58,7 +59,7 @@ export default function Drawers() {
                     }}
                 />
 
-
+{/* 
                 <Drawer.Screen name="GalleryStack" component={GalleryStack}
                     options={{
                         title: 'Gallery',
@@ -70,7 +71,7 @@ export default function Drawers() {
                             />
                         ),
                     }}
-                />
+                /> */}
                 <Drawer.Screen name="AboutUsStack " component={AboutUsStack}
                     options={{
                         title: 'About Us',
@@ -109,8 +110,23 @@ export default function Drawers() {
                     }}
                 />
 
+                <Drawer.Screen name="WeatherScreen" component={WeatherScreen}
+                    options={{
+                        title: 'Weather',
+                        drawerIcon: ({ focused, size }) => (
+                            <MaterialCommunityIcons
+                                name="weather-cloudy"
+                                size={size}
+                                color={focused ? '#7cc' : '#312f2f'}
+                            />
+                        ),
+                    }}
+                />
+
 
             </Drawer.Navigator>
-        </NavigationContainer>
+       
     );
 }
+
+export default Drawers

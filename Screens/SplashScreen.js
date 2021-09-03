@@ -24,7 +24,8 @@ const SplashScreen = ({ navigation }) => {
                 animation="fadeInUpBig"
 
                 style={styles.footer}>
-                <Text style={styles.title}>Stay connected with every one</Text>
+                <Text style={[styles.title,{fontSize:40}]}>Welcome</Text> 
+                <Text style={styles.title}>To Casa SunShine</Text>
                 <Text style={styles.text}>signIn with your account</Text>
                 <View style={styles.button}>
                     <TouchableOpacity onPress={() => { navigation.navigate("SignInScreen") }}>
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     text: {
-        color: 'grey',
+        color: 'black',
         marginTop: 5
     },
     button: {

@@ -22,7 +22,7 @@ const CasaSunStack= ({ navigation }) => {
         }>
             <Stack.Screen name="CasaSunshineView" component={CasaSunshineView}
                 options={{
-                    title: 'CasaSunshineView',
+                    title: 'Amenities',
                     headerTitleAlign: 'center',
                     headerLeft: () => (
                         <Icon.Button

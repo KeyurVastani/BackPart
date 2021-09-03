@@ -78,7 +78,7 @@ const DateAvailable = ({ navigation }) => {
         <View style={{ marginTop: 10 }}>
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 20 }}>select your check in date</Text>
+                    <Text style={{ fontSize: 20,marginLeft:5 }}>Select your check in date</Text>
                     <TouchableOpacity onPress={() => { setcalenderShow(!isCalenderShow) }}>
                         <Text style={{ fontSize: 20, marginRight: 5, borderWidth: 1, width: 150, height: 30 }}>{CheckInDate}</Text>
                     </TouchableOpacity>
@@ -103,7 +103,7 @@ const DateAvailable = ({ navigation }) => {
             {/* =================================================== */}
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 30 }}>
-                    <Text style={{ fontSize: 20 }}>select your check out date</Text>
+                    <Text style={{ fontSize: 20,marginLeft:5 }}>Select your check out date</Text>
                     <TouchableOpacity onPress={() => { setcalenderOutShow(!isCalenderOutShow) }}>
                         <Text style={{ fontSize: 20, marginRight: 5, borderWidth: 1, width: 150, height: 30 }}>{CheckOutDate}</Text>
                     </TouchableOpacity>
@@ -130,7 +130,7 @@ const DateAvailable = ({ navigation }) => {
                 <TouchableOpacity onPress={() => { submitDate() }}>
                     {isLoader ?
                         <ActivityIndicator color={'red'} size={30} />
-                        : <Text style={styles.textbutton}> Check The Availabity</Text>
+                        : <Text style={styles.textbutton}> Check Availabity</Text>
 
                     }
 

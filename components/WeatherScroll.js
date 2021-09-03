@@ -1,7 +1,7 @@
 import React from 'react'
 import {View, ScrollView, Image, Text, StyleSheet} from 'react-native'
 import moment from 'moment-timezone'
-import FutureForecast from './FutureForecast'
+import FutureForecast from '../components/FutureForecast'
 
 const WeatherScroll = ({weatherData}) => {
     return (
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default WeatherScroll  
+export default WeatherScroll
