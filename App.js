@@ -19,13 +19,16 @@ import LastBill from './Screens/LastBill'
 import WeatherScreen from './Screens/WeatherScreen'
 import Header from './components/Header'
 import Inquiry from './Screens/Inquiry'
+import HomeStack from './navigations/HomeStack'
+import CasaSunshineView from './Screens/CasaSunshineView'
+import BookGuest from './Screens/BookGuest'
 
 
 const App = () => {
   const store = createStore(
-       appReducer,                    // your reducers
+    appReducer,                    // your reducers
     compose(applyMiddleware(thunk))
-    );
+  );
   return (
     // <LastBill/>
     // <NavigationContainer>
@@ -41,20 +44,29 @@ const App = () => {
     // <Inquiry/>
     // <Header/>
     // <HomeScreen/>
+    // <CasaSunshineView/>
+    // <BookGuest/>
+
+    // <SplashScreen/>
+    // <LastBill/>
+    // <Member />
     // <SafeAreaView style={{flex:1}}>
     //    <WeatherScreen/></SafeAreaView>
     // <Member/>
     // <NavigationContainer>
     //   <InquiryStack/>
     // </NavigationContainer>
+    //   <NavigationContainer>
+    //  <HomeStack/>
+    // </NavigationContainer>
 
 
 
     <Provider store={store}>
       <NavigationContainer>
-      <RootStackScreen />
+        <RootStackScreen />
       </NavigationContainer>
-    </Provider> 
+    </Provider>
   )
 }
 

@@ -6,8 +6,9 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper
 
 const ContactUs = () => {
     return (
+        <ScrollView>
         <View style={{ flex: 1 }}>
-            <ScrollView>
+            
                 <View >
                     <View>
                         <Image
@@ -75,9 +76,9 @@ const ContactUs = () => {
 
 
 
-            </ScrollView>
+           
 
-        </View >
+        </View ></ScrollView>
     )
 }
 

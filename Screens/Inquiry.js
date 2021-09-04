@@ -23,6 +23,26 @@ const ENTRIES1 = [
 
 const { width: screenWidth } = Dimensions.get("window");
 
+// const getDaysBetweenDates = (startDate, endDate) => {
+//     const dates = [];
+//     startDate = startDate.add(1, 'days');
+
+//     while (startDate.format('YYYY-MM-DD') !== endDate.format('YYYY-MM-DD')) {
+//         console.log(startDate.toDate());
+//         dates.push(startDate.toDate());
+//         startDate = startDate.add(1, 'days');
+//     }
+//     return dates;
+// };
+
+
+
+
+
+
+
+
+
 
 // function call
 const getDaysBetweenDates = (startDate, endDate) => {
@@ -46,9 +66,9 @@ const Inquiry = ({ navigation }) => {
         setEntries(ENTRIES1);
     }, []);
 
-    useEffect(() => {
-        console.log("=-===========", date);
-    }, [date])
+    // useEffect(() => {
+    //     console.log("=-===========", date);
+    // }, [date])
 
     const pagination = () => {
         return (
@@ -89,10 +109,13 @@ const Inquiry = ({ navigation }) => {
 
     //get aPi
     const callApi = async () => {
-        console.log("==3=3=3=3=");
+        // console.log("==3=3=3=3=");
         await axios.get('/booking').then((res) => {
             let data = res?.data?.bookdate;
             const dataList = data.map((item) => {
+             
+           
+
                 const startDate = moment(item.indate);
                 const endDate = moment(item.outdate);
 
@@ -114,7 +137,7 @@ const Inquiry = ({ navigation }) => {
             // console.log("Ressss-----", res?.data?.bookdate)
 
         }).catch((err) => {
-            debugger
+
             // console.log("errr-----------", err);
             alert(err?.response?.data?.error)
         });
@@ -123,26 +146,26 @@ const Inquiry = ({ navigation }) => {
 
     useEffect(() => {
         callApi()
-    }, [])
+    })
 
 
-  
-    let newDaysObject = {};
+
+    var newDaysObject = {};
 
     date.map((day) => {
-      newDaysObject = {
-        ...newDaysObject,
-        [day]:  { selected: true, marked: true, selectedColor: '#2acaea' },
-      };
+        newDaysObject = {
+            ...newDaysObject,
+            [day]: { selected: true, marked: true, selectedColor: '#2acaea' },
+        };
     });
     return (
 
 
         <View style={{ marginTop: hp(4), flex: 1 }}>
             <Carousel
-                // autoplay={true}
-                // autoplayInterval={1000}
-                // loop={true}
+                autoplay={true}
+                autoplayInterval={3000}
+                loop={true}
                 layout="default"
                 containerCustomStyle={{ height: 10, marginTop: hp(-25) }}
                 ref={carouselRef}
@@ -164,32 +187,21 @@ const Inquiry = ({ navigation }) => {
                 <Text style={style.text}>Book Your Dream Villa</Text>
                 <View style={style.button} >
                     <TouchableOpacity onPress={() => {
-                        debugger
+                        // debugger
 
-                        navigation.navigate("DateAvailable") 
+                        navigation.navigate("DateAvailable")
                     }}>
                         <Text style={style.textbutton}> Check The Availabity</Text>
                     </TouchableOpacity>
-                    </View>
+                </View>
 
-                    {
+                {
                     date.length > 0 && <Calendar
-                
-
-                     markedDates={newDaysObject}
+                        markedDates={newDaysObject}
                     />
                 }
-                
+
             </View>
-
-          
-               
-
-        
-
-
-
-
         </View>
 
 

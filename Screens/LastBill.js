@@ -1,28 +1,72 @@
 
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
 
 import Colors from '../assets/colors/color'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import { NavigationContainer } from '@react-navigation/native'
-const LastBill = (props) => {
-    const date = props?.route?.params?.date
-    const total= props?.route?.params?.member
-  
+import LinearGradient from 'react-native-linear-gradient'
 
-    console.log("prospsssss", props?.route?.params?.date)
+import axios from '../axios'
+import { useSelector,useDispatch } from 'react-redux';
+
+const LastBill = (props) => {
+    const{indate,outdate} = useSelector(state=> state.dateReducer)
+    console.log("===============",indate)
+    const date1 = props?.route?.params?.date1
+
+    const date2 = props?.route?.params?.date2
+    const total = props?.route?.params?.member
+
+
+
+
+    const submitDate = async () => {
+
+        const dateReg = {
+            indate: date1,
+            outdate: date2
+
+        }
+        debugger
+
+        console.log("registered", dateReg)
+        await axios.post('/finalBooking', dateReg).then((res) => {
+            debugger
+
+            console.log("Ressss-----", res)
+            if (res.status === 200) {
+
+                Alert.alert("success", res?.data?.msg)
+                props.navigation.popToTop()
+
+                debugger
+            }
+        }).catch((err) => {
+            debugger
+
+            console.log("errr-----------", err.response);
+            Alert.alert("Error", err?.response?.data?.error)
+
+
+        });
+
+    }
+
+
+
+    // console.log("prospsssss --", props?.route?.params?.date1)
     return (
         <View style={{ flex: 1, backgroundColor: Colors.mainColor }}>
 
 
-            <View style={{ justifyContent: 'center', alignItems: "center", marginTop: "35%" }}>
+            <View style={{ justifyContent: 'center', alignItems: "center", marginTop: "25%" }}>
 
                 <View style={styles.container}>
 
                     {/* first    ==============        */}
                     <View style={{ borderBottomWidth: 1, borderColor: "#A999AF", justifyContent: 'center', alignItems: 'center', height: 90 }}>
-                        <Text>User name</Text>
-                        <Text>date :20/20/20</Text>
+                        <Text>Keyur Vastani</Text>
+                        <Text style={{ fontSize: 20 }}> {indate}  TO {outdate}</Text>
                     </View>
 
 
@@ -30,9 +74,9 @@ const LastBill = (props) => {
                     <View style={{ marginHorizontal: 10 }}>
                         {/* first-------------------- */}
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-                            <View style={{marginTop:20}}>
-                                <Text style={{fontSize:20}}>The dirving Park</Text>
-                                <Text style={{fontSize:20}}>this is a beautiful park</Text>
+                            <View style={{ marginTop: 20 }}>
+                                <Text style={{ fontSize: 20 }}>The dirving Park</Text>
+                                <Text style={{ fontSize: 20 }}>this is a beautiful park</Text>
                             </View>
                             <View>
                                 <Image source={require('../images/2.png')} style={{ height: 80, width: 80, resizeMode: 'cover' }} />
@@ -58,7 +102,7 @@ const LastBill = (props) => {
 
                             <View style={[styles.insideCont]}>
                                 <Text style={styles.text}>PRICE</Text>
-                                <Text style={styles.smalltext}>$ {total*1000}</Text>
+                                <Text style={styles.smalltext}>$ {total * 1000}</Text>
                             </View>
                         </View>
 
@@ -70,17 +114,48 @@ const LastBill = (props) => {
                                     size={40} />
                             </View>
                             <View >
-                                <Text style={{fontSize:15}}> The DivinePark,E-582,Greate Kailash-2, Goa</Text>
+                                <Text style={{ fontSize: 15 }}> The DivinePark,E-582,Greate Kailash-2, Goa</Text>
                             </View>
                         </View>
 
-                        <View style={{marginTop:50,alignItems:'center',justifyContent:'center'}}>
-                            <TouchableOpacity onPress={()=>props.navigation.popToTop()}  >
-                                <Text style={[styles.text,{fontFamily:'roboto-medium'}]}>Cancle Booking</Text>
+                        <View style={{ marginTop: 50, alignItems: 'center', justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => props.navigation.popToTop()}  >
+                                <Text style={[styles.text, { fontFamily: 'roboto-medium' }]}>Cancle Booking</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
 
+                   
+
+                    <View style={{ paddingHorizontal: 35, marginTop: 60}}>
+                    <TouchableOpacity
+                                style={styles.button}
+                                color="red"
+                                onPress={() => {
+                                    onSubmit()
+                                }}>
+                                <LinearGradient
+                                    colors={['#77A1D3', '#79CBCA']}
+                                    style={styles.button}>
+                                    <Text style={styles.buttonText}>{'Book As a Guest'}</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                    </View>
+
+                    <View style={{paddingHorizontal: 35, marginBottom: 20 }}>
+                    <TouchableOpacity
+                                style={styles.button}
+                                color="red"
+                                onPress={() => {
+                                    onSubmit()
+                                }}>
+                                <LinearGradient
+                                    colors={['#ffdd00', '#fbb034']}
+                                    style={styles.button}>
+                                    <Text style={styles.buttonText}>{'Book As a User'}</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                    </View>
                 </View>
 
             </View>
@@ -115,10 +190,35 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'gray'
     },
-    location:{ flexDirection: 'row',
-     justifyContent: 'space-between', 
-     marginTop: 40 ,
-     alignItems:'center'
-    }
+    location: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 40,
+        alignItems: 'center'
+    }, 
+    bottomButton:{
+        marginBottom: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#e3172b',
+        height: 50,
+        marginHorizontal: 20,
+        borderRadius: 10
+    },
+    button: {
+        marginTop: 30,
+        height: 50,
+        width: 300,
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+  
+    },
+    buttonText: {
+        color: '#009387',
+        fontSize: 20,
+        alignSelf: 'center',
+        fontFamily: 'roboto-Medium',
+    },
 
 })

@@ -5,11 +5,11 @@ import { LOGIN } from "./type";
 
 export const login = (email, password) => {    //2 step
     return (dispatch) => {
-        debugger
+        // debugger
         axios
             .post("/login", { email, password })
             .then((response) => {
-                debugger
+                // debugger
                 dispatch({
                     type: LOGIN,
                     payload: response.data,
@@ -19,7 +19,7 @@ export const login = (email, password) => {    //2 step
 
             })
             .catch((err) => {
-                console.log("error", err?.response)
+                // console.log("error", err?.response)
                 Alert.alert("Error", err?.response?.data?.error)
             });
     };

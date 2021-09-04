@@ -7,6 +7,7 @@ import SplashScreen from '../Screens/SplashScreen';
 import SignUpScreen from '../Screens/SignUpScreen';
 import LoginScreen from '../Screens/SignInScreen';
 import Drawers from './Drawer'
+import BookGuest from '../Screens/BookGuest';
 import { NavigationContainer } from '@react-navigation/native';
 
 const RootStackScreen = ({ navigation }) => {
@@ -18,6 +19,8 @@ const RootStackScreen = ({ navigation }) => {
                 <Stack.Screen name="SplashScreen" component={SplashScreen} />
                 <Stack.Screen name="SignInScreen" component={LoginScreen} />
                 <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+                <Stack.Screen name="BookGuest" component={BookGuest} />
+
                 <Stack.Screen name="Drawers" component={Drawers} />
 
             </Stack.Navigator>

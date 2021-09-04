@@ -19,7 +19,7 @@ const SignInScreen = ({ navigation }) => {
 
 
   useEffect(() => {
-    console.log("logindata", logindata.user);
+    // console.log("logindata", logindata.user);
 
     let msg = logindata.user.msg
     if (msg) {
@@ -41,6 +41,7 @@ const SignInScreen = ({ navigation }) => {
     } else {
       setLoader(true)
       dispatch(login(email, password))
+      
     }
   }
   return (

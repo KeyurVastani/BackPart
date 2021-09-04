@@ -6,8 +6,8 @@ import Color from '../assets/colors/color';
 import RoundButton from '../components/RoundButton';
 
 const Member = (props) => {
-    console.log("props------------", props)
-    console.log("Date------------", props.route.params.date)
+    // console.log("props------------", props)
+    // console.log("Date------------", props.route.params.date)
     const [adults, setadults] = useState(0);
     const [children, setchildren] = useState(0);
     const [infants, setinfants] = useState(0);
@@ -136,24 +136,23 @@ const Member = (props) => {
 
                     </View>
                 </View>
-
-                <TouchableOpacity
+                <View>
+                    {total !== 0?  <TouchableOpacity
                     onPress={() => props.navigation.navigate("LastBill", {
-                        date: props.route.params.date,
-                        member:total
+                        date1: props.route.params.date1,
+                        date2: props.route.params.date2,
+                        member: total
                     })}
-                    style={{
-                        marginBottom: 30,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: '#f15454',
-                        height: 50,
-                        marginHorizontal: 20,
-                        borderRadius: 10
-                    }}>
+                    style={styles.bottomButton}>
                     <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Book The Villa</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> :
+                <View style={[styles.bottomButton,{backgroundColor:'#D07474'}]} >
+                <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Book The Villa</Text>
+                </View> 
+                }
 
+               
+                </View>
             </View>
         </SafeAreaView>
 
@@ -191,6 +190,15 @@ const styles = StyleSheet.create({
         borderColor: 'lightgrey',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    bottomButton:{
+        marginBottom: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#e3172b',
+        height: 50,
+        marginHorizontal: 20,
+        borderRadius: 10
     }
 
 })
