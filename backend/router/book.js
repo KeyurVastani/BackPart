@@ -5,7 +5,7 @@ const Book = require('../models/booking');
 
 
 router.post('/booking', async (req, res) => {
-    console.log("Req", req.body)
+    console.log("Req 1", req.body)
 
     if (!req.body.indate || !req.body.outdate)
     return res.status(400).send({ error: 'In and Out date Filed is Required' });

@@ -25,6 +25,7 @@ import BookGuest from './Screens/BookGuest'
 
 
 const App = () => {
+  
   const store = createStore(
     appReducer,                    // your reducers
     compose(applyMiddleware(thunk))

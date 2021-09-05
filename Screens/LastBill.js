@@ -10,8 +10,8 @@ import axios from '../axios'
 import { useSelector,useDispatch } from 'react-redux';
 
 const LastBill = (props) => {
-    const{indate,outdate} = useSelector(state=> state.dateReducer)
-    console.log("===============",indate)
+    const data= useSelector((state)=> state.dateReducer)
+    // console.log("===============",indate)
     const date1 = props?.route?.params?.date1
 
     const date2 = props?.route?.params?.date2
@@ -59,14 +59,14 @@ const LastBill = (props) => {
         <View style={{ flex: 1, backgroundColor: Colors.mainColor }}>
 
 
-            <View style={{ justifyContent: 'center', alignItems: "center", marginTop: "25%" }}>
+            <View style={{ justifyContent: 'center', alignItems: "center", marginTop: "20%" }}>
 
                 <View style={styles.container}>
 
                     {/* first    ==============        */}
                     <View style={{ borderBottomWidth: 1, borderColor: "#A999AF", justifyContent: 'center', alignItems: 'center', height: 90 }}>
                         <Text>Keyur Vastani</Text>
-                        <Text style={{ fontSize: 20 }}> {indate}  TO {outdate}</Text>
+                        <Text style={{ fontSize: 20 }}> {data.indate}  TO {data.outdate}</Text>
                     </View>
 
 
@@ -127,13 +127,11 @@ const LastBill = (props) => {
 
                    
 
-                    <View style={{ paddingHorizontal: 35, marginTop: 60}}>
+                    <View style={{ paddingHorizontal: 35, marginTop: 40}}>
                     <TouchableOpacity
                                 style={styles.button}
                                 color="red"
-                                onPress={() => {
-                                    onSubmit()
-                                }}>
+                                onPress={() =>   props.navigation.navigate("BookGuest")}>
                                 <LinearGradient
                                     colors={['#77A1D3', '#79CBCA']}
                                     style={styles.button}>
@@ -147,7 +145,7 @@ const LastBill = (props) => {
                                 style={styles.button}
                                 color="red"
                                 onPress={() => {
-                                    onSubmit()
+                                    submitDate()
                                 }}>
                                 <LinearGradient
                                     colors={['#ffdd00', '#fbb034']}

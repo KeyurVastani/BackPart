@@ -6,8 +6,8 @@ import dayjs from 'dayjs';
 import axios from '../axios'
 import moment from 'moment';
 
-import { useSelector,useDispatch } from 'react-redux';
-import { setInDate,setOutDate } from '../store/action/DateAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { setInDate, setOutDate } from '../store/action/DateAction';
 
 
 
@@ -16,8 +16,8 @@ import { setInDate,setOutDate } from '../store/action/DateAction';
 // Fontisto.loadFont()
 const DateAvailable = ({ navigation }) => {
 
-    // const{indate,outdate} = useSelector(state=> state.dateReducer)
-    const dispatch=useDispatch()
+    // const data = useSelector(state=> state.dateReducer)
+    const dispatch = useDispatch()
     const [CheckInDate, setCheckInDate] = useState('')
     const [CheckOutDate, setCheckOutDate] = useState('')
     const [isCalenderShow, setcalenderShow] = useState(false)
@@ -33,16 +33,18 @@ const DateAvailable = ({ navigation }) => {
 
 
     const DateOutConform = (dayObj) => {
-       
+
         setCheckOutDate(dayjs((`${dayObj.year}-${dayObj.month}-${dayObj.day}`).toString()).format('YYYY-MM-DD'))
-        dispatch(setOutDate(CheckOutDate))
         setcalenderOutShow(false)
+        // dispatch(setOutDate(CheckOutDate))
 
     }
     const DateInConform = (dayObj) => {
         setCheckInDate(dayjs((`${dayObj.year}-${dayObj.month}-${dayObj.day}`).toString()).format('YYYY-MM-DD'))
-        dispatch(setInDate(CheckInDate))
+        // console.warn("=============",CheckInDate)
+
         setcalenderShow(false)
+        // dispatch(setInDate(CheckInDate))
 
     }
 
@@ -54,7 +56,15 @@ const DateAvailable = ({ navigation }) => {
             outdate: CheckOutDate
 
         }
+        // console.warn("=============1",CheckInDate)
+        // console.warn("============2",CheckOutDate)
+
+
+        dispatch(setInDate(CheckInDate))
+        dispatch(setOutDate(CheckOutDate))
+
         debugger
+
 
         console.log("registered", dateReg)
         await axios.post('/booking', dateReg).then((res) => {
