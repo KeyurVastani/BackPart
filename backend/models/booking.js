@@ -18,15 +18,18 @@ const bookingSchema = new mongoose.Schema({
         type: Number,
 
     },
-
-    child:{
-        type: String,   
-    },
-    adult:{
-        type: String, 
-    },
     createdby:{
         type:String
+    },
+    username:{
+        type: String,
+      
+    },
+    useremail:{
+        type: String,
+    },
+    totalmember:{
+        type:Number
     }
 });
 

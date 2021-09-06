@@ -1,12 +1,62 @@
-import React from 'react'
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import Colors from '../assets/colors/color'
 import { Image } from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import TextBox from '../components/TextBox';
+import { useSelector } from 'react-redux';
+import axios from '../axios'
 
-const BookGuest = () => {
+
+const BookGuest = (props) => {
+    const data = useSelector((state) => state.dateReducer)
+    const [isLoader, setLoader] = useState(false)
+
+
+    const [name, setname] = useState('')
+    const [email, setemail] = useState('')
+    const totalmem = props?.route?.params?.member
+
+
+
+    const submitDate = async () => {
+        setLoader(true)
+
+
+        const BookData = {
+            indate: data.indate,
+            outdate: data.outdate,
+            username: name,
+            useremail: email,
+            totalmember: totalmem,
+            createdby: 'Guest'
+
+        }
+        debugger
+
+        console.log("registered", BookData)
+        await axios.post('/finalBooking', BookData).then((res) => {
+            debugger
+
+            console.log("Ressss-----", res)
+            if (res.status === 200) {
+
+                Alert.alert("success", res?.data?.msg)
+                props.navigation.popToTop()
+
+                debugger
+            }
+        }).catch((err) => {
+            debugger
+
+            console.log("errr-----------", err.response);
+            Alert.alert("Error", err?.response?.data?.error)
+
+
+        });
+
+    }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.mainColor }}>
 
@@ -20,8 +70,8 @@ const BookGuest = () => {
                 </View>
 
                 <View style={styles.footer}>
-                    <TextBox title={'Name'} onChangeText={text => setemail(text)} />
-                    <TextBox title={'Email'} onChangeText={text => setpassword(text)} isPassword />
+                    <TextBox title={'name'} onChangeText={text => setname(text)} />
+                    <TextBox title={'email'} onChangeText={text => setemail(text)} />
                     <View
                         style={{
                             flexDirection: 'row',
@@ -29,18 +79,23 @@ const BookGuest = () => {
                             marginTop: 20,
                         }}>
                         <View>
-                            <TouchableOpacity
-                                style={styles.button}
-                                color="red"
-                                onPress={() => {
-                                    onSubmit()
-                                }}>
-                                <LinearGradient
-                                    colors={['#ffdd00', '#fbb034']}
-                                    style={styles.button}>
-                                    <Text style={styles.buttonText}>{'Book'}</Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
+                            
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        color="red"
+                                        onPress={() => {
+                                            submitDate()
+                                        }}>
+                                            {
+                                isLoader ? <ActivityIndicator color={'red'} size={40} /> :
+                                        <LinearGradient
+                                            colors={['#ffdd00', '#fbb034']}
+                                            style={styles.button}>
+                                            <Text style={styles.buttonText}>{'Book'}</Text>
+                                        </LinearGradient>
+                            }
+
+                                    </TouchableOpacity>
                         </View>
 
                     </View>

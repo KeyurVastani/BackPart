@@ -11,6 +11,7 @@ import { useSelector,useDispatch } from 'react-redux';
 
 const LastBill = (props) => {
     const data= useSelector((state)=> state.dateReducer)
+    const user= useSelector((state)=> state.loginReducer)
     // console.log("===============",indate)
     const date1 = props?.route?.params?.date1
 
@@ -21,6 +22,7 @@ const LastBill = (props) => {
 
 
     const submitDate = async () => {
+        console.warn(user.user.data.name)
 
         const dateReg = {
             indate: date1,
@@ -65,7 +67,7 @@ const LastBill = (props) => {
 
                     {/* first    ==============        */}
                     <View style={{ borderBottomWidth: 1, borderColor: "#A999AF", justifyContent: 'center', alignItems: 'center', height: 90 }}>
-                        <Text>Keyur Vastani</Text>
+                        <Text>{user.user.data.name}</Text>
                         <Text style={{ fontSize: 20 }}> {data.indate}  TO {data.outdate}</Text>
                     </View>
 
@@ -131,7 +133,9 @@ const LastBill = (props) => {
                     <TouchableOpacity
                                 style={styles.button}
                                 color="red"
-                                onPress={() =>   props.navigation.navigate("BookGuest")}>
+                                onPress={() =>   props.navigation.navigate("BookGuest",{
+                                    member:total
+                                })}>
                                 <LinearGradient
                                     colors={['#77A1D3', '#79CBCA']}
                                     style={styles.button}>

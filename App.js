@@ -10,7 +10,11 @@ import HomeScreen from './Screens/HomeScreen'
 import thunk from 'redux-thunk'
 import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore } from "redux";
-import { appReducer } from './store/reducer/mainReducer'
+import  AppReducer from './store/reducer/mainReducer'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import { PersistGate } from 'redux-persist/integration/react'
+
 import NewScreen from './Screens/DateAvailable'
 import InquiryStack from './navigations/InquiryStack'
 import Drawers from './navigations/Drawer'
@@ -22,15 +26,24 @@ import Inquiry from './Screens/Inquiry'
 import HomeStack from './navigations/HomeStack'
 import CasaSunshineView from './Screens/CasaSunshineView'
 import BookGuest from './Screens/BookGuest'
+import GuestDetail from './Screens/GuestDetail'
+
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+const persistedReducer = persistReducer(persistConfig, AppReducer);
+let store = createStore(persistedReducer, applyMiddleware(thunk));
+let persistor = persistStore(store);
 
 
 const App = () => {
-  
-  const store = createStore(
-    appReducer,                    // your reducers
-    compose(applyMiddleware(thunk))
-  );
+
+
   return (
+
+    // <GuestDetail/>
     // <LastBill/>
     // <NavigationContainer>
     //   <Drawer.Navigator initialRouteName="Home">
@@ -41,7 +54,8 @@ const App = () => {
     // <NewScreen />
     // <SignInScreen/>
     // <SignUpScreen/>
-    // <Drawers/>
+    // <NavigationContainer> <Drawers/></NavigationContainer>
+
     // <Inquiry/>
     // <Header/>
     // <HomeScreen/>
@@ -64,9 +78,11 @@ const App = () => {
 
 
     <Provider store={store}>
-      <NavigationContainer>
-        <RootStackScreen />
-      </NavigationContainer>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <RootStackScreen />
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   )
 }

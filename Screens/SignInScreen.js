@@ -7,27 +7,36 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import TextBox from '../components/TextBox';
 import Colors from '../assets/colors/color'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const SignInScreen = ({ navigation }) => {
   const dispatch = useDispatch()
   const logindata = useSelector((state) => state.loginReducer)
+  
 
   const [email, setemail] = useState("")
-  const [password, setpassword] = useState(" ");
+  const [password, setpassword] = useState("");
   const [isLoader, setLoader] = useState(false)
 
 
   useEffect(() => {
-    // console.log("logindata", logindata.user);
-
-    let msg = logindata.user.msg
-    if (msg) {
+    console.log("logindata", logindata);
+    if (logindata.user?.error) {
       setLoader(false)
-      Alert.alert("Success", logindata.user.msg)
-      navigation.navigate('Drawers')
-    }
+    } else {
+      let msg = logindata.user.msg
+      if (msg) {
+        debugger
+        setLoader(false)
+        Alert.alert("Success", logindata.user.msg)
+        navigation.navigate('Drawers')
 
+        // this is a asyncStorage 
+        AsyncStorage.setItem('tokenvalue', logindata.user.token)
+      }
+    }
   }, [logindata.user]);
 
 
@@ -40,8 +49,8 @@ const SignInScreen = ({ navigation }) => {
       Alert.alert("Error", 'Please enter all fields');
     } else {
       setLoader(true)
-      dispatch(login(email, password))
-      
+      dispatch(login(email, password));
+
     }
   }
   return (

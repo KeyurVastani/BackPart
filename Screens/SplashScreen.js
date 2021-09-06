@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, Button, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import * as Animatable from "react-native-animatable";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const SplashScreen = ({ navigation }) => {
+    useEffect(() => {
+
+        AsyncStorage.getItem('tokenvalue').then((res) => {
+            if (res) {
+                console.log("res", res);
+                navigation.navigate('Drawers')
+            }
+        }).catch((err) => {
+            console.log("err", err);
+        });
+
+    }, [])
 
     return (
 
@@ -24,8 +36,8 @@ const SplashScreen = ({ navigation }) => {
                 animation="fadeInUpBig"
 
                 style={styles.footer}>
-                <Text style={[styles.title,{fontSize:40}]}>Welcome</Text> 
-                <Text style={styles.title}>To Casa SunShine</Text>
+                <Text style={[styles.title, { fontSize: 40 }]}>Welcome</Text>
+                <Text style={styles.title}>To Casa Sunshine</Text>
                 <Text style={styles.text}>signIn with your account</Text>
                 <View style={styles.button}>
                     <TouchableOpacity onPress={() => { navigation.navigate("SignInScreen") }}>

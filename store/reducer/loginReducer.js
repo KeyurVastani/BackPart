@@ -1,4 +1,4 @@
-import { LOGIN } from "../action/type";
+import { LOGIN, RESET_STORE } from "../action/type";
 
 const initialState = {
     user: {},
@@ -7,7 +7,6 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case LOGIN:
-            debugger
             return {
                 ...state,
                 user: action.payload,

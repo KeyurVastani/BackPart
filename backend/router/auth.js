@@ -29,9 +29,6 @@ router.post('/register', async (req, res) => {
     if (validate.numberlengthCheck(req.body.phone, 10) || isNaN(req.body.phone)) return res.status(400).send({ error: 'Enter valid Mobile Number' });
 
 
-
-
-
     // Unique mobile number 
     // const phoneCheck = await User.findOne({ phone: req.body.phone })
     // if (phoneCheck) return res.status(400).send({ error: 'phone Alredy Exits!!!' })

@@ -1,3 +1,5 @@
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // packages
 import { Dimensions, PixelRatio, Platform } from 'react-native';
 
@@ -66,7 +68,7 @@ const listenOrientationChange = that => {
  * avoid adding new listeners every time the same component is re-mounted.
  */
 const removeOrientationListener = () => {
-  Dimensions.removeEventListener('change', () => {});
+  Dimensions.removeEventListener('change', () => { });
 };
 
 export {
@@ -75,3 +77,21 @@ export {
   listenOrientationChange,
   removeOrientationListener
 };
+
+
+export async function clearStorage() {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getAllKeys()
+      .then((keys) => {
+        AsyncStorage.multiRemove(keys);
+      })
+      .then(() => {
+        debugger
+        resolve("Success");
+      })
+      .catch(() => {
+        debugger
+        reject("Error");
+      });
+  });
+}

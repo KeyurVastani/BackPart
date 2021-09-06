@@ -9,6 +9,7 @@ import Inquiry from '../Screens/Inquiry';
 import DateAvailable from '../Screens/DateAvailable';
 import Member from '../Screens/Member';
 import LastBill from '../Screens/LastBill';
+import BookGuest from '../Screens/BookGuest';
 
 
 
@@ -54,7 +55,12 @@ const InquiryStack = ({ navigation }) => {
 
             <Stack.Screen name="LastBill" component={LastBill}
                 options={{
-                    title: ' Total Bill',
+                    title: 'Total Bill',
+                    headerTitleAlign: 'center',
+                }} />
+            <Stack.Screen name="BookGuest" component={BookGuest}
+                options={{
+                    title: 'Guest Registration',
                     headerTitleAlign: 'center',
                 }} />
 

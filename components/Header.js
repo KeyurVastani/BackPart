@@ -10,10 +10,9 @@ import {
 const Header = ({ navigation ,title}) => {
     return (
         <View style={styles.mainContainer}>
-            <View style={{flex:1,marginLeft:5}}>
+            <View style={{flex:.5,marginLeft:5}}>
             <TouchableOpacity
                 onPress={() => {
-                    alert("Hi")
                     navigation.toggleDrawer()
                 }}
             >
@@ -24,8 +23,9 @@ const Header = ({ navigation ,title}) => {
                             backgroundColor='#009387'
                         />
 
-            </TouchableOpacity></View>
-            <View style={{flex:2}}>
+            </TouchableOpacity>
+            </View>
+            <View style={{flex:2,backgroundColor:'#009387'}}>
             <Text style={{fontSize:25,marginTop:6,color:"white",fontFamily:'roboto-bold'}}>{title}</Text>
             </View>
 
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         marginTop: hp(6),
         // marginLeft: wp(2),
         borderBottomWidth: 0.5, 
-        borderColor:"white"  
+        borderColor:"white" ,backgroundColor:'#009387' 
 
     },
     image: {
