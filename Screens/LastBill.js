@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
 
 import Colors from '../assets/colors/color'
@@ -7,11 +7,13 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import LinearGradient from 'react-native-linear-gradient'
 
 import axios from '../axios'
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const LastBill = (props) => {
-    const data= useSelector((state)=> state.dateReducer)
-    const user= useSelector((state)=> state.loginReducer)
+    const [GuestButton, setGuestButton] = useState(true)
+    const data = useSelector((state) => state.dateReducer)
+    const user = useSelector((state) => state.loginReducer)
     // console.log("===============",indate)
     const date1 = props?.route?.params?.date1
 
@@ -19,19 +21,36 @@ const LastBill = (props) => {
     const total = props?.route?.params?.member
 
 
+    useEffect(() => {
+
+        AsyncStorage.getItem('tokenvalue').then((res) => {
+            if (res) {
+                // console.warn("res", res);
+                setGuestButton(false)
+
+            }
+        }).catch((err) => {
+            console.log("err", err);
+        });
+
+    }, [])
+
 
 
     const submitDate = async () => {
-        console.warn(user.user.data.name)
+        // console.warn(user.user.data.name)
 
         const dateReg = {
             indate: date1,
-            outdate: date2
+            outdate: date2,
+            username: user?.user?.data?.name,
+            useremail: user?.user?.data?.email,
+            totalmember: total
 
         }
-        debugger
 
-        console.log("registered", dateReg)
+
+        // console.warn("final======", dateReg)
         await axios.post('/finalBooking', dateReg).then((res) => {
             debugger
 
@@ -67,7 +86,7 @@ const LastBill = (props) => {
 
                     {/* first    ==============        */}
                     <View style={{ borderBottomWidth: 1, borderColor: "#A999AF", justifyContent: 'center', alignItems: 'center', height: 90 }}>
-                        <Text>{user.user.data.name}</Text>
+                        {GuestButton ? <Text style={{ fontSize: 20 }}>Guest</Text> : <Text style={{ fontSize: 20 }}>{user?.user?.data?.name}</Text>}
                         <Text style={{ fontSize: 20 }}> {data.indate}  TO {data.outdate}</Text>
                     </View>
 
@@ -127,14 +146,18 @@ const LastBill = (props) => {
                         </View>
                     </View>
 
-                   
 
-                    <View style={{ paddingHorizontal: 35, marginTop: 40}}>
-                    <TouchableOpacity
+
+
+
+
+                    {GuestButton ?
+                        <View style={{ paddingHorizontal: 35, marginTop: 40 }}>
+                            <TouchableOpacity
                                 style={styles.button}
                                 color="red"
-                                onPress={() =>   props.navigation.navigate("BookGuest",{
-                                    member:total
+                                onPress={() => props.navigation.navigate("BookGuest", {
+                                    member: total
                                 })}>
                                 <LinearGradient
                                     colors={['#77A1D3', '#79CBCA']}
@@ -142,14 +165,29 @@ const LastBill = (props) => {
                                     <Text style={styles.buttonText}>{'Book As a Guest'}</Text>
                                 </LinearGradient>
                             </TouchableOpacity>
-                    </View>
+                        </View> :
+                        <View style={{ paddingHorizontal: 35, marginTop: 40 }}>
+                            <LinearGradient
+                                colors={['#77A1D3', '#79CBCA']}
+                                style={styles.button}>
+                                <Text style={styles.buttonText}>{'Book As a Guest'}</Text>
+                            </LinearGradient>
+                        </View>
+                    }
 
-                    <View style={{paddingHorizontal: 35, marginBottom: 20 }}>
-                    <TouchableOpacity
+
+
+
+
+                    {GuestButton ?
+
+                        <View style={{ paddingHorizontal: 35, marginTop: 20 }}>
+                            <TouchableOpacity
                                 style={styles.button}
                                 color="red"
                                 onPress={() => {
-                                    submitDate()
+                                    props.navigation.navigate("SignInScreen")
+
                                 }}>
                                 <LinearGradient
                                     colors={['#ffdd00', '#fbb034']}
@@ -157,7 +195,26 @@ const LastBill = (props) => {
                                     <Text style={styles.buttonText}>{'Book As a User'}</Text>
                                 </LinearGradient>
                             </TouchableOpacity>
-                    </View>
+                        </View>
+                        :
+                        <View style={{ paddingHorizontal: 35, marginTop: 20 }}>
+
+                            <TouchableOpacity
+                                style={styles.button}
+                                color="red"
+                                onPress={() => {
+                                    submitDate()
+
+                                }}>
+                                <LinearGradient
+                                    colors={['#ffdd00', '#fbb034']}
+                                    style={styles.button}>
+                                    <Text style={styles.buttonText}>{'Book As a User'}</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                        </View>
+                    }
+
                 </View>
 
             </View>
@@ -197,8 +254,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 40,
         alignItems: 'center'
-    }, 
-    bottomButton:{
+    },
+    bottomButton: {
         marginBottom: 30,
         justifyContent: 'center',
         alignItems: 'center',
@@ -214,7 +271,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         alignItems: 'center',
         justifyContent: 'center',
-  
+
     },
     buttonText: {
         color: '#009387',

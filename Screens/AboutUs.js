@@ -7,18 +7,18 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper
 const ContactUs = () => {
     return (
         <View style={{ flex: 1 }}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View >
                     <View>
                         <ImageBackground
                             style={styles.fotho}
                             source={require('../images/aboutUs.png')}>
-                              
+
                             <Text style={styles.ImageText}>About Us</Text>
 
                         </ImageBackground>
                     </View>
-                    
+
 
 
 
@@ -49,14 +49,14 @@ const styles = StyleSheet.create({
         borderRadius: 30
 
     },
-    ImageText:{
+    ImageText: {
         fontWeight: 'bold',
         color: 'white',
         position: 'absolute', // child
-        bottom:"40%", // position where you want
-        left:"28%",
-        
-        fontSize:45
+        bottom: "40%", // position where you want
+        left: "28%",
+
+        fontSize: 45
     }
 
 });

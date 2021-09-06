@@ -20,13 +20,7 @@ import InquiryStack from './navigations/InquiryStack'
 import Drawers from './navigations/Drawer'
 import Member from './Screens/Member'
 import LastBill from './Screens/LastBill'
-import WeatherScreen from './Screens/WeatherScreen'
-import Header from './components/Header'
-import Inquiry from './Screens/Inquiry'
-import HomeStack from './navigations/HomeStack'
-import CasaSunshineView from './Screens/CasaSunshineView'
-import BookGuest from './Screens/BookGuest'
-import GuestDetail from './Screens/GuestDetail'
+import GalleryStack from './navigations/GalleryStack'
 
 
 const persistConfig = {
@@ -45,12 +39,7 @@ const App = () => {
 
     // <GuestDetail/>
     // <LastBill/>
-    // <NavigationContainer>
-    //   <Drawer.Navigator initialRouteName="Home">
-    //     <Drawer.Screen name="Home" component={HomeScreen} />
-    //     {/* <Drawer.Screen name="About_us" component={About_us} /> */}
-    //   </Drawer.Navigator>
-    // </NavigationContainer>
+   
     // <NewScreen />
     // <SignInScreen/>
     // <SignUpScreen/>
@@ -72,7 +61,7 @@ const App = () => {
     //   <InquiryStack/>
     // </NavigationContainer>
     //   <NavigationContainer>
-    //  <HomeStack/>
+    //  <GalleryStack/>
     // </NavigationContainer>
 
 

@@ -60,7 +60,7 @@ const Drawers = () => {
                 }}
             />
 
-            {/* 
+            
                 <Drawer.Screen name="GalleryStack" component={GalleryStack}
                     options={{
                         title: 'Gallery',
@@ -72,8 +72,9 @@ const Drawers = () => {
                             />
                         ),
                     }}
-                /> */}
-            <Drawer.Screen name="AboutUsStack " component={AboutUsStack}
+                />
+
+            {/* <Drawer.Screen name="AboutUsStack " component={AboutUsStack}
                 options={{
                     title: 'About Us',
                     drawerIcon: ({ focused, size }) => (
@@ -84,7 +85,7 @@ const Drawers = () => {
                         />
                     ),
                 }}
-            />
+            /> */}
 
             <Drawer.Screen name="ContactUsStack" component={ContactUsStack}
                 options={{

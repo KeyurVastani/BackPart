@@ -21,29 +21,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React from 'react'
 import { View, Text, StyleSheet, Image ,TouchableOpacity} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
