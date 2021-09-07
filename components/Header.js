@@ -25,8 +25,8 @@ const Header = ({ navigation ,title}) => {
 
             </TouchableOpacity>
             </View>
-            <View style={{flex:2,backgroundColor:'#009387'}}>
-            <Text style={{fontSize:25,marginTop:6,color:"white",fontFamily:'roboto-bold'}}>{title}</Text>
+            <View style={{flex:2,backgroundColor:'#009387',justifyContent:'center',}}>
+            <Text style={{fontSize:25,marginTop:6,color:"white",fontFamily:'roboto-bold',marginLeft:30}}>{title}</Text>
             </View>
 
         </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         marginTop: hp(6),
         // marginLeft: wp(2),
         borderBottomWidth: 0.5, 
-        borderColor:"white" ,backgroundColor:'#009387' 
+        borderColor:"white" ,backgroundColor:'#009387'
 
     },
     image: {

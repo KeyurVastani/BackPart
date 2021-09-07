@@ -15,22 +15,21 @@ export function DrawerContent(props) {
     const dispatch = useDispatch()
     const logindata = useSelector((state) => state.loginReducer)
     const username = logindata?.user?.data?.name
-    console.log("=====", logindata)
-
-    const removeItemValue = async (key) => {
-        debugger
-        try {
-            debugger
-            await AsyncStorage.removeItem(key);
-            debugger
-            return true;
-        }
-        catch (err) {
-            console.log("err", err)
-            debugger
-            return false;
-        }
-    }
+ 
+    // const removeItemValue = async (key) => {
+    //     debugger
+    //     try {
+    //         debugger
+    //         await AsyncStorage.removeItem(key);
+    //         debugger
+    //         return true;
+    //     }
+    //     catch (err) {
+    //         console.log("err", err)
+    //         debugger
+    //         return false;
+    //     }
+    // }
 
     const navigation = useNavigation()
 
@@ -47,7 +46,7 @@ export function DrawerContent(props) {
                     </TouchableOpacity>
 
                     <View style={{ marginRight: 40 }}>
-                        <Text style={{ fontSize: 20,marginRight:10 }}>{username}</Text>
+                        <Text style={{ fontSize: 20,marginRight:10 }}>{username?username:'UserLogin'}</Text>
                     </View>
                 </View>
 

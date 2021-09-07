@@ -21,6 +21,8 @@ import Drawers from './navigations/Drawer'
 import Member from './Screens/Member'
 import LastBill from './Screens/LastBill'
 import GalleryStack from './navigations/GalleryStack'
+import GuestDetail from './Screens/GuestDetail'
+import DateAvailable from './Screens/DateAvailable'
 
 
 const persistConfig = {
@@ -63,6 +65,7 @@ const App = () => {
     //   <NavigationContainer>
     //  <GalleryStack/>
     // </NavigationContainer>
+    
 
 
 

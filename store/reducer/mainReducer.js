@@ -11,7 +11,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
     debugger
     if (action.type === RESET_STORE) {
-        debugger
+       
         clearStorage()
         state = undefined;
     }

@@ -45,14 +45,14 @@ const LastBill = (props) => {
             outdate: date2,
             username: user?.user?.data?.name,
             useremail: user?.user?.data?.email,
-            totalmember: total
+            totalmember: total,
+            createdBy:user?.user?.data?._id       
 
         }
 
 
         // console.warn("final======", dateReg)
         await axios.post('/finalBooking', dateReg).then((res) => {
-            debugger
 
             console.log("Ressss-----", res)
             if (res.status === 200) {
@@ -60,10 +60,9 @@ const LastBill = (props) => {
                 Alert.alert("success", res?.data?.msg)
                 props.navigation.popToTop()
 
-                debugger
             }
         }).catch((err) => {
-            debugger
+  
 
             console.log("errr-----------", err.response);
             Alert.alert("Error", err?.response?.data?.error)

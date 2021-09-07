@@ -68,7 +68,7 @@ router.post('/login', async (req, res) => {
 
 
     //Check User Details
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email:req.body.email });
     if (!user) return res.status(401).send({ error: 'Email is not match!!!' });
 
     const validPass = await bcrypt.compare(req.body.password, user.password);
@@ -82,6 +82,6 @@ router.post('/login', async (req, res) => {
     res.header('auth-token', token).send({ msg: 'User Login Successfully!!', data: user, token });
 
 });
-// header('auth-token', token)
+
 
 module.exports = router;

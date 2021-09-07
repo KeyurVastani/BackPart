@@ -30,6 +30,10 @@ const bookingSchema = new mongoose.Schema({
     },
     totalmember:{
         type:Number
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
     }
 });
 

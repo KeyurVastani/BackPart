@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, SafeAreaView, Touchable, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import LinearGradient from 'react-native-linear-gradient'
+
 
 import dayjs from 'dayjs';
 import axios from '../axios'
@@ -63,22 +65,22 @@ const DateAvailable = ({ navigation }) => {
         dispatch(setInDate(CheckInDate))
         dispatch(setOutDate(CheckOutDate))
 
-        debugger
+
 
 
         console.log("registered", dateReg)
         await axios.post('/booking', dateReg).then((res) => {
-            debugger
+
 
             console.log("Ressss-----", res)
             if (res.status === 200) {
                 setLoader(false);
                 Alert.alert("success", res?.data?.msg)
                 setdisable(true)
-                debugger
+
             }
         }).catch((err) => {
-            debugger
+
             setLoader(false);
             console.log("errr-----------", err.response);
             Alert.alert("Error", err?.response?.data?.error)
@@ -95,8 +97,7 @@ const DateAvailable = ({ navigation }) => {
 
     return (
 
-
-        <View style={{ marginTop: 10 }}>
+        <View style={{ marginTop: 30 }}>
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ fontSize: 20, marginLeft: 5 }}>Select your check in date</Text>
@@ -150,12 +151,18 @@ const DateAvailable = ({ navigation }) => {
 
 
             <View style={styles.button} >
-                <TouchableOpacity onPress={() => { submitDate() }}>
+                <TouchableOpacity onPress={() => { submitDate() }}> 
+                <LinearGradient
+                
+                    colors={['#ffdd00', '#fbb034']}
+                    style={styles.button1}>
                     {isLoader ?
                         <ActivityIndicator color={'red'} size={30} />
                         : <Text style={styles.textbutton}> Check Availabity</Text>
 
                     }
+                </LinearGradient>
+                    
 
                 </TouchableOpacity>
             </View>
@@ -165,10 +172,20 @@ const DateAvailable = ({ navigation }) => {
             {/* Continue to booking */}
             {isdisabled &&
                 <View style={styles.button} >
-                    <TouchableOpacity onPress={() => navigation.navigate("Member", { date1: CheckInDate, date2: CheckOutDate })} >
-                        <Text style={styles.textbutton}> Continue to Booking Member</Text>
-                    </TouchableOpacity>
-                </View>}
+                <TouchableOpacity onPress={() => navigation.navigate("Member", { date1: CheckInDate, date2: CheckOutDate })} >
+                <LinearGradient
+                    colors={['#ffdd00', '#fbb034']}
+                    style={styles.button1}>
+                    {isLoader ?
+                        <ActivityIndicator color={'red'} size={30} />
+                        : <Text style={styles.textbutton}> Continue to Booking </Text>
+
+                    }
+                </LinearGradient>
+                </TouchableOpacity>
+            </View>}
+
+                
         </View>
 
 
@@ -187,14 +204,19 @@ const styles = StyleSheet.create({
         fontSize: 20
 
     },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center', height: 40, borderRadius: 20,
-        borderWidth: 1,
-        justifyContent: "center",
-        alignItems: 'center',
-        marginHorizontal: 20,
+    
+    button1: {
         marginTop: 30,
+        height: 50,
+        width: 300,
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    button:{
+        marginHorizontal:50,
+        marginTop:40
     }
 })
 

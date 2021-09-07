@@ -23,12 +23,19 @@ import ContactUsStack from './ContactUsStack';
 import InquiryStack from './InquiryStack';
 import WeatherScreen from '../Screens/WeatherScreen';
 import GuestDetail from '../Screens/GuestDetail';
+import UserBooking from '../Screens/UserBooking';
 //DrawerContent
 import { DrawerContent } from './DrawerContent';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const Drawer = createDrawerNavigator();
 
 const Drawers = () => {
+
+    const logindata = useSelector((state) => state.loginReducer)
+    const username = logindata?.user?.data?.name
+ 
     return (
 
         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} screenOptions={{
@@ -125,18 +132,29 @@ const Drawers = () => {
                 }}
             />
 
-            <Drawer.Screen name="BookingDetail" component={GuestDetail}
+           {username? <Drawer.Screen name="UserBooking" component={UserBooking}
                 options={{
-                    title: 'BookingDetail',
+                    title: 'UserBookingDetail',
                     drawerIcon: ({ focused, size }) => (
                         <MaterialCommunityIcons
-                            name="weather-cloudy"
+                            name="book-account"
                             size={size}
                             color={focused ? '#7cc' : '#312f2f'}
                         />
                     ),
                 }}
-            />
+            />:<Drawer.Screen name="GuestBooking" component={GuestDetail}
+            options={{
+                title: 'GuestBookingDetail',
+                drawerIcon: ({ focused, size }) => (
+                    <MaterialCommunityIcons
+                        name="book-account"
+                        size={size}
+                        color={focused ? '#7cc' : '#312f2f'}
+                    />
+                ),
+            }}
+        />} 
 
         </Drawer.Navigator>
 
