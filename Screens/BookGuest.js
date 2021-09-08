@@ -18,6 +18,8 @@ const BookGuest = (props) => {
     const [email, setemail] = useState('')
     const totalmem = props?.route?.params?.member
 
+    const day = props?.route?.params?.days;
+
 
 
     const submitDate = async () => {
@@ -30,29 +32,31 @@ const BookGuest = (props) => {
             username: name,
             useremail: email,
             totalmember: totalmem,
+            totaldays: day,
+            totalamount: day * 1000* totalmem,
             createdby: 'Guest'
 
         }
-        debugger
+
 
         console.log("registered", BookData)
         await axios.post('/finalBooking', BookData).then((res) => {
-            debugger
+      
 
             console.log("Ressss-----", res)
             if (res.status === 200) {
 
                 Alert.alert("success", res?.data?.msg)
+                setLoader(false)
                 props.navigation.popToTop()
+                
 
-                debugger
             }
         }).catch((err) => {
-            debugger
-
             console.log("errr-----------", err.response);
             Alert.alert("Error", err?.response?.data?.error)
-
+            
+            setLoader(false)
 
         });
 
@@ -70,8 +74,8 @@ const BookGuest = (props) => {
                 </View>
 
                 <View style={styles.footer}>
-                    <TextBox title={'name'} onChangeText={text => setname(text)} />
-                    <TextBox title={'email'} onChangeText={text => setemail(text)} />
+                    <TextBox title={'name'} onChangeText={text => setname(text)} value={name} />
+                    <TextBox title={'email'} onChangeText={text => setemail(text)} value={email} />
                     <View
                         style={{
                             flexDirection: 'row',
@@ -79,23 +83,23 @@ const BookGuest = (props) => {
                             marginTop: 20,
                         }}>
                         <View>
-                            
-                                    <TouchableOpacity
-                                        style={styles.button}
-                                        color="red"
-                                        onPress={() => {
-                                            submitDate()
-                                        }}>
-                                            {
-                                isLoader ? <ActivityIndicator color={'red'} size={40} /> :
+
+                            <TouchableOpacity
+                                style={styles.button}
+                                color="red"
+                                onPress={() => {
+                                    submitDate()
+                                }}>
+                                {
+                                    isLoader ? <ActivityIndicator color={'red'} size={40} /> :
                                         <LinearGradient
                                             colors={['#ffdd00', '#fbb034']}
                                             style={styles.button}>
                                             <Text style={styles.buttonText}>{'Book'}</Text>
                                         </LinearGradient>
-                            }
+                                }
 
-                                    </TouchableOpacity>
+                            </TouchableOpacity>
                         </View>
 
                     </View>

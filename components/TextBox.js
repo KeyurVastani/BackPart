@@ -6,7 +6,7 @@ import {
   TextInput,
 } from 'react-native';
 
-const TextBox = ({ onChangeText, title, isPassword = false }) => {
+const TextBox = ({ onChangeText, title, isPassword = false, value }) => {
   return (
     <View>
       <Text style={styles.textStyle}>{title}</Text>
@@ -14,6 +14,7 @@ const TextBox = ({ onChangeText, title, isPassword = false }) => {
         <TextInput
           style={styles.inputStyle}
           placeholder={title}
+          value={value}
           onChangeText={onChangeText}
           // secureTextEntry={isPassword}
           autoCapitalize="none"

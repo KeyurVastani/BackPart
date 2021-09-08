@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Alert, FlatList, ActivityIndicator } from 'react-native'
 import TextBox from '../components/TextBox'
 import axios from '../axios'
 import { useSelector } from 'react-redux'
@@ -9,29 +9,32 @@ import Colors from '../assets/colors/color'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useIsFocused } from '@react-navigation/native'
 import { set } from 'react-native-reanimated'
+import BookingSlab from '../components/BookingSlab'
+import LongRouButton from '../components/LongRouButton'
 
 
 const GuestDetail = (props) => {
 
     const [email, setemail] = useState("")
-    const [userdata, setuserdata] = useState({})
-    const [LoginuserEmail, setLoginuserEmail] = useState('')
+    const [userdata, setuserdata] = useState([])
+
     const [GuestButton, setGuestButton] = useState(true)
     const [BookingDetail, setBookingDetail] = useState(false)
     const [Message, setMessage] = useState(false)
+    const [isLoader, setisLoader] = useState(false)
 
-    const loginUser = useSelector(state => state.loginReducer)
+
     const isFocused = useIsFocused();
 
-    useEffect(() => {
-        setLoginuserEmail(loginUser?.user?.data?.email)
-    }, [loginUser])
+
 
     useEffect(() => {
         if (isFocused) {
-            setuserdata({})
+            setuserdata([])
             setBookingDetail(false)
             setMessage(false)
+            setemail('')
+
 
             AsyncStorage.getItem('tokenvalue').then((res) => {
                 if (res) {
@@ -48,38 +51,47 @@ const GuestDetail = (props) => {
 
 
     const submitEmail = async () => {
+        setisLoader(true)
+        setMessage(false)
+
         const dateReg = {
-            "useremail": GuestButton ? email : LoginuserEmail
+            "useremail": email
         }
 
         console.log("registered", dateReg)
         await axios.post('/BookingFatch', dateReg).then((res) => {
             console.log("Ressss-----", res)
             if (res.status === 200) {
-                Alert.alert("Success", res?.data?.msg)
+                // Alert.alert("Success", res?.data?.msg)
                 setuserdata(res?.data?.bookdata)
                 setBookingDetail(true)
+                setMessage(false)
+                setisLoader(false)
+
             }
         }).catch((err) => {
             console.log("errr-----------", err.response);
             Alert.alert("Error", err?.response?.data?.error)
             setMessage(true)
+            setBookingDetail(false)
+            setisLoader(false)
         });
 
     }
     return (
 
         <View style={styles.container}>
-            <Header navigation={props.navigation} title="       Booking Detail" />
+            <Header navigation={props.navigation} title="   Booking Detail" />
             <View style={styles.secondContainer}>
                 {GuestButton ?
                     <View style={{ margin: 10 }}>
-                        <TextBox title={'Email'} onChangeText={text => setemail(text)} />
+                        <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
 
-                        <View>
-                            <TouchableOpacity onPress={() => submitEmail()}>
+                        <View style={{marginTop:20}}>
+                            {/* <TouchableOpacity onPress={() => submitEmail()}>
                                 <Text style={styles.search}>Search Booking Detail</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
+                            <LongRouButton title={'Search Booking Detail'} onPress={() => submitEmail()}/>
                         </View>
                     </View> :
                     <View>
@@ -89,21 +101,20 @@ const GuestDetail = (props) => {
                     </View>}
 
 
-                {BookingDetail && <View>
-                    <View>
-                        <Text style={styles.BookingHeading}> Your Booking Detail</Text>
-                    </View>
-                    <View>
-                        <Text style={styles.text}>indate:  {userdata.indate}</Text>
-                        <Text style={styles.text}>outdate: {userdata.outdate}</Text>
-                        <Text style={styles.text}>name:    {userdata.username}</Text>
-                        <Text style={styles.text}>email:   {userdata.useremail}</Text>
-                        <Text style={styles.text}>member:  {userdata.totalmember}</Text>
-                    </View>
-                    {/* <View style={{ marginTop: 70 }}>
-                        <Button onpress={() => console.warn("sdfsdfsf")} title='Cancle Your Booking' />
-                    </View> */}
-                </View>}
+                {isLoader ? <ActivityIndicator color={'Green'} size={100} /> : BookingDetail &&
+                    <FlatList
+                        data={userdata}
+                        keyExtractor={(item, index) => 'key' + index}
+                        scrollEnabled
+                        scrollEventThrottle={16}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) => {
+                            return <BookingSlab item={item} />
+                        }}
+
+                    />}
+
+
                 {Message && <View style={styles.bookContainer}>
                     <Text style={styles.bookingText}>Booking Detail is not Available</Text>
                 </View>}

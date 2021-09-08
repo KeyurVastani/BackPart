@@ -15,10 +15,18 @@ const LastBill = (props) => {
     const data = useSelector((state) => state.dateReducer)
     const user = useSelector((state) => state.loginReducer)
     // console.log("===============",indate)
-    const date1 = props?.route?.params?.date1
+    // const date1 = props?.route?.params?.date1
 
-    const date2 = props?.route?.params?.date2
+    // const date2 = props?.route?.params?.date2
     const total = props?.route?.params?.member
+
+    const daysDiff = () => {
+        var date1 = new Date(data.indate);
+        var date2 = new Date(data.outdate);
+        var Difference_In_Time = date2.getTime() - date1.getTime();
+        return (Difference_In_Time / (1000 * 3600 * 24))
+    }
+
 
 
     useEffect(() => {
@@ -27,6 +35,7 @@ const LastBill = (props) => {
             if (res) {
                 // console.warn("res", res);
                 setGuestButton(false)
+                
 
             }
         }).catch((err) => {
@@ -38,15 +47,18 @@ const LastBill = (props) => {
 
 
     const submitDate = async () => {
-        // console.warn(user.user.data.name)
+     
+        const d= daysDiff()
 
         const dateReg = {
-            indate: date1,
-            outdate: date2,
+            indate: data.indate,
+            outdate: data.outdate,
             username: user?.user?.data?.name,
             useremail: user?.user?.data?.email,
             totalmember: total,
-            createdBy:user?.user?.data?._id       
+            totalamount: total * 1000 * d,
+            totaldays: d ,
+            createdBy: user?.user?.data?._id
 
         }
 
@@ -56,18 +68,12 @@ const LastBill = (props) => {
 
             console.log("Ressss-----", res)
             if (res.status === 200) {
-
                 Alert.alert("success", res?.data?.msg)
                 props.navigation.popToTop()
-
             }
         }).catch((err) => {
-  
-
             console.log("errr-----------", err.response);
             Alert.alert("Error", err?.response?.data?.error)
-
-
         });
 
     }
@@ -114,15 +120,15 @@ const LastBill = (props) => {
                             <View style={{ flex: 0.1 }} />
 
                             <View style={[styles.insideCont]}>
-                                <Text style={styles.text}>ROOMS</Text>
-                                <Text style={styles.smalltext}>Classic(2x)</Text>
+                                <Text style={styles.text}>DAYS</Text>
+                                <Text style={styles.smalltext}>{daysDiff()}</Text>
                             </View>
 
                             <View style={{ flex: 0.1 }} />
 
                             <View style={[styles.insideCont]}>
                                 <Text style={styles.text}>PRICE</Text>
-                                <Text style={styles.smalltext}>$ {total * 1000}</Text>
+                                <Text style={styles.smalltext}>$ {total * 1000 * daysDiff()}</Text>
                             </View>
                         </View>
 
@@ -156,7 +162,9 @@ const LastBill = (props) => {
                                 style={styles.button}
                                 color="red"
                                 onPress={() => props.navigation.navigate("BookGuest", {
-                                    member: total
+                                    member: total,
+                                    days:daysDiff()
+                                   
                                 })}>
                                 <LinearGradient
                                     colors={['#77A1D3', '#79CBCA']}

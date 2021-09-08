@@ -7,17 +7,28 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper
 import Color from '../assets/colors/color'
 import moment from 'moment';
 import axios from '../axios';
+import Button from '../components/Button'
 import { Calendar } from 'react-native-calendars';
+import LongRouButton from '../components/LongRouButton';
 
 const ENTRIES1 = [
     {
-        profile: require("../images/2.png"),
+        profile: require("../images/5.jpg"),
     },
     {
         profile: require("../images/3.png"),
     },
     {
         profile: require("../images/4.png"),
+    },
+    {
+        profile: require("../images/6.jpg"),
+    },
+    {
+        profile: require("../images/8.jpg"),
+    },
+    {
+        profile: require("../images/9.jpg"),
     },
 ];
 
@@ -113,8 +124,8 @@ const Inquiry = ({ navigation }) => {
         await axios.get('/booking').then((res) => {
             let data = res?.data?.bookdate;
             const dataList = data.map((item) => {
-             
-           
+
+
 
                 const startDate = moment(item.indate);
                 const endDate = moment(item.outdate);
@@ -185,15 +196,17 @@ const Inquiry = ({ navigation }) => {
 
             <View style={style.book}>
                 <Text style={style.text}>Book Your Dream Villa</Text>
-                <View style={style.button} >
-                    <TouchableOpacity onPress={() => {
-                        // debugger
-
-                        navigation.navigate("DateAvailable")
-                    }}>
-                        <Text style={style.textbutton}> Check The Availabity</Text>
-                    </TouchableOpacity>
+                {/* <Button title='Check The Availabity' onPress={() => {
+                    navigation.navigate("DateAvailable")
+                }} 
+                /> */}
+                <View style={{marginVertical:10}}>
+                    <LongRouButton title='Check The Availabity'
+                        onPress={() => {
+                            navigation.navigate("DateAvailable")
+                        }} />
                 </View>
+             
 
                 {
                     date.length > 0 && <Calendar
@@ -232,17 +245,17 @@ const style = StyleSheet.create({
         resizeMode: "contain",
     },
     book: {
-        flex: 1,
+        flex: 1
     },
     text: {
         fontFamily: 'Roboto-Bold',
-        fontSize: 30,
+        fontSize: 35,
         color: Color.green,
         marginLeft: 30,
-        marginTop: 40
+        marginTop: 0
     },
     textbutton: {
-        fontSize: 20
+        fontSize: 28
     },
     button: {
         alignItems: 'center',
@@ -251,7 +264,7 @@ const style = StyleSheet.create({
         justifyContent: "center",
         alignItems: 'center',
         marginHorizontal: 20,
-        marginTop: 30,
+        marginTop: 10,
     }
 
 });

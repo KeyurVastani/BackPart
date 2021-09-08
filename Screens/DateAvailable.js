@@ -151,18 +151,18 @@ const DateAvailable = ({ navigation }) => {
 
 
             <View style={styles.button} >
-                <TouchableOpacity onPress={() => { submitDate() }}> 
-                <LinearGradient
-                
-                    colors={['#ffdd00', '#fbb034']}
-                    style={styles.button1}>
-                    {isLoader ?
-                        <ActivityIndicator color={'red'} size={30} />
-                        : <Text style={styles.textbutton}> Check Availabity</Text>
+                <TouchableOpacity onPress={() => { submitDate() }}>
+                    <LinearGradient
 
-                    }
-                </LinearGradient>
-                    
+                        colors={['#ffdd00', '#fbb034']}
+                        style={styles.button1}>
+                        {isLoader ?
+                            <ActivityIndicator color={'red'} size={30} />
+                            : <Text style={styles.textbutton}> Check Availabity</Text>
+
+                        }
+                    </LinearGradient>
+
 
                 </TouchableOpacity>
             </View>
@@ -172,20 +172,20 @@ const DateAvailable = ({ navigation }) => {
             {/* Continue to booking */}
             {isdisabled &&
                 <View style={styles.button} >
-                <TouchableOpacity onPress={() => navigation.navigate("Member", { date1: CheckInDate, date2: CheckOutDate })} >
-                <LinearGradient
-                    colors={['#ffdd00', '#fbb034']}
-                    style={styles.button1}>
-                    {isLoader ?
-                        <ActivityIndicator color={'red'} size={30} />
-                        : <Text style={styles.textbutton}> Continue to Booking </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("Member", { date1: CheckInDate, date2: CheckOutDate })} >
+                        <LinearGradient
+                            colors={['#ffdd00', '#fbb034']}
+                            style={styles.button1}>
+                            {isLoader ?
+                                <ActivityIndicator color={'red'} size={30} />
+                                : <Text style={styles.textbutton}> Continue to Booking </Text>
 
-                    }
-                </LinearGradient>
-                </TouchableOpacity>
-            </View>}
+                            }
+                        </LinearGradient>
+                    </TouchableOpacity>
+                </View>}
 
-                
+
         </View>
 
 
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
         fontSize: 20
 
     },
-    
+
     button1: {
         marginTop: 30,
         height: 50,
@@ -214,9 +214,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
     },
-    button:{
-        marginHorizontal:50,
-        marginTop:40
+    button: {
+        marginHorizontal: 50,
+        marginTop: 40
     }
 })
 

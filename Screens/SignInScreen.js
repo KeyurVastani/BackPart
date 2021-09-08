@@ -27,8 +27,7 @@ const SignInScreen = ({ navigation }) => {
       setLoader(false)
     } else {
       let msg = logindata.user.msg
-      if (msg) {
-        debugger
+      if (msg) {  
         setLoader(false)
         Alert.alert("Success", logindata.user.msg)
         navigation.navigate('Drawers')
@@ -87,8 +86,8 @@ const SignInScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.footer}>
-          <TextBox title={'Email'} onChangeText={text => setemail(text)} />
-          <TextBox title={'Password'} onChangeText={text => setpassword(text)} isPassword />
+          <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
+          <TextBox title={'Password'} onChangeText={text => setpassword(text)} isPassword value={password}/>
           <View
             style={{
               flexDirection: 'row',

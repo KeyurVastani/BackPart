@@ -40,7 +40,7 @@ const SignInScreen = ({ navigation }) => {
 
       }
     }).catch((err) => {
-      debugger
+     
       console.log("errr-----------", err.response);
       alert(err?.response?.data?.error)
     });
@@ -57,9 +57,9 @@ const SignInScreen = ({ navigation }) => {
         SignUp
       </Text>
       <View style={styles.footer}>
-        <TextBox title={'name'} onChangeText={text => setname(text)} />
-        <TextBox title={'email'} onChangeText={text => setemail(text)} />
-        <TextBox title={'password'} onChangeText={text => setpassword(text)} />
+        <TextBox title={'name'} onChangeText={text => setname(text)} value={name} />
+        <TextBox title={'email'} onChangeText={text => setemail(text)} value={email}  />
+        <TextBox title={'password'} onChangeText={text => setpassword(text)} value={password} />
         <TextBox
           title={'Mobile Number'}
           onChangeText={text => setmobile(text)}

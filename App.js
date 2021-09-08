@@ -23,6 +23,7 @@ import LastBill from './Screens/LastBill'
 import GalleryStack from './navigations/GalleryStack'
 import GuestDetail from './Screens/GuestDetail'
 import DateAvailable from './Screens/DateAvailable'
+import BookingSlab from './components/BookingSlab'
 
 
 const persistConfig = {
@@ -52,6 +53,8 @@ const App = () => {
     // <HomeScreen/>
     // <CasaSunshineView/>
     // <BookGuest/>
+
+    // <BookingSlab/>
 
     // <SplashScreen/>
     // <LastBill/>

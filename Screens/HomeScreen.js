@@ -43,7 +43,7 @@ const HomeScreen = (props) => {
 
 
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
 
                 <ImagePost url={require('../images/6.jpg')} />

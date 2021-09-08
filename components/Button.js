@@ -2,15 +2,15 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 
-const Button = ({ onpress,title ,style}) => {
+const Button = ({ onPress, title, style }) => {
     return (
 
         <TouchableOpacity
-        onPress={onpress}
-        style={[styles.bottomButton,style]}>
-        <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>{title}</Text>
-    </TouchableOpacity>
- 
+            onPress={onPress}
+            style={[styles.bottomButton, style]}>
+            <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>{title}</Text>
+        </TouchableOpacity>
+
 
     )
 }

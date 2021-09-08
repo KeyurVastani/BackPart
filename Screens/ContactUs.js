@@ -6,9 +6,9 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper
 
 const ContactUs = () => {
     return (
-        <ScrollView>
-        <View style={{ flex: 1 }}>
-            
+        <ScrollView  showsVerticalScrollIndicator={false}>
+            <View style={{ flex: 1 }}>
+
                 <View >
                     <View>
                         <Image
@@ -50,7 +50,7 @@ const ContactUs = () => {
                 <View style={styles.outercontainer}>
                     <View>
                         <Text style={{ fontSize: 25, fontFamily: 'Roboto-bold' }}>Visit us on Via Venti Settembre,Roma</Text>
-                      
+
                         <Text style={{ fontSize: 17, marginTop: 4 }}>
                             Morbi viverra viverra tincidunt. Nam condimentum nulla et tortor ultrices tempor. Duisanisi mattis, vehicula augue id, aliquet risus
                         </Text>
@@ -64,21 +64,15 @@ const ContactUs = () => {
                 <View style={styles.outercontainer}>
                     <View>
                         <Text style={{ fontSize: 25, fontFamily: 'Roboto-bold' }}>How can I help You?</Text>
-                      
+
                         <Text style={{ fontSize: 17, marginTop: 4 }}>
-                            
-							Maecenas consectetur, diam nec posuere aliquam, libero sapien aliquet lacus, tempus cursus odio dolor ac magna. Nam condimentum nulla et tortor ultrices tempor. Duis ac nisi mattis, vehicula augue id aliquet.						
+
+                            Maecenas consectetur, diam nec posuere aliquam, libero sapien aliquet lacus, tempus cursus odio dolor ac magna. Nam condimentum nulla et tortor ultrices tempor. Duis ac nisi mattis, vehicula augue id aliquet.
                         </Text>
                     </View>
                 </View>
-               
-
-
-
-
-           
-
-        </View ></ScrollView>
+            </View >
+        </ScrollView>
     )
 }
 

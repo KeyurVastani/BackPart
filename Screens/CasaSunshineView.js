@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const CasaSunshineView = () => {
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
                     <Text style={styles.mainText}> Casa Sunshine Villa </Text>
                     <Text style={[styles.subText, { marginTop: 20 }]}>

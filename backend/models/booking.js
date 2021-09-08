@@ -29,12 +29,18 @@ const bookingSchema = new mongoose.Schema({
         type: String,
     },
     totalmember:{
-        type:Number
+        type:Number,
+    },
+    totalamount:{
+        type:Number,
+    },
+    totaldays:{
+        type:Number,
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
-    }
+    },
 });
 
 const Book = mongoose.model('Booking', bookingSchema);
