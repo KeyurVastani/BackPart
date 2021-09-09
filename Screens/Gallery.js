@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, ImageBackground, Dimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Colors from '../assets/colors/color'
+
 
 const { width } = Dimensions.get('window');
 const SPACING = 10;
@@ -32,16 +34,16 @@ const Gallery = () => {
         )
     }
 
-    const TextPost = ({ title }) => {
+    const TextPost = ({title}) => {
         return (
-            <View>
+            <View style={{backgroundColor:'#E5E5E5'}}>
                 <Text style={styles.text1}>{title}</Text>
             </View>
         )
     }
 
     return (
-        <ScrollView   showsVerticalScrollIndicator={false}>
+        <ScrollView   showsVerticalScrollIndicator={false} >
             <View>
 
                 <View>
@@ -133,6 +135,6 @@ const styles = StyleSheet.create({
         fontSize: 35,
         color: '#6ec1e4',
         marginHorizontal: 10,
-        marginTop: 50, marginBottom: 15
+        marginTop: 30, marginBottom: 15
     }
 })

@@ -16,6 +16,7 @@ const BookGuest = (props) => {
 
     const [name, setname] = useState('')
     const [email, setemail] = useState('')
+    const [Number, setNumber] = useState('')
     const totalmem = props?.route?.params?.member
 
     const day = props?.route?.params?.days;
@@ -33,13 +34,14 @@ const BookGuest = (props) => {
             useremail: email,
             totalmember: totalmem,
             totaldays: day,
+            number:Number,
             totalamount: day * 1000* totalmem,
             createdby: 'Guest'
 
         }
 
 
-        console.log("registered", BookData)
+  
         await axios.post('/finalBooking', BookData).then((res) => {
       
 
@@ -74,8 +76,10 @@ const BookGuest = (props) => {
                 </View>
 
                 <View style={styles.footer}>
-                    <TextBox title={'name'} onChangeText={text => setname(text)} value={name} />
-                    <TextBox title={'email'} onChangeText={text => setemail(text)} value={email} />
+                    <TextBox title={'Name'} onChangeText={text => setname(text)} value={name} />
+                    <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
+                    <TextBox title={'Mobile'} onChangeText={text => setNumber(text)} value={Number} />
+
                     <View
                         style={{
                             flexDirection: 'row',

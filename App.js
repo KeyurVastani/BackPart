@@ -13,6 +13,8 @@ import { applyMiddleware, compose, createStore } from "redux";
 import  AppReducer from './store/reducer/mainReducer'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import CasaSunshineView from './Screens/CasaSunshineView'
+import CasaSunStack from './navigations/CasaSunStack'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import NewScreen from './Screens/DateAvailable'
@@ -51,7 +53,9 @@ const App = () => {
     // <Inquiry/>
     // <Header/>
     // <HomeScreen/>
-    // <CasaSunshineView/>
+  //   <NavigationContainer>
+  // <CasaSunStack/>
+  // </NavigationContainer>
     // <BookGuest/>
 
     // <BookingSlab/>

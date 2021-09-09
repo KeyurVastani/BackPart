@@ -9,7 +9,7 @@ const appReducer = combineReducers({
     dateReducer
 })
 const rootReducer = (state, action) => {
-    debugger
+    
     if (action.type === RESET_STORE) {
        
         clearStorage()

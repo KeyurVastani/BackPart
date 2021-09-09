@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
-import { View, Text, Pressable, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, SafeAreaView, Alert } from 'react-native'
 
 import Color from '../assets/colors/color';
 import RoundButton from '../components/RoundButton';
@@ -137,21 +137,25 @@ const Member = (props) => {
                     </View>
                 </View>
                 <View>
-                    {total !== 0?  <TouchableOpacity
-                    onPress={() => props.navigation.navigate("LastBill", {
-                        date1: props.route.params.date1,
-                        date2: props.route.params.date2,
-                        member: total
-                    })}
-                    style={styles.bottomButton}>
-                    <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Book The Villa</Text>
-                </TouchableOpacity> :
-                <View style={[styles.bottomButton,{backgroundColor:'#D07474'}]} >
-                <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Book The Villa</Text>
-                </View> 
-                }
+                    {(total !== 0 && adults >= 1) ? <TouchableOpacity
+                        onPress={() => props.navigation.navigate("LastBill", {
+                            date1: props.route.params.date1,
+                            date2: props.route.params.date2,
+                            member: total
+                        })}
+                        style={styles.bottomButton}>
+                        <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Book The Villa</Text>
+                    </TouchableOpacity> :
+                        <TouchableOpacity
+                            onPress={() => { Alert.alert("1 Adult member is Require") }}
+                            style={styles.bottomButton}>
+                            
+                                <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Book The Villa</Text>
+                         
+                        </TouchableOpacity>
+                    }
 
-               
+
                 </View>
             </View>
         </SafeAreaView>
@@ -191,7 +195,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    bottomButton:{
+    bottomButton: {
         marginBottom: 30,
         justifyContent: 'center',
         alignItems: 'center',

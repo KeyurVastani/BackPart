@@ -94,11 +94,9 @@ router.get('/booking', async (req, res) => {
 
 
 router.post('/finalBooking', async (req, res) => {
-
-
-    console.log("========finalBooking", req.body)
-    if (!req.body.indate || !req.body.outdate || !req.body.username || !req.body.useremail || !req.body.totalmember)
-        return res.status(400).send({ error: ' Username and Email Filed is Required' });
+  
+    if (!req.body.indate || !req.body.outdate || !req.body.username || !req.body.useremail || !req.body.totalmember || !req.body.number)
+        return res.status(400).send({ error: ' Username, Email and Mobile number  Filed is Required' });
 
 
     if (!validate.emailCheck(req.body.useremail)) return res.status(400).send({ error: 'Enter Correct Email Address!!!' });
@@ -210,7 +208,7 @@ router.delete('/deletebooking/:id', verify, async (req, res) => {
         const DeleteBooking = await Book.findOneAndDelete({ createdBy:req.user._id,_id:ids })
         console.log("=====4sdsdss", DeleteBooking);
         if (! DeleteBooking) return res.status(400).send({ error: 'Your Booking Detail is not available' });
-        return res.status(200).send({ msg: 'your Booking is Deleted', DeleteBooking });
+        return res.status(200).send({ msg: 'Deleted', DeleteBooking });
     } catch (error) {
         res.status(400).send({ error: 'some problem is occur in Villa Booking Deleting!!!' });
     }

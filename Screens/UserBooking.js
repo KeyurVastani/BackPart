@@ -21,7 +21,7 @@ const UserBooking = (props) => {
     useEffect(() => {
         if (isFocused) {
             submitDate()
-            // console.warn("dsfsdfsf",UserDetail)
+            
         }
     }, [isFocused])
 
@@ -50,19 +50,40 @@ const UserBooking = (props) => {
     }
 
 
-
+    const twoOptionAlertHandler = (id) => {
+        //function to make two option alert
+        Alert.alert(
+          //title
+          'Hello',
+          //body
+          'Are you sure? Do you want to Cancel Booking ?',
+          [
+            {
+              text: 'Yes',
+              onPress: () => DeleteData(id)
+            },
+            {
+              text: 'No',
+              onPress: () => console.log('No Pressed'), style: 'cancel'
+            },
+          ],
+          {cancelable: false},
+          //clicking out side of alert will not cancel
+        );
+      };
 
 
     const DeleteData = async (id) => {
+        // console.warn('sdsadfsf')
         setisLoader(true)
         const token = await AsyncStorage.getItem('tokenvalue')
-      console.log("==111111111",id);
+   
 
         await axios.delete(`/deletebooking/${id}`,{ headers: { 'Authorization': token }}).then((res) => {    
             let data = res?.data?.DeleteBooking;
             if (res.status === 200) {
 
-                //   Alert.alert("success", `your ${data.indate} TO ${data.outdate} is ${res?.data?.msg}`)
+                Alert.alert("success", `Your ${data.indate} TO ${data.outdate} is ${res?.data?.msg}`)
                 let index = UserDetail.findIndex((item) => item._id === data._id);
                 if (index !== -1) {  
                     let data1 = [...UserDetail]
@@ -95,7 +116,9 @@ const UserBooking = (props) => {
                             scrollEventThrottle={16}
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item }) => {
-                                return <BookingSlab item={item} onPress={() => { DeleteData(item._id) }} />
+                                return <BookingSlab item={item} onPress={() => {
+                                    twoOptionAlertHandler(item._id)
+                                }} cancleDisable />
                             }}
 
                         />
@@ -121,7 +144,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.mainColor
     },
     secondContainer: {
-        backgroundColor: 'white',
+        backgroundColor: Colors.lightblue,
         flex: 1,
 
     },

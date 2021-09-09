@@ -61,9 +61,9 @@ export default function WeatherScreen(props) {
             <Header navigation={props.navigation} title="Weather" />
             <Text style={styles.text}>{"Goa's Weather"}</Text>
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                <Image style={{ height: 90, width: 100, }} source={require('../images/WeatherImage.png')} />
+                <Image style={{ height: 100, width: 100, }} source={require('../images/weather_sun.jpeg')} />
             </View>
-            <DateTime current={weatherData.current} timezone={weatherData.timezone} lat={weatherData.lat} lon={weatherData.lon} />
+            <DateTime current={weatherData.current} timezone={weatherData.timezone} />
             <WeatherScroll weatherData={weatherData.daily} />
 
         </View>
@@ -73,7 +73,9 @@ export default function WeatherScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.mainColor
+        backgroundColor: Color.mainColor,
+        justifyContent:'center',
+        alignItems:'center'
 
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 40,
         fontFamily: 'roboto-Medium',
-        marginTop: 60, marginLeft: 60,
+        marginTop: 60,
         color: Color.yellow
     }
 });

@@ -10,6 +10,8 @@ import axios from '../axios';
 import Button from '../components/Button'
 import { Calendar } from 'react-native-calendars';
 import LongRouButton from '../components/LongRouButton';
+import { useIsFocused } from '@react-navigation/native';
+
 
 const ENTRIES1 = [
     {
@@ -34,26 +36,6 @@ const ENTRIES1 = [
 
 const { width: screenWidth } = Dimensions.get("window");
 
-// const getDaysBetweenDates = (startDate, endDate) => {
-//     const dates = [];
-//     startDate = startDate.add(1, 'days');
-
-//     while (startDate.format('YYYY-MM-DD') !== endDate.format('YYYY-MM-DD')) {
-//         console.log(startDate.toDate());
-//         dates.push(startDate.toDate());
-//         startDate = startDate.add(1, 'days');
-//     }
-//     return dates;
-// };
-
-
-
-
-
-
-
-
-
 
 // function call
 const getDaysBetweenDates = (startDate, endDate) => {
@@ -63,19 +45,34 @@ const getDaysBetweenDates = (startDate, endDate) => {
         dates.push(now.format('YYYY-MM-DD'));
         now.add(1, 'days');
     }
+
     return dates;
 };
 
 
 const Inquiry = ({ navigation }) => {
+    const isFocused = useIsFocused()
+    const today = moment().format("YYYY-MM-DD");
     const [entries, setEntries] = useState([]);
     const carouselRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const [date, setDate] = useState([]);
+    const [newDaysObject, setnewDaysObject] = useState({});
 
     useEffect(() => {
         setEntries(ENTRIES1);
     }, []);
+
+    useEffect(() => {
+
+        if (isFocused) {
+            console.log("new object is==",newDaysObject)
+            setDate([])
+            console.log("empty st=====", date)
+            callApi()
+            console.log("========call api")
+        }
+    }, [isFocused])
 
     // useEffect(() => {
     //     console.log("=-===========", date);
@@ -123,29 +120,45 @@ const Inquiry = ({ navigation }) => {
         // console.log("==3=3=3=3=");
         await axios.get('/booking').then((res) => {
             let data = res?.data?.bookdate;
+            console.log("=======", res?.data?.bookdate)
             const dataList = data.map((item) => {
-
-
 
                 const startDate = moment(item.indate);
                 const endDate = moment(item.outdate);
 
-                // const dateList = getDaysBetweenDates(startDate, endDate).map(date => moment(date, "MM/DD/YYYY", "YYYY-MM-DD")["YYYY-MM-DD"]);
                 return getDaysBetweenDates(startDate, endDate)
-                // console.log("-------------", dateList);
 
-                //
-                // console.log("-------", date, dateList);
             });
 
-            setDate([...date, ...[].concat.apply([], dataList)])
 
-            //  var startDate = moment('2021-01-02');
-            // var endDate = moment('2021-01-12');
+            console.log("DataList====", dataList)
+            for (let i = 0; i < dataList.length; i++) {
 
-            // var dateList = getDaysBetweenDates(startDate, endDate);
-            // console.log(dateList);
-            // console.log("Ressss-----", res?.data?.bookdate)
+                var innerArrayLength = dataList[i].length;
+
+                for (let j = 0; j < innerArrayLength; j++) {
+                    date.push(dataList[i][j]);
+                }
+
+               
+            }
+            // setDate([...date, ...[].concat.apply([], dataList)])
+
+            console.log("setstatsd========", date)
+           
+             var newDaysObjects={}
+            date.map((day) => {
+                console.log("sdsadfsad121312312312312===", day)
+                newDaysObjects = {
+                    ...newDaysObjects,
+
+                    [day]: { selected: true, marked: true, selectedColor: '#2acaea' },
+                };
+                
+
+            });
+            setnewDaysObject(newDaysObjects)
+
 
         }).catch((err) => {
 
@@ -155,20 +168,12 @@ const Inquiry = ({ navigation }) => {
     }
 
 
-    useEffect(() => {
-        callApi()
-    })
 
 
 
-    var newDaysObject = {};
 
-    date.map((day) => {
-        newDaysObject = {
-            ...newDaysObject,
-            [day]: { selected: true, marked: true, selectedColor: '#2acaea' },
-        };
-    });
+
+
     return (
 
 
@@ -200,16 +205,17 @@ const Inquiry = ({ navigation }) => {
                     navigation.navigate("DateAvailable")
                 }} 
                 /> */}
-                <View style={{marginVertical:10}}>
+                <View style={{ marginVertical: 10 }}>
                     <LongRouButton title='Check The Availabity'
                         onPress={() => {
                             navigation.navigate("DateAvailable")
                         }} />
                 </View>
-             
+
 
                 {
-                    date.length > 0 && <Calendar
+                    date.length >= 0 && <Calendar
+                        minDate={today}
                         markedDates={newDaysObject}
                     />
                 }

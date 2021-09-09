@@ -32,8 +32,10 @@ export default FutureForecast
 
 const styles = StyleSheet.create({
     image: {
-        width: 100,
-        height:100
+        width: 80,
+        height:80,
+        marginLeft:20,
+    
     }, 
     futureForecastItemContainer: {
         flex:1,
@@ -42,23 +44,26 @@ const styles = StyleSheet.create({
         borderRadius:10,
         borderColor:"#eee",
         borderWidth:1,
-        padding: 20,
-        marginLeft: 10
+        padding: 30,
+        marginLeft: 10,
     }, 
     day: {
-        fontSize: 20,
+        fontSize: 25,
         color:"white",
-        backgroundColor: "#3c3c44",
-        padding: 10,
+        backgroundColor: "#3c3c44",   
+        padding: 7,
         textAlign:"center",
         borderRadius: 50,
-        fontWeight: "200",
-        marginBottom: 15
+        fontWeight: "500",
+        marginBottom: 15,
+    
+
+
     },   
     temp: {
-        fontSize: 14,
+        fontSize: 19,
         color:"white",
-        fontWeight:"100",
+        fontWeight:"bold",
         textAlign:"center"
     },
 })

@@ -84,7 +84,7 @@ const HomeScreen = (props) => {
                 <TouchableOpacity
                     onPress={() => props.navigation.navigate("InquiryStack")}
                     style={styles.bottomButton}>
-                    <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Check Availabity</Text>
+                    <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Make An Inquiry</Text>
                 </TouchableOpacity>
                 </View>
 

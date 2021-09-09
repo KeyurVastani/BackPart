@@ -58,11 +58,12 @@ const GuestDetail = (props) => {
             "useremail": email
         }
 
-        console.log("registered", dateReg)
+
         await axios.post('/BookingFatch', dateReg).then((res) => {
             console.log("Ressss-----", res)
             if (res.status === 200) {
-                // Alert.alert("Success", res?.data?.msg)
+            // Alert.alert("Success", res?.data?.msg)
+
                 setuserdata(res?.data?.bookdata)
                 setBookingDetail(true)
                 setMessage(false)
@@ -83,22 +84,13 @@ const GuestDetail = (props) => {
         <View style={styles.container}>
             <Header navigation={props.navigation} title="   Booking Detail" />
             <View style={styles.secondContainer}>
-                {GuestButton ?
-                    <View style={{ margin: 10 }}>
-                        <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
 
-                        <View style={{marginTop:20}}>
-                            {/* <TouchableOpacity onPress={() => submitEmail()}>
-                                <Text style={styles.search}>Search Booking Detail</Text>
-                            </TouchableOpacity> */}
-                            <LongRouButton title={'Search Booking Detail'} onPress={() => submitEmail()}/>
-                        </View>
-                    </View> :
-                    <View>
-                        <TouchableOpacity onPress={() => submitEmail()}>
-                            <Text style={styles.search}>Press For Your Booking Detail</Text>
-                        </TouchableOpacity>
-                    </View>}
+                <View style={{ margin: 10 }}>
+                    <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
+                    <View style={{ marginTop: 20 }}>
+                        <LongRouButton title={'Search Booking Detail'} onPress={() => submitEmail()} />
+                    </View>
+                </View>
 
 
                 {isLoader ? <ActivityIndicator color={'Green'} size={100} /> : BookingDetail &&

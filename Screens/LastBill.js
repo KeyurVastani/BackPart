@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert ,ActivityIndicator} from 'react-native'
 
 import Colors from '../assets/colors/color'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const LastBill = (props) => {
     const [GuestButton, setGuestButton] = useState(true)
+    const [Loader, setLoader] = useState(false)
     const data = useSelector((state) => state.dateReducer)
     const user = useSelector((state) => state.loginReducer)
     // console.log("===============",indate)
@@ -33,22 +34,20 @@ const LastBill = (props) => {
 
         AsyncStorage.getItem('tokenvalue').then((res) => {
             if (res) {
-                // console.warn("res", res);
                 setGuestButton(false)
-                
-
             }
         }).catch((err) => {
             console.log("err", err);
         });
-
     }, [])
 
 
 
     const submitDate = async () => {
-     
-        const d= daysDiff()
+        setLoader(true)
+  
+
+        const d = daysDiff()
 
         const dateReg = {
             indate: data.indate,
@@ -57,7 +56,8 @@ const LastBill = (props) => {
             useremail: user?.user?.data?.email,
             totalmember: total,
             totalamount: total * 1000 * d,
-            totaldays: d ,
+            number:user.user.data.phone,
+            totaldays: d,
             createdBy: user?.user?.data?._id
 
         }
@@ -69,10 +69,13 @@ const LastBill = (props) => {
             console.log("Ressss-----", res)
             if (res.status === 200) {
                 Alert.alert("success", res?.data?.msg)
+                setLoader(false)
                 props.navigation.popToTop()
+
             }
         }).catch((err) => {
             console.log("errr-----------", err.response);
+            setLoader(false)
             Alert.alert("Error", err?.response?.data?.error)
         });
 
@@ -85,7 +88,7 @@ const LastBill = (props) => {
         <View style={{ flex: 1, backgroundColor: Colors.mainColor }}>
 
 
-            <View style={{ justifyContent: 'center', alignItems: "center", marginTop: "20%" }}>
+            <View style={{ justifyContent: 'center', alignItems: "center", marginTop: "15%" }}>
 
                 <View style={styles.container}>
 
@@ -163,8 +166,8 @@ const LastBill = (props) => {
                                 color="red"
                                 onPress={() => props.navigation.navigate("BookGuest", {
                                     member: total,
-                                    days:daysDiff()
-                                   
+                                    days: daysDiff()
+
                                 })}>
                                 <LinearGradient
                                     colors={['#77A1D3', '#79CBCA']}
@@ -188,7 +191,7 @@ const LastBill = (props) => {
 
                     {GuestButton ?
 
-                        <View style={{ paddingHorizontal: 35, marginTop: 20 }}>
+                        <View style={{ paddingHorizontal: 35 }}>
                             <TouchableOpacity
                                 style={styles.button}
                                 color="red"
@@ -204,7 +207,7 @@ const LastBill = (props) => {
                             </TouchableOpacity>
                         </View>
                         :
-                        <View style={{ paddingHorizontal: 35, marginTop: 20 }}>
+                        <View style={{ paddingHorizontal: 35 }}>
 
                             <TouchableOpacity
                                 style={styles.button}
@@ -216,7 +219,10 @@ const LastBill = (props) => {
                                 <LinearGradient
                                     colors={['#ffdd00', '#fbb034']}
                                     style={styles.button}>
+                                    {
+                                    Loader ?<ActivityIndicator color={'red'} size={30} />:
                                     <Text style={styles.buttonText}>{'Book As a User'}</Text>
+                                    }
                                 </LinearGradient>
                             </TouchableOpacity>
                         </View>

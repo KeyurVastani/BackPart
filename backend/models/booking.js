@@ -28,6 +28,9 @@ const bookingSchema = new mongoose.Schema({
     useremail:{
         type: String,
     },
+    number:{
+        type:String
+    },
     totalmember:{
         type:Number,
     },
