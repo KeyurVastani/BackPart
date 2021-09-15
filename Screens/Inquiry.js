@@ -11,6 +11,7 @@ import Button from '../components/Button'
 import { Calendar } from 'react-native-calendars';
 import LongRouButton from '../components/LongRouButton';
 import { useIsFocused } from '@react-navigation/native';
+import RNCalendarEvents from "react-native-calendar-events";
 
 
 const ENTRIES1 = [
@@ -63,10 +64,14 @@ const Inquiry = ({ navigation }) => {
         setEntries(ENTRIES1);
     }, []);
 
+ 
+
+   
+
     useEffect(() => {
 
         if (isFocused) {
-            console.log("new object is==",newDaysObject)
+            console.log("new object is==", newDaysObject)
             setDate([])
             console.log("empty st=====", date)
             callApi()
@@ -74,9 +79,6 @@ const Inquiry = ({ navigation }) => {
         }
     }, [isFocused])
 
-    // useEffect(() => {
-    //     console.log("=-===========", date);
-    // }, [date])
 
     const pagination = () => {
         return (
@@ -117,10 +119,10 @@ const Inquiry = ({ navigation }) => {
 
     //get aPi
     const callApi = async () => {
-        // console.log("==3=3=3=3=");
+
         await axios.get('/booking').then((res) => {
             let data = res?.data?.bookdate;
-            console.log("=======", res?.data?.bookdate)
+            // console.log("=======", res?.data?.bookdate)
             const dataList = data.map((item) => {
 
                 const startDate = moment(item.indate);
@@ -131,7 +133,7 @@ const Inquiry = ({ navigation }) => {
             });
 
 
-            console.log("DataList====", dataList)
+            // console.log("DataList====", dataList)
             for (let i = 0; i < dataList.length; i++) {
 
                 var innerArrayLength = dataList[i].length;
@@ -140,21 +142,21 @@ const Inquiry = ({ navigation }) => {
                     date.push(dataList[i][j]);
                 }
 
-               
-            }
-            // setDate([...date, ...[].concat.apply([], dataList)])
 
-            console.log("setstatsd========", date)
-           
-             var newDaysObjects={}
+            }
+
+
+            // console.log("setstatsd========", date)
+
+            var newDaysObjects = {}
             date.map((day) => {
-                console.log("sdsadfsad121312312312312===", day)
+                // console.log("sdsadfsad121312312312312===", day)
                 newDaysObjects = {
                     ...newDaysObjects,
 
                     [day]: { selected: true, marked: true, selectedColor: '#2acaea' },
                 };
-                
+
 
             });
             setnewDaysObject(newDaysObjects)

@@ -20,9 +20,9 @@ export default function WeatherScreen(props) {
             const response = await fetch(API);
             if (response.status == 200) {
                 const data = await response.json();
-                debugger
+                
                 setWeatherData(data);
-                console.log("fsfsdfsdfs==============", data)
+              
             } else {
                 setWeatherData(null);
             }

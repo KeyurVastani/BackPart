@@ -40,6 +40,7 @@ const Drawers = () => {
 
         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} screenOptions={{
             headerShown: false,
+        
         }}>
             <Drawer.Screen name="Home" component={HomeStack}
                 options={{

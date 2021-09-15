@@ -26,6 +26,7 @@ import GalleryStack from './navigations/GalleryStack'
 import GuestDetail from './Screens/GuestDetail'
 import DateAvailable from './Screens/DateAvailable'
 import BookingSlab from './components/BookingSlab'
+import ExtraScreen from './Screens/ExtraScreen'
 
 
 const persistConfig = {
@@ -72,7 +73,8 @@ const App = () => {
     //   <NavigationContainer>
     //  <GalleryStack/>
     // </NavigationContainer>
-    
+    // <DateAvailable/>
+    // <ExtraScreen/>
 
 
 
@@ -103,18 +105,6 @@ export default App
 
 
 
-
-// const App = () => {
-//   return (
-
-//     // <SignInScreen />
-//     // <SignUpScreen />
-//     // <SplashScreen />
-//     // <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-//     //   <SliderScreen />
-//     //  </SafeAreaView>
-
-//     <NewScreen/>
 
 
 

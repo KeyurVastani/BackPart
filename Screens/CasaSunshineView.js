@@ -1,9 +1,31 @@
-import React from 'react';
+import React ,{useEffect}from 'react';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper/screenHelper'
-
+import { useIsFocused } from '@react-navigation/core';
 const CasaSunshineView = () => {
+
+
+    const isFocused = useIsFocused();
+
+
+
+    useEffect(async () => {
+        if (isFocused) {
+           await AsyncStorage.getItem('tokenvalue').then((res) => {
+                if (res) {
+                    console.log("res=======", res);
+                
+
+                }
+            }).catch((err) => {
+                console.log("err", err);
+            });
+
+        }
+    }, [isFocused])
+
+    
     return (
 
         <ScrollView showsVerticalScrollIndicator={false}>

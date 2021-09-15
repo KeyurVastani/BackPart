@@ -10,7 +10,7 @@ const SplashScreen = ({ navigation }) => {
 
         AsyncStorage.getItem('tokenvalue').then((res) => {
             if (res) {
-                console.log("res", res);
+                console.log("=======", res);
                 navigation.navigate('Drawers')
             }
         }).catch((err) => {

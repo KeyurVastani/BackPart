@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView, Touchable, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native'
+import { View, Text, SafeAreaView, Touchable, Image, TouchableOpacity, StyleSheet, Dimensions, Alert, ActivityIndicator } from 'react-native'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -10,6 +10,8 @@ import moment from 'moment';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setInDate, setOutDate } from '../store/action/DateAction';
+
+const windowHeight = Dimensions.get('window').height;
 
 
 
@@ -34,19 +36,21 @@ const DateAvailable = ({ navigation }) => {
     }, [CheckInDate, CheckOutDate])
 
 
+
+
     const DateOutConform = (dayObj) => {
 
         setCheckOutDate(dayjs((`${dayObj.year}-${dayObj.month}-${dayObj.day}`).toString()).format('YYYY-MM-DD'))
         setcalenderOutShow(false)
-        // dispatch(setOutDate(CheckOutDate))
+     
 
     }
     const DateInConform = (dayObj) => {
         setCheckInDate(dayjs((`${dayObj.year}-${dayObj.month}-${dayObj.day}`).toString()).format('YYYY-MM-DD'))
-        // console.warn("=============",CheckInDate)
+       
 
         setcalenderShow(false)
-        // dispatch(setInDate(CheckInDate))
+   
 
     }
 
@@ -58,8 +62,7 @@ const DateAvailable = ({ navigation }) => {
             outdate: CheckOutDate
 
         }
-        // console.warn("=============1",CheckInDate)
-        // console.warn("============2",CheckOutDate)
+       
 
 
         dispatch(setInDate(CheckInDate))
@@ -97,23 +100,27 @@ const DateAvailable = ({ navigation }) => {
 
     return (
 
-        <View style={{ marginTop: 30 }}>
-            <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 20, marginLeft: 5 }}>Select your check in date</Text>
-                    <TouchableOpacity onPress={() => { setcalenderShow(!isCalenderShow) }}>
-                        <Text style={{ fontSize: 20, marginRight: 5, borderWidth: 1, width: 150, height: 30 }}>{CheckInDate}</Text>
+        <View style={styles.container}>
+            <View style={styles.thirdCont}>
+                <Text style={styles.text}>Book Your Date</Text>
+            </View>
+
+            <View style={styles.secondContainer}>
+                <View style={styles.villaContainer}>
+                    <Image style={styles.imagevilla} source={require('../images/beach.png')} />
+                </View>
+                <View style={styles.indateContainer}>
+                    <Text style={styles.secondText}>In Date</Text>
+                    <TouchableOpacity style={styles.textbox} onPress={() => { setcalenderShow(!isCalenderShow) }}>
+                        <Text style={styles.text1} >{CheckInDate}</Text>
                     </TouchableOpacity>
                 </View>
-
                 {
                     isCalenderShow && <Calendar
                         minDate={today}
                         style={{ marginTop: 10 }}
                         onDayPress={(dayObj) => {
-                            // console.warn("Date", dayjs((`${dayObj.year}-${dayObj.month}-${dayObj.day}`).toString()).format('YYYY-MM-DD'));
                             DateInConform(dayObj)
-                            // console.warn("Type", typeof CheckInDate)
                         }}
 
                         markedDates={{
@@ -121,17 +128,14 @@ const DateAvailable = ({ navigation }) => {
                         }}
                     />
                 }
-            </View>
 
-            {/* =================================================== */}
-            <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 30 }}>
-                    <Text style={{ fontSize: 20, marginLeft: 5 }}>Select your check out date</Text>
-                    <TouchableOpacity onPress={() => { setcalenderOutShow(!isCalenderOutShow) }}>
-                        <Text style={{ fontSize: 20, marginRight: 5, borderWidth: 1, width: 150, height: 30 }}>{CheckOutDate}</Text>
+                {/* =============Out date =========== */}
+                <View style={[styles.indateContainer, { marginTop: 20 }]}>
+                    <Text style={styles.secondText}>Out Date</Text>
+                    <TouchableOpacity style={styles.textbox} onPress={() => { setcalenderOutShow(!isCalenderOutShow) }}>
+                        <Text style={styles.text1}>{CheckOutDate}</Text>
                     </TouchableOpacity>
                 </View>
-
                 {
                     isCalenderOutShow && <Calendar
                         minDate={today}
@@ -142,52 +146,41 @@ const DateAvailable = ({ navigation }) => {
 
                         markedDates={{
                             [CheckOutDate]: { selected: true, marked: true, selectedColor: 'blue' },
-                            // '2021-10-01': { selected: true, marked: true, selectedColor: 'blue' },
-                            // '2021-10-02': { selected: true, marked: true, selectedColor: 'blue' }
+
                         }} />
                 }
-
-            </View>
-
-
-            <View style={styles.button} >
-                <TouchableOpacity onPress={() => { submitDate() }}>
-                    <LinearGradient
-
-                        colors={['#ffdd00', '#fbb034']}
-                        style={styles.button1}>
-                        {isLoader ?
-                            <ActivityIndicator color={'red'} size={30} />
-                            : <Text style={styles.textbutton}> Check Availabity</Text>
-
-                        }
-                    </LinearGradient>
-
-
-                </TouchableOpacity>
-            </View>
-
-
-
-            {/* Continue to booking */}
-            {isdisabled &&
                 <View style={styles.button} >
-                    <TouchableOpacity onPress={() => navigation.navigate("Member", { date1: CheckInDate, date2: CheckOutDate })} >
+                    <TouchableOpacity onPress={() => { submitDate() }}>
                         <LinearGradient
+
                             colors={['#ffdd00', '#fbb034']}
                             style={styles.button1}>
                             {isLoader ?
                                 <ActivityIndicator color={'red'} size={30} />
-                                : <Text style={styles.textbutton}> Continue to Booking </Text>
+                                : <Text style={styles.textbutton}> Check Availabity</Text>
 
                             }
                         </LinearGradient>
+
+
                     </TouchableOpacity>
-                </View>}
+                </View>
+                {isdisabled &&
+                    <View style={[styles.button, { marginTop: 25 }]} >
+                        <TouchableOpacity onPress={() => navigation.navigate("Member", { date1: CheckInDate, date2: CheckOutDate })} >
+                            <LinearGradient
+                                colors={['#ffdd00', '#fbb034']}
+                                style={styles.button1}>
+                                {isLoader ?
+                                    <ActivityIndicator color={'red'} size={30} />
+                                    : <Text style={styles.textbutton}> Continue to Booking </Text>
 
-
+                                }
+                            </LinearGradient>
+                        </TouchableOpacity>
+                    </View>}
+            </View>
         </View>
-
 
     )
 }
@@ -195,14 +188,34 @@ const DateAvailable = ({ navigation }) => {
 export default DateAvailable
 
 const styles = StyleSheet.create({
-    dateselect: {
-        height: 30,
-        borderWidth: 2,
-        width: 60
+    container: {
+        flex: 1,
+        backgroundColor: "lightblue",
     },
+    secondContainer: {
+        backgroundColor: 'white',
+        height: windowHeight * .73,
+        margin: 10,
+        marginTop: 10,
+        borderTopStartRadius: 200,
+        borderTopRightRadius: 200,
+        borderBottomEndRadius: 40,
+        borderBottomLeftRadius: 40
+
+    }, thirdCont: {
+        margin: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    text: {
+        fontSize: 40,
+        fontFamily: 'roboto-bold',
+        color: 'green'
+    },
+
+
     textbutton: {
         fontSize: 20
-
     },
 
     button1: {
@@ -212,11 +225,47 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         alignItems: 'center',
         justifyContent: 'center',
-
     },
     button: {
         marginHorizontal: 50,
         marginTop: 40
+    },
+    textbox: {
+        fontSize: 23,
+        marginRight: 5,
+        borderWidth: 2,
+        width: 150,
+        height: 40,
+        borderRadius: 9,
+        padding: 5,
+        backgroundColor: 'lightblue'
+    },
+    secondText: {
+        fontSize: 30,
+        fontFamily: 'Roboto-bold',
+    },
+    imagevilla: {
+        height: 200,
+        width: 200,
+
+    },
+    villaContainer: {
+        marginTop: 13,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    indateContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        // backgroundColor: 'red',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+
+    },
+    text1: {
+        fontSize: 23,
+        padding: 1,
+
     }
 })
 

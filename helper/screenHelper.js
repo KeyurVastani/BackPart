@@ -86,11 +86,11 @@ export async function clearStorage() {
         AsyncStorage.multiRemove(keys);
       })
       .then(() => {
-        debugger
+
         resolve("Success");
       })
       .catch(() => {
-        debugger
+
         reject("Error");
       });
   });

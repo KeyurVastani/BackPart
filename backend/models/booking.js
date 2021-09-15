@@ -44,6 +44,9 @@ const bookingSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    googleEventId:{
+        type:String
+    }
 });
 
 const Book = mongoose.model('Booking', bookingSchema);
