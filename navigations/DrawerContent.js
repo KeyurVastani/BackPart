@@ -28,14 +28,6 @@ export function DrawerContent(props) {
 
 
     const navigation = useNavigation()
-
-
-
-
-
-
-
-
     const twoOptionAlertHandler = () => {
         if (!username) {
             Alert.alert(

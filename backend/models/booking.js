@@ -46,7 +46,15 @@ const bookingSchema = new mongoose.Schema({
     },
     googleEventId:{
         type:String
-    }
+    },
+    googleSummary:{
+        type:String
+    },
+    googleDescription:{
+        type:String
+    },
+    
+
 });
 
 const Book = mongoose.model('Booking', bookingSchema);

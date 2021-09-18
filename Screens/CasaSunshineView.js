@@ -20,7 +20,7 @@ const CasaSunshineView = () => {
                 }
             }).catch((err) => {
                 console.log("err", err);
-            });
+            })
 
         }
     }, [isFocused])

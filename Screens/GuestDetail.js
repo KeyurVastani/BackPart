@@ -16,6 +16,7 @@ import LongRouButton from '../components/LongRouButton'
 const GuestDetail = (props) => {
 
     const [email, setemail] = useState("")
+    const [MobileNumber, setMobileNumber] = useState("")
     const [userdata, setuserdata] = useState([])
 
     const [GuestButton, setGuestButton] = useState(true)
@@ -34,6 +35,7 @@ const GuestDetail = (props) => {
             setBookingDetail(false)
             setMessage(false)
             setemail('')
+            setMobileNumber('')
 
 
             AsyncStorage.getItem('tokenvalue').then((res) => {
@@ -55,7 +57,8 @@ const GuestDetail = (props) => {
         setMessage(false)
 
         const dateReg = {
-            "useremail": email
+            "useremail": email,
+            "number":MobileNumber
         }
 
 
@@ -87,6 +90,7 @@ const GuestDetail = (props) => {
 
                 <View style={{ margin: 10 }}>
                     <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
+                    <TextBox title={'Mobile Number'} onChangeText={text => setMobileNumber(text)} value={MobileNumber} />
                     <View style={{ marginTop: 20 }}>
                         <LongRouButton title={'Search Booking Detail'} onPress={() => submitEmail()} />
                     </View>
