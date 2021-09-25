@@ -8,6 +8,7 @@ import SquareButton from '../components/SquareButton';
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { ValidName, ValidEmail, ValidNumber } from '../components/validations';
 
 
 
@@ -20,80 +21,76 @@ const BookGuest = (props) => {
     const [name, setname] = useState('')
     const [email, setemail] = useState('')
     const [Number, setNumber] = useState('')
-    const [isEmail, setisEmail] = useState(true)
-    const [isName, setisName] = useState(true)
-    const [isNumber, setisNumber] = useState(true)
+    const [checkEmail, setcheckEmail] = useState(true)
+    const [checkNumber, setcheckNumber] = useState(true)
+    const [checkName, setcheckName] = useState(true)
 
     const totalmem = props?.route?.params?.member
     const day = props?.route?.params?.days;
     const ref_input1 = useRef();
     const ref_input2 = useRef();
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
-    useEffect(() => {
-        if (!re.test(String(email).toLowerCase())) {
-            setisEmail(false)
-        } else {
-            setisEmail(true)
-        }
-        if (name.length < 3) {
-            setisName(false)
-        }
-        else {
-            setisName(true)
-        }
-        if (Number.length < 10 || Number.length > 10) {
-            setisNumber(false)
-        }
-        else {
-            setisNumber(true)
-        }
-
-    }, [name, email, Number])
 
 
 
 
 
     const submitDate = async () => {
-        setLoader(true)
-
-        const BookData = {
-            indate: data.indate,
-            outdate: data.outdate,
-            username: name,
-            useremail: email,
-            totalmember: totalmem,
-            totaldays: day,
-            number: Number,
-            totalamount: day * 1000 * totalmem,
-            createdby: 'Guest'
-
+        if (ValidName(name)) {
+            setcheckName(false)
         }
+        else if (ValidEmail(email)) {
+            setcheckName(true)
+            setcheckEmail(false)
+        }
+        else if (ValidNumber(Number)) {
+            setcheckEmail(true)
+            setcheckName(true)
+            setcheckNumber(false)
+        }
+        else {
+            setcheckEmail(true)
+            setcheckName(true)
+            setcheckNumber(true)
+            setLoader(true)
 
-
-
-        await axios.post('/finalBooking', BookData).then((res) => {
-
-
-            console.log("Ressss-----", res)
-            if (res.status === 200) {
-
-                Alert.alert("success", res?.data?.msg)
-                setLoader(false)
-                props.navigation.popToTop()
-
+            const BookData = {
+                indate: data.indate,
+                outdate: data.outdate,
+                username: name,
+                useremail: email,
+                totalmember: totalmem,
+                totaldays: day,
+                number: Number,
+                totalamount: day * 1000 * totalmem,
+                createdby: 'Guest'
 
             }
-        }).catch((err) => {
-            console.log("errr-----------", err.response);
-            Alert.alert("Error", err?.response?.data?.error)
 
-            setLoader(false)
 
-        });
 
+            await axios.post('/finalBooking', BookData).then((res) => {
+
+
+                console.log("Ressss-----", res)
+                if (res.status === 200) {
+
+                    Alert.alert("success", res?.data?.msg)
+                    setLoader(false)
+                    props.navigation.popToTop()
+
+
+                }
+            }).catch((err) => {
+                console.log("errr-----------", err.response);
+                Alert.alert("Error", err?.response?.data?.error)
+
+                setLoader(false)
+
+            });
+
+        }
     }
     return (
 
@@ -131,7 +128,7 @@ const BookGuest = (props) => {
                                 size={35}
                                 color='#4c4c4c' />
                         </TextBox>
-                        {!isName && <Text style={{ left: 50, color: '#800000' }}>please enter atlist 3 character</Text>}
+                        {!checkName && <Text style={{ left: 50, color: '#800000' }}>Only characters A-Z, a-z and '-' are  acceptable.</Text>}
 
                         <TextBox
                             textColor={{ color: Colors.bookBlack }}
@@ -150,7 +147,7 @@ const BookGuest = (props) => {
                                 size={30}
                                 color='#4c4c4c' />
                         </TextBox>
-                        {!isEmail && <Text style={{ left: 50, color: '#800000' }}>please enter valid email</Text>}
+                        {!checkEmail && <Text style={{ left: 50, color: '#800000' }}>please enter valid email</Text>}
 
                         <TextBox
                             textColor={{ color: Colors.bookBlack }}
@@ -169,7 +166,7 @@ const BookGuest = (props) => {
                                 size={30}
                                 color='#4c4c4c' />
                         </TextBox>
-                        {!isNumber && <Text style={{ left: 50, color: '#800000' }}>please enter 10 digit mobile number</Text>}
+                        {!checkNumber && <Text style={{ left: 50, color: '#800000' }}>please enter 10 digit mobile number</Text>}
 
 
 
@@ -182,7 +179,7 @@ const BookGuest = (props) => {
                             }}>
                             <View>
 
-                                <SquareButton onPress={() => { submitDate() }} touchStyle={{ width: 300, backgroundColor: Colors.signInBlue }}>
+                                <SquareButton onPress={() => submitDate()} touchStyle={{ width: 300, backgroundColor: Colors.signInBlue }}>
                                     {
                                         isLoader ? <ActivityIndicator color={'red'} size={40} /> :
 

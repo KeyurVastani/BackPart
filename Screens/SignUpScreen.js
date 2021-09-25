@@ -14,11 +14,12 @@ import {
 import axios from '../axios'
 import TextBox from '../components/TextBox';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import { ValidEmail, ValidPassword, ValidName, ValidNumber } from '../components/validations'
+
 
 
 
@@ -30,73 +31,68 @@ const SignInScreen = ({ navigation }) => {
   const [name, setname] = useState("")
   const [mobile, setmobile] = useState("")
   const [ispassword, setispassword] = useState(true)
-  const [isEmail, setisEmail] = useState(true)
-  const [isName, setisName] = useState(true)
-  const [isNumber, setisNumber] = useState(true)
-  const [isPass, setisPass] = useState(true)
-  const [valid, setvalid] = useState(false)
+  const [checkEmail, setcheckEmail] = useState(true)
+  const [checkPass, setcheckPass] = useState(true)
+  const [checkName, setcheckName] = useState(true)
+  const [checkNumber, setcheckNumber] = useState(true)
   const ref_input1 = useRef();
   const ref_input2 = useRef();
   const ref_input3 = useRef();
-  const strongRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})');
-
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
-  useEffect(() => {
-    if (!re.test(String(email).toLowerCase())) {
-      setisEmail(false)
-    } else {
-      setisEmail(true)
-    }
-    if (name.length < 3) {
-      setisName(false)
-    }
-    else {
-      setisName(true)
-    }
-    if (mobile.length < 10 || mobile.length > 10) {
-      setisNumber(false)
-    }
-    else {
-      setisNumber(true)
-    }
-    if (!strongRegex.test(password)) {
-      setisPass(false)
-    }
-    else {
-      setisPass(true)
-    }
-  
 
-  }, [name, email, mobile, ispassword])
+
 
 
 
   const submitData = async () => {
-
-    const registered = {
-      email: email,
-      password: password,
-      name: name,
-      phone: mobile
+    if (ValidName(name)) {
+      setcheckName(false)
     }
+    else if (ValidEmail(email)) {
+      setcheckName(true)
+      setcheckEmail(false)
+    }
+    else if (ValidPassword(password)) {
+      setcheckName(true)
+      setcheckEmail(true)
+      setcheckPass(false)
+    }
+    else if (ValidNumber(mobile)) {
+      setcheckName(true)
+      setcheckEmail(true)
+      setcheckPass(true)
+      setcheckNumber(false)
+    }
+    else {
+      setcheckName(true)
+      setcheckEmail(true)
+      setcheckPass(true)
+      setcheckNumber(true)
 
-    console.log("registered", registered)
-    await axios.post('/register', registered).then((res) => {
-
-      // console.log("Ressss-----", res)
-      if (res.status === 201) {
-        alert(res?.data?.msg)
-        navigation.navigate("SignInScreen")
-
+      const registered = {
+        email: email,
+        password: password,
+        name: name,
+        phone: mobile
       }
-    }).catch((err) => {
 
-      console.log("errr-----------", err.response);
-      alert(err?.response?.data?.error)
-    });
+      console.log("registered", registered)
+      await axios.post('/register', registered).then((res) => {
 
+        // console.log("Ressss-----", res)
+        if (res.status === 201) {
+          alert(res?.data?.msg)
+          navigation.navigate("SignInScreen")
+
+        }
+      }).catch((err) => {
+
+        console.log("errr-----------", err.response);
+        alert(err?.response?.data?.error)
+      });
+
+    }
   }
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}
@@ -136,7 +132,7 @@ const SignInScreen = ({ navigation }) => {
                 size={35}
                 color='white' />
             </TextBox>
-            {!isName && <Text style={{ left: 35, color: 'red' }}>minimum 3 character require</Text>}
+            {!checkName && <Text style={{ left: 35, color: 'red' ,fontSize:16}}>Only characters A-Z, a-z and '-' are  acceptable.</Text>}
 
             <TextBox title={'Email'} sign=' *' color='#fff' onChangeText={text => setemail(text.toLowerCase())} value={email} returnType={"next"} ref1={() => ref_input2.current.focus()} ref2={ref_input1} design={styles.textcomDesign}
               textColor={{ color: '#eaeaeb' }} placeholderColor={'gray'}
@@ -146,7 +142,7 @@ const SignInScreen = ({ navigation }) => {
                 size={30}
                 color='white' />
             </TextBox>
-            {!isEmail && <Text style={{ left: 35, color: 'red' }}>please enter valid email</Text>}
+            {!checkEmail && <Text style={{ left: 40, color: 'red' ,fontSize:16}}>please enter valid email</Text>}
 
             <TextBox title={'Password'} sign=' *' color='#fff' onChangeText={text => setpassword(text)} value={password} returnType={"next"} ref1={() => ref_input3.current.focus()} ref2={ref_input2}
               design={styles.textcomDesign} placeholderColor={'gray'}
@@ -159,7 +155,7 @@ const SignInScreen = ({ navigation }) => {
                   color='white' />
               </TouchableOpacity>
             </TextBox>
-            {!isPass && <Text style={{ left: 35, color: 'red' }}>minimum 8 characters, combination of uppercase and lowercase letter and number </Text>}
+            {!checkPass && <Text style={{ left: 35, color: 'red',fontSize:16 }}>minimum 8 characters, combination of uppercase and lowercase letter and number </Text>}
 
             <TextBox
               title={'Mobile Number'} sign=' *' color='#fff' placeholderColor={'gray'}
@@ -175,11 +171,11 @@ const SignInScreen = ({ navigation }) => {
                 size={30}
                 color='white' />
             </TextBox>
-            {!isNumber && <Text style={{ left: 35, color: 'red' }}>please enter valid 10 digit Number</Text>}
+            {!checkNumber && <Text style={{ left: 45, color: 'red',fontSize:16 }}>please enter valid 10 digit Number</Text>}
 
             <View style={[styles.btnDsign]}>
               <TouchableOpacity
-                onPress={() => {(isEmail==true,isName==true,isNumber==true,isPass==true) ? submitData() : console.log("hello")}}>
+                onPress={() =>submitData()}>
                 <View
                   style={styles.button}>
                   <Text style={styles.buttonText}>{'Create Account'}</Text>

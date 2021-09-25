@@ -11,6 +11,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { set } from 'react-native-reanimated'
 import BookingSlab from '../components/BookingSlab'
 import BlueButton from '../components/BlueButton'
+import { ValidEmail, ValidNumber } from '../components/validations'
 
 
 const GuestDetail = (props) => {
@@ -27,19 +28,7 @@ const GuestDetail = (props) => {
     const [checkEmail, setcheckEmail] = useState(true)
     const [checkNumber, setcheckNumber] = useState(true)
 
-    useEffect(() => {
-        if (email.length < 1) {
-            setcheckEmail(false)
-        } else {
-            setcheckEmail(true)
-        }
-        if (MobileNumber.length < 10 || MobileNumber.length > 10) {
-            setcheckNumber(false)
-        }
-        else {
-            setcheckNumber(true)
-        }
-    }, [MobileNumber, email])
+
 
 
     const isFocused = useIsFocused();
@@ -53,6 +42,8 @@ const GuestDetail = (props) => {
             setMessage(false)
             setemail('')
             setMobileNumber('')
+            setcheckNumber(true)
+            setcheckEmail(true)
 
 
             AsyncStorage.getItem('tokenvalue').then((res) => {
@@ -70,34 +61,45 @@ const GuestDetail = (props) => {
 
 
     const submitEmail = async () => {
-        setisLoader(true)
-        setMessage(false)
-
-        const dateReg = {
-            "useremail": email,
-            "number": MobileNumber
+        if (ValidEmail(email)) {
+            setcheckEmail(false)
         }
+        else if (ValidNumber(MobileNumber)) {
+            setcheckEmail(true)
+            setcheckNumber(false)
+        }
+        else {
+            setcheckEmail(true)
+            setcheckNumber(true)
+            setisLoader(true)
+            setMessage(false)
 
-
-        await axios.post('/BookingFatch', dateReg).then((res) => {
-            console.log("Ressss-----", res)
-            if (res.status === 200) {
-                // Alert.alert("Success", res?.data?.msg)
-
-                setuserdata(res?.data?.bookdata)
-                setBookingDetail(true)
-                setMessage(false)
-                setisLoader(false)
-
+            const dateReg = {
+                "useremail": email,
+                "number": MobileNumber
             }
-        }).catch((err) => {
-            console.log("errr-----------", err.response);
-            Alert.alert("Error", err?.response?.data?.error)
-            setMessage(true)
-            setBookingDetail(false)
-            setisLoader(false)
-        });
 
+
+            await axios.post('/BookingFatch', dateReg).then((res) => {
+                console.log("Ressss-----", res)
+                if (res.status === 200) {
+                    // Alert.alert("Success", res?.data?.msg)
+
+                    setuserdata(res?.data?.bookdata)
+                    setBookingDetail(true)
+                    setMessage(false)
+                    setisLoader(false)
+
+                }
+            }).catch((err) => {
+                console.log("errr-----------", err.response);
+                Alert.alert("Error", err?.response?.data?.error)
+                setMessage(true)
+                setBookingDetail(false)
+                setisLoader(false)
+            });
+
+        }
     }
     return (
 
@@ -106,15 +108,16 @@ const GuestDetail = (props) => {
             <View style={styles.secondContainer}>
 
                 <View style={{ margin: 10 }}>
-                    <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
+                    <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email}
+                        inputTextColor={{ paddingHorizontal: 0 }} />
                     {!checkEmail && <Text style={{ left: 50, color: '#800000' }}>please enter valid email</Text>}
 
-                    <TextBox title={'Mobile Number'} onChangeText={text => setMobileNumber(text)} value={MobileNumber}
+                    <TextBox title={'Mobile Number'} inputTextColor={{ paddingHorizontal: 0 }} onChangeText={text => setMobileNumber(text)} value={MobileNumber}
                     />
                     {!checkNumber && <Text style={{ left: 50, color: '#800000' }}>please enter 10 digit Mobile Number</Text>}
 
                     <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
-                        <BlueButton name='Search' onPress={() => {(checkNumber==true && checkEmail ==true)? submitEmail():console.log("hello"); }}  >Search
+                        <BlueButton name='Search' onPress={() => submitEmail()}>Search
                         </BlueButton>
                     </View>
                 </View>

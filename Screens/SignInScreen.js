@@ -15,8 +15,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../store/action/loginAction';
 
-
-import LinearGradient from 'react-native-linear-gradient';
+import {ValidEmail, ValidPassword} from '../components/validations'
 import TextBox from '../components/TextBox';
 import Colors from '../assets/colors/color';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,7 +30,7 @@ const SignInScreen = ({ navigation }) => {
   const logindata = useSelector(state => state.loginReducer);
 
   const ref_input2 = useRef();
-  const ref_input3 = useRef();
+ 
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [isLoader, setLoader] = useState(false);
@@ -39,20 +38,7 @@ const SignInScreen = ({ navigation }) => {
   const [checkEmail, setcheckEmail] = useState(true)
   const [checkPass, setcheckPass] = useState(true)
 
-  useEffect(() => {
-    if (email.length < 1) {
-      setcheckEmail(false)
-    }else{
-      setcheckEmail(true)
-    }
-    if (password.length < 1) {
-      setcheckPass(false)
-    }
-    else {
-      setcheckPass(true)
-    }
-
-  }, [password, email])
+  
 
   useEffect(() => {
     console.log('logindata', logindata);
@@ -74,11 +60,17 @@ const SignInScreen = ({ navigation }) => {
   }, [logindata.user]);
 
   const onSubmit = () => {
-    // alert(Object.keys(logindata))
-    // alert(Object.keys(logindata.user))
-    if (email.length < 1) {
+   
+    if (ValidEmail(email)) {
       setcheckEmail(false)
-    } else {
+    } 
+    else if (ValidPassword(password)){
+      setcheckEmail(true)
+      setcheckPass(false)
+    }
+    else {
+      setcheckEmail(true)
+      setcheckPass(true)
       setLoader(true);
       dispatch(login(email, password));
 
@@ -155,9 +147,7 @@ const SignInScreen = ({ navigation }) => {
               marginTop: 20,
             }}>
             <View style={styles.btnCtn}>
-              <BlueButton onPress={() => {
-                (checkEmail==true,checkPass==true)?onSubmit():console.log("hello");;
-              }}
+              <BlueButton onPress={() => onSubmit()}
                 btnstyle={{ width: 300 }}>
                 {isLoader ? (
                   <ActivityIndicator color={'red'} size={30} />
