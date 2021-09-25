@@ -51,14 +51,11 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color:"white",
         backgroundColor: "#3c3c44",   
-        padding: 7,
+        padding:7 ,
         textAlign:"center",
         borderRadius: 50,
         fontWeight: "500",
-        marginBottom: 15,
-    
-
-
+     
     },   
     temp: {
         fontSize: 19,

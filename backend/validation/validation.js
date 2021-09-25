@@ -11,7 +11,7 @@ const lengthCheck = (checkString, minLength) => {
 };
 const numberlengthCheck = (checkNo, Length) => {
 
-    if (checkNo.toString().length != parseInt(Length)) return true;
+    if (checkNo.length != parseInt(Length)) return true;
 };
 
 const strongPasswordCheck = (value) => {

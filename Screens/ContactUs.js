@@ -6,7 +6,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from '../helper
 
 const ContactUs = () => {
     return (
-        <ScrollView  showsVerticalScrollIndicator={false}>
+        <ScrollView  showsVerticalScrollIndicator={false} bounces='false'>
             <View style={{ flex: 1 }}>
 
                 <View >
@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
         padding: 10,
         height: 160,
         justifyContent: 'center',
-        borderRadius: 30
+        borderRadius: 30,
+        marginBottom:30
 
     }
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView, Touchable, Image, TouchableOpacity, StyleSheet, Dimensions, Alert, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, Dimensions, Alert, ActivityIndicator } from 'react-native'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import LinearGradient from 'react-native-linear-gradient'
+import { CalTheme } from '../data/CalenderThem';
 
 
 import dayjs from 'dayjs';
@@ -10,6 +11,10 @@ import moment from 'moment';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setInDate, setOutDate } from '../store/action/DateAction';
+import { back } from 'react-native/Libraries/Animated/Easing';
+import SquareButton from '../components/SquareButton';
+import Colors from '../assets/colors/color'
+import color from '../assets/colors/color';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -20,7 +25,8 @@ const windowHeight = Dimensions.get('window').height;
 // Fontisto.loadFont()
 const DateAvailable = ({ navigation }) => {
 
-    // const data = useSelector(state=> state.dateReducer)
+    const dateobj = useSelector(state => state.dateReducer)
+
     const dispatch = useDispatch()
     const [CheckInDate, setCheckInDate] = useState('')
     const [CheckOutDate, setCheckOutDate] = useState('')
@@ -29,7 +35,7 @@ const DateAvailable = ({ navigation }) => {
     const [isdisabled, setdisable] = useState(false)
     const [isLoader, setLoader] = useState(false)
     const today = moment().format("YYYY-MM-DD");
-
+    console.log("========", dateobj);
     useEffect(() => {
 
         setdisable(false)
@@ -42,19 +48,23 @@ const DateAvailable = ({ navigation }) => {
 
         setCheckOutDate(dayjs((`${dayObj.year}-${dayObj.month}-${dayObj.day}`).toString()).format('YYYY-MM-DD'))
         setcalenderOutShow(false)
-     
+
 
     }
     const DateInConform = (dayObj) => {
         setCheckInDate(dayjs((`${dayObj.year}-${dayObj.month}-${dayObj.day}`).toString()).format('YYYY-MM-DD'))
-       
+
 
         setcalenderShow(false)
-   
+
 
     }
 
     const submitDate = async () => {
+        if (CheckInDate.length == 0 && CheckOutDate == 0) {
+            return Alert.alert("Alert", "enter check in date or check out date")
+        }
+
         setdisable(false);
         setLoader(true);
         const dateReg = {
@@ -62,7 +72,7 @@ const DateAvailable = ({ navigation }) => {
             outdate: CheckOutDate
 
         }
-       
+
 
 
         dispatch(setInDate(CheckInDate))
@@ -100,7 +110,7 @@ const DateAvailable = ({ navigation }) => {
 
     return (
 
-        <View style={styles.container}>
+        <ScrollView style={styles.container} bounces="false">
             <View style={styles.thirdCont}>
                 <Text style={styles.text}>Book Your Date</Text>
             </View>
@@ -118,14 +128,17 @@ const DateAvailable = ({ navigation }) => {
                 {
                     isCalenderShow && <Calendar
                         minDate={today}
-                        style={{ marginTop: 10 }}
+                        disableAllTouchEventsForDisabledDays={true}
+
+                        theme={CalTheme}
                         onDayPress={(dayObj) => {
                             DateInConform(dayObj)
                         }}
 
-                        markedDates={{
-                            [CheckInDate]: { selected: true, marked: true, selectedColor: 'blue' },
-                        }}
+                        // markedDates={{
+                        //     [CheckInDate]: { selected: true, marked: true, selectedColor: 'blue' },
+                        // }}
+                        markedDates={dateobj.dateobj}
                     />
                 }
 
@@ -138,49 +151,47 @@ const DateAvailable = ({ navigation }) => {
                 </View>
                 {
                     isCalenderOutShow && <Calendar
-                        minDate={today}
-                        style={{ marginTop: 10 }}
+                        minDate={CheckInDate}
+                        disableAllTouchEventsForDisabledDays={true}
+
+                        theme={CalTheme}
                         onDayPress={(dayObj) => {
                             DateOutConform(dayObj)
                         }}
 
-                        markedDates={{
-                            [CheckOutDate]: { selected: true, marked: true, selectedColor: 'blue' },
-
-                        }} />
+                        // markedDates={{
+                        //      [CheckOutDate]: { selected: true, marked: true, selectedColor: 'blue' },
+                        // }}
+                        markedDates={dateobj.dateobj}
+                    />
                 }
                 <View style={styles.button} >
-                    <TouchableOpacity onPress={() => { submitDate() }}>
-                        <LinearGradient
 
-                            colors={['#ffdd00', '#fbb034']}
-                            style={styles.button1}>
-                            {isLoader ?
-                                <ActivityIndicator color={'red'} size={30} />
-                                : <Text style={styles.textbutton}> Check Availabity</Text>
+                    <SquareButton onPress={() => { submitDate() }} touchStyle={{ width: 300, borderColor: Colors.signInBlue }}>
+                        {isLoader ?
+                            <ActivityIndicator color={'red'} size={30} />
+                            : <Text style={styles.textbutton}> Check Availabity</Text>
 
-                            }
-                        </LinearGradient>
+                        }
+                    </SquareButton>
 
-
-                    </TouchableOpacity>
                 </View>
                 {isdisabled &&
-                    <View style={[styles.button, { marginTop: 25 }]} >
-                        <TouchableOpacity onPress={() => navigation.navigate("Member", { date1: CheckInDate, date2: CheckOutDate })} >
-                            <LinearGradient
-                                colors={['#ffdd00', '#fbb034']}
-                                style={styles.button1}>
-                                {isLoader ?
-                                    <ActivityIndicator color={'red'} size={30} />
-                                    : <Text style={styles.textbutton}> Continue to Booking </Text>
+                    <View style={[styles.button, { marginTop: 0 }]} >
 
-                                }
-                            </LinearGradient>
-                        </TouchableOpacity>
+                        <SquareButton onPress={() => navigation.navigate("Member",
+                            // { date1: CheckInDate, date2: CheckOutDate }  //props pass
+                        )} touchStyle={{ width: 300, backgroundColor: Colors.signInBlue }}>
+                            {isLoader ?
+                                <ActivityIndicator color={'red'} size={30} />
+                                : <Text style={[styles.textbutton, { color: 'white', fontSize: 23 }]}> Continue to Booking </Text>
+
+                            }
+
+                        </SquareButton>
                     </View>}
             </View>
-        </View>
+        </ScrollView>
 
     )
 }
@@ -188,15 +199,12 @@ const DateAvailable = ({ navigation }) => {
 export default DateAvailable
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "lightblue",
-    },
+
     secondContainer: {
-        backgroundColor: 'white',
-        height: windowHeight * .73,
+        backgroundColor: 'lightblue',
+        height: windowHeight * .75,
         margin: 10,
-        marginTop: 10,
+        marginTop: 0,
         borderTopStartRadius: 200,
         borderTopRightRadius: 200,
         borderBottomEndRadius: 40,
@@ -215,7 +223,8 @@ const styles = StyleSheet.create({
 
 
     textbutton: {
-        fontSize: 20
+        fontSize: 25,
+        color: Colors.signInBlue,
     },
 
     button1: {
@@ -227,8 +236,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     button: {
-        marginHorizontal: 50,
-        marginTop: 40
+        padding: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        top: 45,
+        //  backgroundColor: 'red'
     },
     textbox: {
         fontSize: 23,
@@ -243,6 +255,7 @@ const styles = StyleSheet.create({
     secondText: {
         fontSize: 30,
         fontFamily: 'Roboto-bold',
+        color: Colors.signInBlue
     },
     imagevilla: {
         height: 200,
@@ -250,9 +263,10 @@ const styles = StyleSheet.create({
 
     },
     villaContainer: {
-        marginTop: 13,
+
         justifyContent: 'space-between',
         alignItems: 'center',
+
     },
     indateContainer: {
         flexDirection: 'row',
@@ -266,7 +280,12 @@ const styles = StyleSheet.create({
         fontSize: 23,
         padding: 1,
 
-    }
+    },
+    container: {
+        flex: 1,
+
+
+    },
 })
 
 

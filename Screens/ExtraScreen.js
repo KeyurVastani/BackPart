@@ -1,22 +1,26 @@
 import React from 'react'
-import { View, Text, SafeAreaView, StyleSheet, Dimensions } from 'react-native'
-
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, Image } from 'react-native'
+import ImageZoom from 'react-native-image-pan-zoom'
+import Colors from '../assets/colors/color'
 
 const windowHeight = Dimensions.get('window').height;
 
-const ExtraScreen = () => {
+const ExtraScreen = (props) => {
+    const url1 = props.route.params.url
+
     return (
-        // <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
-                <View style={styles.thirdCont}>
-                    <Text style={styles.text}>Book Your Villa</Text>
-                </View>
+        <View style={{ flex: 1, }}>
+            <ImageZoom cropWidth={Dimensions.get('window').width}
+                cropHeight={Dimensions.get('window').height * .9}
+                imageWidth={400}
+                imageHeight={400}
+                style={{ backgroundColor: 'blue ' }}
+            >
 
-                <View style={styles.secondContainer}>
-
-                </View>
-            </View>
-        // </SafeAreaView>
+                <Image style={{ width: 390, height: 350 }}
+                    source={url1} />
+            </ImageZoom>
+        </View>
     )
 }
 
@@ -31,9 +35,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: windowHeight * .78,
         margin: 10,
-        marginTop:10,
-        borderTopStartRadius:200,
-        borderTopRightRadius:200
+        marginTop: 10,
+        borderTopStartRadius: 200,
+        borderTopRightRadius: 200
 
     }, thirdCont: {
         margin: 20,
@@ -42,7 +46,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 40,
-        
+
     }
 
 })

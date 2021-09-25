@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons'
 import ContactUs from '../Screens/ContactUs';
 const Stack = createStackNavigator();
-
+import Colors from '../assets/colors/color'
 
 
 
@@ -13,13 +13,14 @@ const ContactUsStack = ({ navigation }) => {
     return (
         <Stack.Navigator
             screenOptions={{
-
                 headerStyle: {
-                    backgroundColor: '#009387',
+                    backgroundColor: Colors.signInBlue,
+                    height:100
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    fontSize:23
                 }
             }}
         >
@@ -31,8 +32,8 @@ const ContactUsStack = ({ navigation }) => {
                         <Icon.Button
                             name='ios-menu'
                             onPress={() => navigation.toggleDrawer()}
-                            size={25}
-                            backgroundColor='#009387'
+                            size={27}
+                            backgroundColor={Colors.signInBlue}
                         />
                     ),
                 }} />

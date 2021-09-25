@@ -139,16 +139,16 @@ const Member = (props) => {
                 <View>
                     {(total !== 0 && adults >= 1) ? <TouchableOpacity
                         onPress={() => props.navigation.navigate("LastBill", {
-                            date1: props.route.params.date1,
-                            date2: props.route.params.date2,
+                            // date1: props.route.params.date1,
+                            // date2: props.route.params.date2,
                             member: total
                         })}
                         style={styles.bottomButton}>
                         <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Book The Villa</Text>
                     </TouchableOpacity> :
-                        <TouchableOpacity
+                        <TouchableOpacity activeOpacity={0.9}
                             onPress={() => { Alert.alert("1 Adult member is Require") }}
-                            style={styles.bottomButton}>
+                            style={[styles.bottomButton,{backgroundColor: '#eb5666',} ]}>
                             
                                 <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>Book The Villa</Text>
                          
@@ -172,7 +172,7 @@ export default Member;
 
 const styles = StyleSheet.create({
     totaldesign: {
-        marginTop: '93%',
+        marginTop: '70%',
         borderTopWidth: 1,
         borderColor: "black",
         borderBottomWidth: 1,
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingVertical: 20,
         marginHorizontal: 20,
+        marginVertical:10,
         borderColor: 'lightgrey'
     },
     button: {

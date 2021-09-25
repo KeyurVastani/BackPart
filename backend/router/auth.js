@@ -25,13 +25,7 @@ router.post('/register', async (req, res) => {
     //Name Length Check
     if (validate.lengthCheck(req.body.name, 3)) return res.status(400).send({ error: 'Name length min 3 required!!!' });
 
-
-    if (validate.numberlengthCheck(req.body.phone, 10) || isNaN(req.body.phone)) return res.status(400).send({ error: 'Enter valid Mobile Number' });
-
-
-    // Unique mobile number 
-    // const phoneCheck = await User.findOne({ phone: req.body.phone })
-    // if (phoneCheck) return res.status(400).send({ error: 'phone Alredy Exits!!!' })
+    if (validate.numberlengthCheck(req.body.phone, 10) || isNaN(req.body.phone)) return res.status(400).send({ error: 'Enter valid Mobile Number or 10 digit Number' });
 
     //Encrypt Password
     const salt = await bcrypt.genSalt(10);
@@ -68,7 +62,7 @@ router.post('/login', async (req, res) => {
 
 
     //Check User Details
-    const user = await User.findOne({ email:req.body.email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(401).send({ error: 'Email is not match!!!' });
 
     const validPass = await bcrypt.compare(req.body.password, user.password);

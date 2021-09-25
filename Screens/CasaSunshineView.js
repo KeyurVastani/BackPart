@@ -6,29 +6,29 @@ import { useIsFocused } from '@react-navigation/core';
 const CasaSunshineView = () => {
 
 
-    const isFocused = useIsFocused();
+    // const isFocused = useIsFocused();
 
 
 
-    useEffect(async () => {
-        if (isFocused) {
-           await AsyncStorage.getItem('tokenvalue').then((res) => {
-                if (res) {
-                    console.log("res=======", res);
+    // useEffect(async () => {
+    //     if (isFocused) {
+    //        await AsyncStorage.getItem('tokenvalue').then((res) => {
+    //             if (res) {
+    //                 console.log("res=======", res);
                 
 
-                }
-            }).catch((err) => {
-                console.log("err", err);
-            })
+    //             }
+    //         }).catch((err) => {
+    //             console.log("err", err);
+    //         })
 
-        }
-    }, [isFocused])
+    //     }
+    // }, [isFocused])
 
     
     return (
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} bounces='false' >
             <View style={styles.container}>
                 <View style={styles.container1}>
                     <Image style={styles.image} source={require('../images/6.jpg')} />

@@ -4,12 +4,10 @@ import Header from '../components/Header'
 import Colors from '../assets/colors/color'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from '../axios'
-import LinearGradient from 'react-native-linear-gradient'
+
 import { useIsFocused } from '@react-navigation/native'
-import Button from '../components/Button'
-import { set } from 'react-native-reanimated'
+
 import BookingSlab from '../components/BookingSlab'
-import { ScrollView } from 'react-native-gesture-handler'
 
 
 const UserBooking = (props) => {
@@ -21,7 +19,7 @@ const UserBooking = (props) => {
     useEffect(() => {
         if (isFocused) {
             submitDate()
-            
+
         }
     }, [isFocused])
 
@@ -53,39 +51,39 @@ const UserBooking = (props) => {
     const twoOptionAlertHandler = (id) => {
         //function to make two option alert
         Alert.alert(
-          //title
-          'Hello',
-          //body
-          'Are you sure? Do you want to Cancel Booking ?',
-          [
-            {
-              text: 'Yes',
-              onPress: () => DeleteData(id)
-            },
-            {
-              text: 'No',
-              onPress: () => console.log('No Pressed'), style: 'cancel'
-            },
-          ],
-          {cancelable: false},
-          //clicking out side of alert will not cancel
+            //title
+            'Hello',
+            //body
+            'Are you sure? Do you want to Cancel Booking ?',
+            [
+                {
+                    text: 'Yes',
+                    onPress: () => DeleteData(id)
+                },
+                {
+                    text: 'No',
+                    onPress: () => console.log('No Pressed'), style: 'cancel'
+                },
+            ],
+            { cancelable: false },
+            //clicking out side of alert will not cancel
         );
-      };
+    };
 
 
     const DeleteData = async (id) => {
         // console.warn('sdsadfsf')
         setisLoader(true)
         const token = await AsyncStorage.getItem('tokenvalue')
-   
 
-        await axios.delete(`/deletebooking/${id}`,{ headers: { 'Authorization': token }}).then((res) => {    
+
+        await axios.delete(`/deletebooking/${id}`, { headers: { 'Authorization': token } }).then((res) => {
             let data = res?.data?.DeleteBooking;
             if (res.status === 200) {
 
                 Alert.alert("success", `Your ${data.indate} TO ${data.outdate} is ${res?.data?.msg}`)
                 let index = UserDetail.findIndex((item) => item._id === data._id);
-                if (index !== -1) {  
+                if (index !== -1) {
                     let data1 = [...UserDetail]
                     data1.splice(index, 1);
                     setUserDetail(data1);
@@ -93,8 +91,7 @@ const UserBooking = (props) => {
                 setisLoader(false)
             }
         }).catch((err) => {
-            console.log("errr-----------", err);
-            console.log("errr-------99999----", err.response);
+
             Alert.alert("Error", err?.response?.data?.error)
             setisLoader(false)
 
@@ -110,6 +107,8 @@ const UserBooking = (props) => {
                 {isLoader ? <ActivityIndicator color={'Green'} size={100} /> :
                     DataAvailable ?
                         <FlatList
+                            showsVerticalScrollIndicator={false}
+                            bounces={false}
                             data={UserDetail}
                             keyExtractor={(item, index) => 'key' + index}
                             scrollEnabled
@@ -118,7 +117,7 @@ const UserBooking = (props) => {
                             renderItem={({ item }) => {
                                 return <BookingSlab item={item} onPress={() => {
                                     twoOptionAlertHandler(item._id)
-                                }} cancleDisable />
+                                }} cancelDisable />
                             }}
 
                         />

@@ -22,7 +22,7 @@ const DateTime = ({ current, lat, lon, timezone }) => {
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
 
-   
+
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -30,8 +30,8 @@ const DateTime = ({ current, lat, lon, timezone }) => {
                 <View style={styles.weatherItemContainer}>
                     <WeatherItem title="Humidity" value={current ? current.humidity : ""} unit=" %" />
                     <WeatherItem title="Pressure" value={current ? current.pressure : ""} unit=" hPA" />
-                    <WeatherItem title="Sunrise" value={current ? moment.tz(current.sunrise * 1000, timezone).format('LT') : ""}  />
-                    <WeatherItem title="Sunset" value={current ? moment.tz(current.sunset * 1000, timezone).format('LT') : ""}  />
+                    <WeatherItem title="Sunrise" value={current ? moment.tz(current.sunrise * 1000, timezone).format('LT') : ""} />
+                    <WeatherItem title="Sunset" value={current ? moment.tz(current.sunset * 1000, timezone).format('LT') : ""} />
                 </View>
             </View>
 
@@ -75,7 +75,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 30,
         marginTop: 10,
-        justifyContent: 'center', alignSelf: 'center'
+        justifyContent: 'center',
+        alignSelf: 'center',
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        shadowOffset: { width: 1, height: 1 },
+        shadowRadius: 8,
+        elevation: 5
+
     },
     weatherItem: {
         flexDirection: 'row',

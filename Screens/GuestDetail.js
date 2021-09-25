@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useIsFocused } from '@react-navigation/native'
 import { set } from 'react-native-reanimated'
 import BookingSlab from '../components/BookingSlab'
-import LongRouButton from '../components/LongRouButton'
+import BlueButton from '../components/BlueButton'
 
 
 const GuestDetail = (props) => {
@@ -23,6 +23,23 @@ const GuestDetail = (props) => {
     const [BookingDetail, setBookingDetail] = useState(false)
     const [Message, setMessage] = useState(false)
     const [isLoader, setisLoader] = useState(false)
+
+    const [checkEmail, setcheckEmail] = useState(true)
+    const [checkNumber, setcheckNumber] = useState(true)
+
+    useEffect(() => {
+        if (email.length < 1) {
+            setcheckEmail(false)
+        } else {
+            setcheckEmail(true)
+        }
+        if (MobileNumber.length < 10 || MobileNumber.length > 10) {
+            setcheckNumber(false)
+        }
+        else {
+            setcheckNumber(true)
+        }
+    }, [MobileNumber, email])
 
 
     const isFocused = useIsFocused();
@@ -58,14 +75,14 @@ const GuestDetail = (props) => {
 
         const dateReg = {
             "useremail": email,
-            "number":MobileNumber
+            "number": MobileNumber
         }
 
 
         await axios.post('/BookingFatch', dateReg).then((res) => {
             console.log("Ressss-----", res)
             if (res.status === 200) {
-            // Alert.alert("Success", res?.data?.msg)
+                // Alert.alert("Success", res?.data?.msg)
 
                 setuserdata(res?.data?.bookdata)
                 setBookingDetail(true)
@@ -90,9 +107,15 @@ const GuestDetail = (props) => {
 
                 <View style={{ margin: 10 }}>
                     <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
-                    <TextBox title={'Mobile Number'} onChangeText={text => setMobileNumber(text)} value={MobileNumber} />
-                    <View style={{ marginTop: 20 }}>
-                        <LongRouButton title={'Search Booking Detail'} onPress={() => submitEmail()} />
+                    {!checkEmail && <Text style={{ left: 50, color: '#800000' }}>please enter valid email</Text>}
+
+                    <TextBox title={'Mobile Number'} onChangeText={text => setMobileNumber(text)} value={MobileNumber}
+                    />
+                    {!checkNumber && <Text style={{ left: 50, color: '#800000' }}>please enter 10 digit Mobile Number</Text>}
+
+                    <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
+                        <BlueButton name='Search' onPress={() => {(checkNumber==true && checkEmail ==true)? submitEmail():console.log("hello"); }}  >Search
+                        </BlueButton>
                     </View>
                 </View>
 

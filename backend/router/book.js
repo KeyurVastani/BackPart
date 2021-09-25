@@ -9,6 +9,7 @@ const calendarId = process.env.CALENDAR_ID;
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
 const calendar = google.calendar({ version: "v3" });
 const moment = require('moment');
+const { findOne } = require('../models/booking');
 
 const auth = new google.auth.JWT(
     CREDENTIALS.client_email,
@@ -16,9 +17,8 @@ const auth = new google.auth.JWT(
     CREDENTIALS.private_key,
     SCOPES
 );
-const TIMEOFFSET = '+05:30';
-// var GoogleId=[]
-// var BackGoogleId=[]
+
+
 
 //check the availabity for booking
 router.post('/booking', async (req, res) => {
@@ -85,13 +85,15 @@ router.get('/booking', async (req, res) => {
     var GoogleId = []
 
 
+
     try {
         const Googlebookdate = await Book.find({})
         if (Googlebookdate.length != 0) {
             Googlebookdate.map((item) => {
-                BackGoogleId.push(item.googleEventId)
-            })
 
+                BackGoogleId.push(item.googleEventId)
+
+            })
         }
 
         const getEvents = async (dateTimeStart, dateTimeEnd) => {
@@ -115,7 +117,7 @@ router.get('/booking', async (req, res) => {
         const date = new Date()
         let start = date;
         let end = '2025-10-04T00:00:00.000Z';
-       
+
 
 
         await getEvents(start, end)
@@ -123,32 +125,33 @@ router.get('/booking', async (req, res) => {
 
                 const s2 = "keyurvastani1117@gmail.com".normalize()
                 await res.map(async (item) => {
-                    console.log("-----------first mapp calll");
+                    // console.log("-----------first mapp calll");
                     GoogleId.push(item.id)
 
                 })
 
                 await res.map(async (item) => {
-                    console.log("++++++++second event call2");
+                    // console.log("++++++++second event call2");
 
                     if ((item.creator.email).normalize() === s2) {
-                        console.log("event call3");
+
                         if (BackGoogleId.includes(item.id) == false) {
-                            console.log("event call4");
-                            console.log("first stage");
+                            // console.log("event call4");
+                            // console.log("first stage");
                             const startDate = item.start.date ? item.start.date : item.start.dateTime;
-                            console.log("==========================", startDate);
+                            // console.log("==========================", startDate);
 
                             const decDate = new Date(item.end.date)
 
                             const decDate1 = new Date(decDate.getTime() - (24 * 60 * 60 * 1000));
                             const endDate = item.start.date ? moment(decDate1).format("YYYY-MM-DD") : item.end.dateTime
-                            console.log("==========================", endDate);
+                            // console.log("==========================", endDate);
                             const reqInTime = (new Date(startDate)).getTime()
-
                             const reqOutTime = (new Date(endDate)).getTime()
 
-                            var GoogleDateSave = new Book({
+
+
+                            const GoogleDateSave = new Book({
                                 indate: startDate,
                                 outdate: endDate,
                                 indatetime: reqInTime,
@@ -161,18 +164,47 @@ router.get('/booking', async (req, res) => {
                             await GoogleDateSave.save();
                             console.log("google data save in backend ======11");
                         }
+                        else if (BackGoogleId.includes(item.id) == true) {
+                            console.log("update ====");
+                            const startDate = item.start.date ? item.start.date : item.start.dateTime;
+                            const decDate = new Date(item.end.date)
+                            const decDate1 = new Date(decDate.getTime() - (24 * 60 * 60 * 1000));
+                            const endDate = item.start.date ? moment(decDate1).format("YYYY-MM-DD") : item.end.dateTime
+
+                            const reqInTime = (new Date(startDate)).getTime()
+                            const reqOutTime = (new Date(endDate)).getTime()
+                            const itemfind = await Book.findOne({ googleEventId: item.id })
+                        
+                            if (itemfind.indatetime != reqInTime && itemfind.outdatetime != reqOutTime) {
+                                console.log(itemfind.indatetime != reqInTime && itemfind.outdatetime != reqOutTime);
+                                const GoogleDateSave = {
+                                    indate: startDate,
+                                    outdate: endDate,
+                                    indatetime: reqInTime,
+                                    outdatetime: reqOutTime,
+                                    googleSummary: item.summary ? item.summary : "Summary is not add by the Owner",
+                                    googleDescription: item.description ? item.description : "Description not add by the Owner"
+                                };
+                                const up = await Book.findOneAndUpdate({ googleEventId: item.id}, GoogleDateSave);
+                                console.log(up);
+                                if (up) {
+                                    console.log("google data save and Update in backend ======22222");
+                                }
+
+                            }
+                        }
                         else {
                             console.log("no require to store");
                         }
                     }
 
                 });
-                console.log("=3=3=3=3=3=3=3=33===", BackGoogleId.filter(item => !GoogleId.includes(item)));
+
                 BackGoogleId.filter(item => !GoogleId.includes(item))
                     .map(async (eventId) => {
                         console.log("call delete api------------------111111111",);
                         await Book.findOneAndDelete({ googleEventId: eventId })
-                        console.log("999999999 DElete data");
+                        console.log("999999999 Delete data");
                     })
 
 
@@ -202,7 +234,7 @@ router.get('/booking', async (req, res) => {
 
 
 
-// date is enter into database
+//   ------<>  date is enter into database
 router.post('/finalBooking', async (req, res) => {
 
     if (!req.body.indate || !req.body.outdate || !req.body.username || !req.body.useremail || !req.body.totalmember || !req.body.number)

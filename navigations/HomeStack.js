@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
+import Colors from '../assets/colors/color'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 const Stack = createStackNavigator();
@@ -13,11 +14,13 @@ const HomeStack= ({ navigation }) => {
     return (
         <Stack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: '#009387',
+                backgroundColor: Colors.signInBlue,
+                height:100
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                fontSize:23
             }
         }
         }>
@@ -29,8 +32,9 @@ const HomeStack= ({ navigation }) => {
                         <Icon.Button
                             name='ios-menu'
                             onPress={() =>navigation.toggleDrawer()}
-                            size={25}
-                            backgroundColor='#009387'
+                            size={27}
+                            backgroundColor={Colors.signInBlue}
+                            
                         />
                     ),
 

@@ -1,3 +1,5 @@
+import { Colors } from "react-native/Libraries/NewAppScreen";
+
 export default {
     appColor: "#FFFFFF",  //white
     appSubColor: "#B88A2E",  //dull yellow
@@ -14,5 +16,10 @@ export default {
     orange: "#F17016",
     mainColor: '#009387',
     yellow:'#fbb034',
-    lightblue:'lightblue'
+    lightblue:'lightblue',
+    signInBlue:'#05375a',
+    creem:'#fdf9f3',
+    white:'#fff',
+    bookBlack:'#323232'
+   
 };

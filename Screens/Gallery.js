@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, ImageBackground, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Image, ImageBackground, Dimensions, TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import Colors from '../assets/colors/color'
 
 
-const { width } = Dimensions.get('window');
-const SPACING = 10;
-const THUMB_SIZE = 80;
+const { width, height } = Dimensions.get('window');
 
-const Gallery = () => {
+
+const Gallery = ({navigation}) => {
 
     const [images, setImages] = useState([
         { id: '1', image: require('../Gallery/1.jpeg') },
@@ -27,23 +26,27 @@ const Gallery = () => {
     };
 
     const ImagePost = ({ url }) => {
+        console.log("image====",url);
         return (
             <View>
+
+                <TouchableOpacity onPress={()=>navigation.navigate("ExtraScreen",{url:url})}>
                 <Image style={styles.image} source={url} />
+                </TouchableOpacity>
             </View>
         )
     }
 
-    const TextPost = ({title}) => {
+    const TextPost = ({ title }) => {
         return (
-            <View style={{backgroundColor:'#E5E5E5'}}>
+            <View style={{ backgroundColor: '#E5E5E5' }}>
                 <Text style={styles.text1}>{title}</Text>
             </View>
         )
     }
 
     return (
-        <ScrollView   showsVerticalScrollIndicator={false} >
+        <ScrollView showsVerticalScrollIndicator={false} bounces='false' >
             <View>
 
                 <View>
@@ -64,15 +67,15 @@ const Gallery = () => {
                         renderItem={({ item, index }) => (
                             <Image
                                 key={index}
-                                style={styles.image}
-                                resizeMode='contain'
+                                style={[styles.image]}
+
                                 source={item.image}
                             />
                         )}
                     />
                     <Pagination
                         inactiveDotColor='gray'
-                        dotColor={'orange'}
+                        dotColor={'#6ec1e4'}
                         activeDotIndex={indexSelected}
                         dotsLength={images.length}
                         animatedDuration={150}
@@ -93,7 +96,7 @@ const Gallery = () => {
                 </View>
 
 
-                <View style={{marginBottom:30}}>
+                <View style={{ marginBottom: 30 }}>
                     <TextPost title={'Living room & bar'} />
                     <ImagePost url={require('../Gallery/drink/1.jpeg')} />
                     <ImagePost url={require('../Gallery/drink/2.jpeg')} />
@@ -118,12 +121,14 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     image: {
-        borderRadius: 7,
-        marginVertical: 20,
+        borderRadius: 20,
+        marginVertical: 15,
         height: 300,
-        width: 400,
+        width: width * .97,
         justifyContent: 'center',
-        alignItems: 'center', marginHorizontal: 6
+        alignItems: 'center',
+        marginHorizontal: 6,
+
     },
     text: {
         fontFamily: 'roboto-bold',

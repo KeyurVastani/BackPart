@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     scrollView: {
         flex: 0.4,
         backgroundColor: '#18181bcc',
-        padding: 30
+        padding: 20
     },
     image: {
         width: 150,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#eee',
         borderWidth: 1,
-        padding: 15
+        padding: 5
     },
     day: {
         fontSize: 20,

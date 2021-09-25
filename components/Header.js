@@ -6,29 +6,32 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from '../helper/screenHelper'
+import Colors from '../assets/colors/color'
 
-const Header = ({ navigation ,title}) => {
+const Header = ({ navigation, title }) => {
     return (
         <View style={styles.mainContainer}>
-            <View style={{flex:.5,marginLeft:5}}>
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.toggleDrawer()
-                }}
-            >
-                <Icon.Button
-                            name='ios-menu'
-                            onPress={() => navigation.toggleDrawer()}
-                            size={25}
-                            backgroundColor='#009387'
-                        />
+            <View style={{ flex: .4,}}>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.toggleDrawer()
+                    }}
+                >
+                    <Icon.Button
+                        name='ios-menu'
+                        onPress={() => navigation.toggleDrawer()}
+                        size={27}
+                        backgroundColor={Colors.signInBlue}
+                        
+                    />
 
-            </TouchableOpacity>
+                </TouchableOpacity>
             </View>
-            <View style={{flex:2,backgroundColor:'#009387',justifyContent:'center',}}>
-            <Text style={{fontSize:25,marginTop:6,color:"white",fontFamily:'roboto-bold',marginLeft:30}}>{title}</Text>
+            <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center',paddingBottom:4 }}>
+                <Text style={{ fontSize: 25, marginTop: 6, color: "white", fontFamily: 'roboto-bold' }}>{title}</Text>
             </View>
-
+            <View style={{ flex: .5 }}>
+            </View>
         </View>
     )
 }
@@ -38,10 +41,12 @@ export default Header
 const styles = StyleSheet.create({
     mainContainer: {
         flexDirection: "row",
-        marginTop: hp(6),
-        // marginLeft: wp(2),
-        borderBottomWidth: 0.5, 
-        borderColor:"white" ,backgroundColor:'#009387'
+        paddingTop:50,
+        height:100,
+        
+    
+        
+        backgroundColor:Colors.signInBlue
 
     },
     image: {

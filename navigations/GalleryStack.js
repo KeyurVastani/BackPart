@@ -2,8 +2,9 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons'
 
-
+import Colors from '../assets/colors/color'
 import Gallery from '../Screens/Gallery';
+import ExtraScreen from '../Screens/ExtraScreen';
 
 
 const Stack = createStackNavigator();
@@ -12,11 +13,14 @@ const GalleryStack = ({ navigation }) => {
     return (
         <Stack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: '#009387',
+                backgroundColor: Colors.signInBlue,
+                height:100
             },
+
             headerTintColor: '#fff',
             headerTitleStyle: {
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                fontSize:23
             }
         }
         }>
@@ -28,14 +32,25 @@ const GalleryStack = ({ navigation }) => {
                         <Icon.Button
                             name='ios-menu'
                             onPress={() => navigation.toggleDrawer()}
-                            size={25}
-                            backgroundColor='#009387'
+                            size={27}
+                            backgroundColor={Colors.signInBlue}
                         />
                     ),
 
 
 
                 }} />
+               <Stack.Screen name="ExtraScreen" component={ExtraScreen}
+                options={{
+                    title: 'View',
+                    headerTitleAlign: 'center',
+                    headerBackTitle:' '
+                }} />
+                
+
+
+
+            
 
 
         </Stack.Navigator>

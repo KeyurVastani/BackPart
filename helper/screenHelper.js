@@ -81,6 +81,7 @@ export {
 
 export async function clearStorage() {
   return new Promise((resolve, reject) => {
+    console.log("#######",AsyncStorage.getAllKeys());
     AsyncStorage.getAllKeys()
       .then((keys) => {
         AsyncStorage.multiRemove(keys);

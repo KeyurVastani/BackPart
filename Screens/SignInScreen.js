@@ -1,185 +1,275 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, Button, SafeAreaView, StyleSheet, TextInput, Alert, ActivityIndicator } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
-import { login } from '../store/action/loginAction'
-import { Image } from 'react-native-animatable';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, { useEffect, useState, useRef } from 'react';
+import {
+  View,
+  Text,
+  Platform,
+  Dimensions,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Alert,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../store/action/loginAction';
+
+
 import LinearGradient from 'react-native-linear-gradient';
 import TextBox from '../components/TextBox';
-import Colors from '../assets/colors/color'
+import Colors from '../assets/colors/color';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-
+import BlueButton from '../components/BlueButton';
+import Fontisto from 'react-native-vector-icons/Fontisto'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 
 const SignInScreen = ({ navigation }) => {
-  const dispatch = useDispatch()
-  const logindata = useSelector((state) => state.loginReducer)
-  
+  const dispatch = useDispatch();
+  const logindata = useSelector(state => state.loginReducer);
 
-  const [email, setemail] = useState("")
-  const [password, setpassword] = useState("");
-  const [isLoader, setLoader] = useState(false)
-
+  const ref_input2 = useRef();
+  const ref_input3 = useRef();
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('');
+  const [isLoader, setLoader] = useState(false);
+  const [ispassword, setispassword] = useState(true)
+  const [checkEmail, setcheckEmail] = useState(true)
+  const [checkPass, setcheckPass] = useState(true)
 
   useEffect(() => {
-    console.log("logindata", logindata);
-    if (logindata.user?.error) {
-      setLoader(false)
-    } else {
-      let msg = logindata.user.msg
-      if (msg) {  
-        setLoader(false)
-        Alert.alert("Success", logindata.user.msg)
-        navigation.navigate('Drawers')
+    if (email.length < 1) {
+      setcheckEmail(false)
+    }else{
+      setcheckEmail(true)
+    }
+    if (password.length < 1) {
+      setcheckPass(false)
+    }
+    else {
+      setcheckPass(true)
+    }
 
-        // this is a asyncStorage 
-        AsyncStorage.setItem('tokenvalue', logindata.user.token)
+  }, [password, email])
+
+  useEffect(() => {
+    console.log('logindata', logindata);
+    if (logindata.user?.error) {
+      setLoader(false);
+    } else {
+      let msg = logindata?.user?.msg;
+      if (msg) {
+        setLoader(false);
+        Alert.alert('Success', logindata.user.msg);
+        // setemail('')
+        // setpassword('')
+        navigation.navigate('Drawers');
+
+        // this is a asyncStorage
+        AsyncStorage.setItem('tokenvalue', logindata.user.token);
       }
     }
   }, [logindata.user]);
 
-
-
   const onSubmit = () => {
-
-
     // alert(Object.keys(logindata))
     // alert(Object.keys(logindata.user))
-    if (email.length === 0 || password.length === 0) {
-      Alert.alert("Error", 'Please enter all fields');
+    if (email.length < 1) {
+      setcheckEmail(false)
     } else {
-      setLoader(true)
+      setLoader(true);
       dispatch(login(email, password));
 
     }
-  }
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.mainColor }}>
-      <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 15 }}>
-        <TouchableOpacity
-          style={{ justifyContent: 'flex-end' }}
-          color="red"
-          onPress={() => {
-            navigation.navigate('Drawers')
-          }}
-        >
-          <LinearGradient
-            colors={['#ffdd00', '#fbb034']}
-            style={styles.button}>
-            <Text style={styles.buttonText}>{'Skip'}</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.container}>
+    <KeyboardAvoidingView
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 500 })}
 
-        <Image
-          resizeMode="contain"
-          source={require('../images/casa-1.png')}
-          style={{ height: 300 }}
-        />
-
-        <View style={styles.header}>
-          <Text
-            style={{ fontSize: 40, color: '#fbb034', fontFamily: 'roboto-Bold' }}>
-            {' '}
-            Login{' '}
-          </Text>
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}>
+      <ScrollView style={{ flex: 1, backgroundColor: 'black' }} bounces="false">
+        <View style={styles.firstSec}>
+          <TouchableOpacity
+            style={styles.skipBtn}
+            onPress={() => {
+              navigation.navigate('Drawers');
+            }}
+          >
+            <Text style={styles.skipText}>{'Skip'}</Text>
+          </TouchableOpacity>
+          <View style={styles.imageHeader}>
+            <Image
+              source={require('../images/casa-1.png')}
+              style={styles.logo}
+            />
+          </View>
         </View>
+        <View style={styles.secondSec}>
+          <View style={{ width: "100%", justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+            <Image style={styles.image} source={require('../images/UserImage.png')} />
+          </View>
+          <TextBox
+            title={'Email '}
+            sign="*" color='black'
+            onChangeText={text => setemail(text)}
+            value={email}
+            returnType={'next'}
+            ref1={() => ref_input2.current.focus()}
+            inputTextColor={{ paddingHorizontal: 20 }}
+            design={{ paddingRight: 30 }}
+          >
+            <Fontisto
+              name="email"
+              size={30}
+              color={Colors.gray} />
+          </TextBox>
+          {!checkEmail && <Text style={{ left: 35, color: '#800000' }}>please enter valid email</Text>}
+          <TextBox
+            title={'Password'}
+            sign='*' color='black'
+            onChangeText={text => setpassword(text)}
+            isPassword
+            value={password}
+            returnType={'done'}
+            ref1={() => onSubmit()}
+            ref2={ref_input2}
+            inputTextColor={{ paddingHorizontal: 20 }}
+            isPassword={ispassword}
+            design={{ paddingRight: 30 }}>
+            <TouchableOpacity onPress={() => { setispassword(!ispassword) }}>
+              <Ionicons
+                name={!ispassword ? 'ios-eye-outline' : "eye-off-outline"}
+                size={30}
+                color={Colors.gray} />
+            </TouchableOpacity>
 
-        <View style={styles.footer}>
-          <TextBox title={'Email'} onChangeText={text => setemail(text)} value={email} />
-          <TextBox title={'Password'} onChangeText={text => setpassword(text)} isPassword value={password}/>
+          </TextBox>
+          {!checkPass && <Text style={{ left: 35, color: '#800000' }}>please enter valid password</Text>}
+
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
               marginTop: 20,
             }}>
-            <View>
-              <TouchableOpacity
-                style={styles.button}
-                color="red"
-                onPress={() => {
-                  onSubmit()
-                }}>
-                <LinearGradient
-                  colors={['#ffdd00', '#fbb034']}
-                  style={styles.button}>
-                  {isLoader ?
-                    <ActivityIndicator color={'red'} size={30} />
-                    : <Text style={styles.buttonText}>{'Login'}</Text>
-                  }
-
-                </LinearGradient>
-              </TouchableOpacity>
+            <View style={styles.btnCtn}>
+              <BlueButton onPress={() => {
+                (checkEmail==true,checkPass==true)?onSubmit():console.log("hello");;
+              }}
+                btnstyle={{ width: 300 }}>
+                {isLoader ? (
+                  <ActivityIndicator color={'red'} size={30} />
+                ) : (
+                  <Text style={styles.buttonText}>{'Sign In'}</Text>
+                )}
+              </BlueButton>
             </View>
-            <View>
+
+            <View style={[styles.btnCtn, { marginTop: 0 }]}>
+              <Text style={styles.RegText}>{"Don't Have an Account?"}</Text>
               <TouchableOpacity
-                style={styles.button}
                 onPress={() => navigation.navigate('SignUpScreen')}>
-                <LinearGradient
-                  colors={['#ffdd00', '#fbb034']}
-                  style={styles.button}>
-                  <Text style={styles.buttonText}>{'Register'}</Text>
-                </LinearGradient>
+                <Text
+                  style={[
+                    styles.RegText,
+                    { fontSize: 20, fontFamily: 'roboto-bold' },
+                  ]}>
+                  {' '}
+                  Sign Up
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 export default SignInScreen;
 
+const { height } = Dimensions.get('screen');
+const height_logo = height * 0.3;
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
+  image: {
+    height: 60,
+    width: 60,
+  },
+  btnCtn: {
+    marginTop: 15,
     justifyContent: 'center',
-    backgroundColor: '#009387',
-  },
-  emailInput: {
-    height: 40,
-    fontSize: 18,
-    width: 270,
-    borderRadius: 20,
-    marginTop: 5,
-    paddingHorizontal: 10,
-  },
-  passwordInput: {
-    height: 40,
-    fontSize: 18,
-    width: 270,
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    marginTop: 5,
-  },
-  header: {
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  footer: {
-    flex: 3,
-    marginTop: 30,
-    // alignItems: 'center',
-  },
+    width: '100%',
+    padding: 5,
+    flexDirection: 'row',
 
-  button: {
-    marginTop: 10,
-    height: 50,
-    width: 120,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    //backgroundColor: 'white'
+  },
+  RegText: {
+    fontSize: 17,
+    fontFamily: 'roboto-medium',
+    color: Colors.signInBlue,
+  },
+  signIn: {
+    top: 20,
+    left: 25,
+    fontSize: 40,
+    color: Colors.signInBlue,
+    fontFamily: 'roboto-Bold',
+    marginBottom: 40,
   },
   buttonText: {
-    color: '#009387',
+    fontSize: 25,
+    color: 'white',
+    fontFamily: 'roboto-bold',
+
+  },
+  button: {
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 0,
+    borderRadius: 30,
+    height: 50,
+    width: 300,
+    backgroundColor: Colors.signInBlue,
+  },
+  skipText: {
+    color: '#fff',
     fontSize: 20,
     alignSelf: 'center',
     fontFamily: 'roboto-Medium',
+  },
+  imageHeader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 20,
+  },
+  logo: {
+    width: height_logo,
+    height: height_logo,
+  },
+  firstSec: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 20,
+  },
+  secondSec: {
+    flex: 1.3,
+    backgroundColor: 'rgb(255,255,255)',
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    height: 500,
+    marginTop: 30,
+    // overflow:'hidden'
+  },
+  skipBtn: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    top: 35,
+    left: 140,
   },
 });

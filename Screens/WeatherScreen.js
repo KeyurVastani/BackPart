@@ -1,10 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, SafeAreaView, Image } from 'react-native';
 import DateTime from '../components/DateTime';
 import WeatherScroll from '../components/WeatherScroll';
-import Color from '../assets/colors/color'
+import Colors from '../assets/colors/color'
 import Header from '../components/Header';
+import ProgressLoader from 'rn-progress-loader';
 
 
 
@@ -40,9 +40,18 @@ export default function WeatherScreen(props) {
 
     if (!loaded) {
         return (
-            <View style={styles.container}>
-                <ActivityIndicator color='gray' size={36} />
-            </View>
+            <View
+            style={{backgroundColor: "#06566e", justifyContent: 'center', alignItems: 'center', flex: 1}}>
+
+            <ProgressLoader
+            style={{height:40,width:20}}
+            visible={!loaded}
+            isModal={true} 
+            isHUD={true}
+            hudColor={"#fff"}
+            color={"#000000"} 
+            barHeight={64}/>
+        </View>
 
         )
     }
@@ -61,7 +70,7 @@ export default function WeatherScreen(props) {
             <Header navigation={props.navigation} title="Weather" />
             <Text style={styles.text}>{"Goa's Weather"}</Text>
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                <Image style={{ height: 100, width: 100, }} source={require('../images/weather_sun.jpeg')} />
+                <Image style={{ height: 110, width: 110, }} source={require('../images/weather3.png')} />
             </View>
             <DateTime current={weatherData.current} timezone={weatherData.timezone} />
             <WeatherScroll weatherData={weatherData.daily} />
@@ -73,7 +82,7 @@ export default function WeatherScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.mainColor,
+        backgroundColor: '#9CC3D5FF',
         justifyContent:'center',
         alignItems:'center'
 
@@ -88,6 +97,6 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontFamily: 'roboto-Medium',
         marginTop: 60,
-        color: Color.yellow
+        color: Colors.signInBlue
     }
 });
